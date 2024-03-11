@@ -1,0 +1,19 @@
+{
+  "name": "ctrl-alt-defeat-debt-frontend",
+  "version": "1.0.0",
+  "description": "Hackathon 2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/logan-lampton/Ctrl-Alt-Defeat-Debt-Frontend.git"
+  },
+  "author": "Njeri and Matt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/logan-lampton/Ctrl-Alt-Defeat-Debt-Frontend/issues"
+  },
+  "homepage": "https://github.com/logan-lampton/Ctrl-Alt-Defeat-Debt-Frontend#readme"
+}
