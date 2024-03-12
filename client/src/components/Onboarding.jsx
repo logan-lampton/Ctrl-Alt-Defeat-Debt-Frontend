@@ -50,6 +50,13 @@ const Onboarding = () => {
         )
     })}
             </section>
+            {selected.length > 0 &&
+            <section className="goal-continue">
+            <Button variant="contained">Continue</Button>
+
+            </section>
+                
+}
         </Container>
     )
 }
