@@ -13,6 +13,7 @@
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 24px;
+  margin-bottom: 24px;
 }
 
 .headline-big{
@@ -33,6 +34,7 @@
   font-weight: 200;
   margin-top: 0px;
   line-height: 22px;
+  margin-bottom: 0px;
 }
 
 .css-1oqqzyl-MuiContainer-root {
@@ -79,10 +81,36 @@
   margin-right: 16px;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root{
+
+
+.MuiToggleButton-primary{
   border-radius:8px;
 border: 1px solid#DEE5EB;
 background:#F2F5F8 ;
 box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+width: 100%;
+margin-bottom: 16px!important;
+}
+
+.Mui-selected{
+  background-color: #3398FF!important;
+  color: white!important;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+  border-radius:8px;
+  border: 1px solid#DEE5EB!important;
+}
+
+.button-text{
+  font-family: "TT Commons", sans-serif!important;
+  text-transform: none;
+  font-size: 16px;
+  color: black;
+}
+
+.goal-section{
+  display: grid;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
