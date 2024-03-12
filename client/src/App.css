@@ -1,38 +1,88 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'TT Commons';
+  font-weight: bold;
+  src: local('TT Commons Bold'), url('../public/fonts/appFont/TT\ Commons\ Bold.otf') format('opentype');
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'TT Commons';
+  src: local('TT Commons Regular'), url('../public/fonts/appFont/TT\ Commons\ Regular.otf') format('opentype');
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.onboarding-header-container{
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-top: 24px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.headline-big{
+  font-family: "TT Commons", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 32px;
+  font-style: normal;
+  word-wrap: break-word;
+  margin-top: 0px;
+}
+
+.gray-subtext{
+  font-family: "TT Commons", sans-serif;
+  color: #718291;
+  font-size: 16px;
+  font-weight: 200;
+  margin-top: 0px;
+  line-height: 22px;
+}
+
+.css-1oqqzyl-MuiContainer-root {
+  padding: 0px;
+}
+
+
+.app-header {
+  padding: 10px;
+  margin-top:auto;
+  margin-bottom: auto;
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  position: relative;
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.08);
+  height: 60px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-.App-link {
-  color: #61dafb;
+.onboard-header{
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.center-logo{
+  flex: 0 1 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
+.css-1oqqzyl-MuiContainer-root {
+  padding: 0px!important;
+}
+
+.icons{
+  width: 32px;
+  height: 32px;
+}
+
+.headline-icon{
+  height: 48px;
+  width: 48px;
+  margin-right: 16px;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+  border-radius:8px;
+border: 1px solid#DEE5EB;
+background:#F2F5F8 ;
+box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+}
+
