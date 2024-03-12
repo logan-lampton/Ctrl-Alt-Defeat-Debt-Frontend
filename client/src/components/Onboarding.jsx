@@ -1,11 +1,12 @@
-import React from "react";
+import { React, useState } from "react";
 import { Container, ThemeProvider, createTheme } from "@mui/system";
 import pigbank from "../assets/pigbank.svg";
-import { Button } from "@mui/material";
-
-
+import { Button, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import styled from "@emotion/styled";
 
 const Onboarding = () => {
+
+    const [selected, setSelected] = useState([]);
 
     const goals = [
         "View all of my finances in one place",
@@ -16,47 +17,48 @@ const Onboarding = () => {
         "Save for a new home"
     ];
 
-
-
+    const handleChange = (e, newGoals) => {
+        setSelected(newGoals)
+    };
 
 
 
 
     return (
-
-<Container>
-<div className="onboarding-header-container">
-    <header className="onboard-header">
-        <img className="headline-icon" src={pigbank} alt="piggybank-icon"></img>
-            <div>
-                <h1 className="headline-big">
-                How would you like Money Magnet to help you?
-                </h1>
-                <h3 className="gray-subtext">
-                Tell us about your financial goals and Money Magnet will help you achieve them.
-                </h3>
+        <Container>
+            <div className="onboarding-header-container">
+                <header className="onboard-header">
+                    <img className="headline-icon" src={pigbank} alt="piggybank-icon"></img>
+                        <div>
+                            <h1 className="headline-big">
+                            How would you like Money Magnet to help you?
+                            </h1>
+                            <h3 className="gray-subtext">
+                            Tell us about your financial goals and Money Magnet will help you achieve them.
+                            </h3>
+                        </div>
+                </header>
             </div>
-    </header>
-</div>
-<section>
-    {goals.map((item) => {
+            <section className="goal-section">
+                {goals.map((item) => {
         return(
-<Button color="primary" className="goal-buttons" variant="contained">
-            {item}
-            </Button>
-            
+                <ToggleButtonGroup value={selected} onChange={handleChange}>
+                    <ToggleButton value={item} color="primary" className="goal-buttons">
+                    <span className="button-text">{item}</span>
+                    </ToggleButton>
+                 </ToggleButtonGroup>
         )
-     
     })}
-</section>
+            </section>
+            {selected.length > 0 &&
+            <section className="goal-continue">
+            <Button variant="contained">Continue</Button>
 
-
-    </Container>
-
-
+            </section>
+                
+}
+        </Container>
     )
 }
-
-
 
 export default Onboarding;
