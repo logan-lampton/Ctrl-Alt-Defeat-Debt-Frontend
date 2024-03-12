@@ -9,8 +9,8 @@ const AppHeader = () => {
 return (
    <Container>
       <header className="app-header">
-      <img src={account}></img> 
-      <img className="center-logo" src={logo}></img>
+      <img className="icons" src={account}></img> 
+      <img className="center-logo icons" src={logo}></img>
     </header>
       </Container>
 
