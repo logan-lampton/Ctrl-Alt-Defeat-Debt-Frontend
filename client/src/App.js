@@ -7,6 +7,8 @@ import PhoneForm from './components/PhoneForm'
 import PhoneConfirm from './components/PhoneConfirm'
 import PlaidLinkButton from './components/PlaidLinkButton';
 import Transactions from './components/Transactions';
+import BottomNav from './components/BottomNav';
+
 function App() {
   return (
    
@@ -18,6 +20,11 @@ function App() {
               <PhoneForm />
               <SignIn />  */}
               <Onboarding/> 
+              <BottomNav/>
+              <PhoneConfirm />
+              {/* <PhoneForm /> */}
+              {/* <SignIn />  */}
+            {/* <Onboarding/>  */}
           </Container>
        
   );
