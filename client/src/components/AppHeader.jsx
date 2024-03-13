@@ -5,7 +5,6 @@ import account from "../assets/account.svg"
 
 const AppHeader = () => {
 
-
 return (
    <Container>
       <header className="app-header">
@@ -13,10 +12,6 @@ return (
       <img className="center-logo icons" src={logo} alt="logo"></img>
     </header>
       </Container>
-      
-
-
-
 )
 }
 
