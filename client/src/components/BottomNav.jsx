@@ -6,10 +6,6 @@ import goals from "../assets/goals.svg";
 import insights from "../assets/insights.svg";
 import accounts from "../assets/accounts.svg";
 
-
-
-
-
 const BottomNav = () => {
 
     const [selected, setSelected] = useState("Home");
