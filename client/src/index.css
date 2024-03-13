@@ -32,6 +32,20 @@ code {
   format('opentype');
 }
 
+@font-face {
+  font-family: 'TT Commons DemiBold';
+  src: url('../public/fonts/appFont/TT Commons DemiBold.otf') 
+  format('opentype');
+}
+
+@font-face {
+  font-family: 'TT Commons Medium';
+  src: url('../public/fonts/appFont/TT Commons Medium.otf') 
+  format('opentype');
+}
+
+
+
 .app-container {
   max-width: 100%;
   max-height: 100vh;
