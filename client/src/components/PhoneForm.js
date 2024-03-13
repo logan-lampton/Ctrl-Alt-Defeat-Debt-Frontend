@@ -1,21 +1,51 @@
 import React from 'react'
-import {Container, Typography, TextField} from '@mui/material'
-
+import {Stack, spacing, Container, Typography, TextField, Button, Grid} from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function PhoneForm(props) {
+
+    const theme={
+        spacing: 8
+    }
     
 
+
     return (
-        <Container>
-            <Typography>
-                <h1>Let's get started</h1>
-            </Typography>
-            <TextField id="outlined-basic" label="Mobile Phone Number" variant="outlined" />
-            <TextField id="outlined-basic" label="Email" variant="outlined" />
-            <TextField id="outlined-basic" label="Password" variant="outlined" />
-            <TextField id="outlined-basic" label="Password" variant="outlined" />
+        <div>
+            <Grid 
+            container spacing={3}
+            alignItems="center"
+            justifyContent="center"
+            sx={{width: '425px'}}
 
-
-        </Container>
+            >   
+                <Grid item xs={10}>
+                    <ArrowBackIcon />   
+                </Grid>         
+                
+                <Grid item xs={12} >
+                    <Typography align="left">
+                        <h1 style={{marginTop:"5px", fontSize: '32px',marginLeft: 'auto', marginRight:'auto',color: 'black', fontFamily: 'TT Commons Bold'}}>Let's get started</h1>
+                    </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                    <TextField fullWidth id="fullWidth" label="Mobile Phone Number" variant="outlined"/>
+                </Grid>
+                <Grid item xs={10}>
+                    <TextField fullWidth id="fullWidth" label="Email" variant="outlined" />
+                </Grid>
+                <Grid item xs={10}>
+                <TextField fullWidth id="fullWidth" label="Password" variant="outlined" />
+                </Grid>
+                {/* <Grid item xs={10}>
+                    <TextField fullWidth id="fullWidth" label="Password" variant="outlined" />
+                </Grid> */}
+                <Grid item xs={10}>
+                    <Button style={{marginTop: '115%', padding: '20px', marginRight:'auto', marginLeft: 'auto'}} variant="contained" size="small">Next</Button>
+                </Grid>
+            </Grid>
+            
+           
+        </div>
     )
 }

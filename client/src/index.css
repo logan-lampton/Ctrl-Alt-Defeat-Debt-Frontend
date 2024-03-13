@@ -5,9 +5,35 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Hide horizontal overflow */
+  overflow-y: hidden; 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'TT Commons Bold';
+  src: url('../public/fonts/appFont/TT Commons Bold.otf') 
+  format('opentype');
+}
+
+@font-face {
+  font-family: 'TT Commons Regular';
+  src: url('../public/fonts/appFont/TT Commons Regular.otf') 
+  format('opentype');
+}
+
+@font-face {
+  font-family: 'TT Commons Thin';
+  src: url('../public/fonts/appFont/TT Commons Thin.otf') 
+  format('opentype');
+}
+
+.app-container {
+  max-width: 100%;
+  max-height: 100vh;
+}
+
