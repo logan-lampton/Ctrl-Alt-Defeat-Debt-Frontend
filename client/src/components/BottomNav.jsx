@@ -10,12 +10,14 @@ const BottomNav = () => {
 
     const [selected, setSelected] = useState("Home");
 
-    const handleChange = (newValue) => {
-        setSelected(newValue);
-      };
+   
 
     return(
-        <BottomNavigation onChange={{handleChange}}>
+        <BottomNavigation onChange={(event, newValue) => {
+            setSelected(newValue);
+            console.log(newValue)
+
+          }} value={selected}>
         <BottomNavigationAction label="Home" value="home" icon={<img src={home}/>} />
         <BottomNavigationAction label="Goals" value="goals" icon={<img src={goals}/>} />
         <BottomNavigationAction label="Insights" value="insights" icon={<img src={insights}/>} />
