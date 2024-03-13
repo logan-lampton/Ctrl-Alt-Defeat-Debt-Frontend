@@ -2,39 +2,37 @@ body{
     font-family: 'TT Commons Regular'
 }
 
-.huge-headline{
+.hugeHeadline{
     font-size: 48px;
     padding-left:20px;
     margin-right: 100px;
     margin-bottom: -2px;
-    line-height:40px;
+    line-height:30px;
     font-family: 'TT Commons Bold', sans-serif;
 }
 
 
-p{
+.mainParagraph{
     padding-left:20px;
-    font-size: 16px;
-    padding-right:10px;
-    margin-right: 45px;
-    margin-bottom: 35%;
+    font-size: 14px;
+    margin-right: 20px;
     color: #718291;
-    line-height: 15px;
-    font-family: 'TT Commons Regular'
+    line-height: 18px;
+    font-family: 'TT Commons Regular';
 }
 
 .headergrid{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(1,1fr);
     gap: 1rem;
     grid-template-columns: auto;
-    grid-row-gap: 1rem;
 }
 
 .mainbuttons {
+    margin-top: '40px';
     display: grid;
-    gap: 10px;
-    width: 200px;
+    gap: 2px;
+    width: 50px;
     grid-template-columns: repeat(1,1fr);
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import MainImg from "../assets/MainImg.svg"
 import {Stack, Button } from '@mui/material'
-import styles from './SignIn.css'
+import styles from './styles/SignIn.css'
 
 export default function SignIn() {
 
@@ -10,20 +10,20 @@ export default function SignIn() {
     return (
             <div className={styles.headergrid}>
                 <div item xs={10}>       
-                    <img style={{marginTop: "80px", width:'120%', height: 'auto', display: 'block' }} src={MainImg} alt="MainImg" />
+                    <img style={{marginTop: '-5px', width:'100%', display: 'block' }} src={MainImg} alt="MainImg" />
                 </div> 
                 <div>
-                    <h1 className="huge-headline">Your money, your goals</h1>
+                    <h1 className="hugeHeadline">Your money, your goals</h1>
                 </div>
                 <div>
-                    <p>
+                    <p className={styles.mainParagraph}>
                         Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus..
                     </p>
                 </div>
                 <div>
-                    <Stack spacing={2} direction="row">
-                        <Button style={{width:"100%", display: "inlineflex", padding: '15px', marginLeft:"5%", backgroundColor: '#F2F5F8' }}variant="outlined">Login</Button> 
-                        <Button style={{padding: '10px', marginRight:"15%", marginLeft:"5%"}} variant="contained" size="small">Get Started</Button>
+                    <Stack spacing={-3} direction="row">
+                        <Button style={{marginTop:'20px',width:"35%", display: "inlineflex", padding: '15px', marginLeft:"5%", backgroundColor: '#F2F5F8', marginRight:"40px"}}variant="outlined">Login</Button> 
+                        <Button style={{marginTop:'20px',width:"45%"}} variant="contained" size="small">Get Started</Button>
                     </Stack>
                 </div>
             </div>

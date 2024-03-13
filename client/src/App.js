@@ -11,10 +11,10 @@ function App() {
    
           <Container>
               <AppHeader/>
-              {/* <PhoneConfirm />
-              <PhoneForm />
-              <SignIn />  */}
-              <Onboarding/> 
+              <PhoneConfirm />
+              {/* <PhoneForm /> */}
+              {/* <SignIn />  */}
+            {/* <Onboarding/>  */}
           </Container>
        
   );
