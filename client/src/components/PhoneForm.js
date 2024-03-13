@@ -20,7 +20,7 @@ export default function PhoneForm(props) {
 
             >   
                 <Grid item xs={10}>
-                    <ArrowBackIcon />   
+                    {/* <ArrowBackIcon />    */}
                 </Grid>         
                 
                 <Grid item xs={12} >

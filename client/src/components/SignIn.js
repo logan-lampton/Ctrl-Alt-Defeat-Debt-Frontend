@@ -2,7 +2,6 @@ import React from 'react';
 import MainImg from "../assets/MainImg.svg"
 import {Stack, Button } from '@mui/material'
 import styles from './SignIn.css'
-import PhoneForm from './PhoneForm'
 
 export default function SignIn() {
 
@@ -14,7 +13,7 @@ export default function SignIn() {
                     <img style={{marginTop: "80px", width:'120%', height: 'auto', display: 'block' }} src={MainImg} alt="MainImg" />
                 </div> 
                 <div>
-                    <h1>Your money, your goals</h1>
+                    <h1 className="huge-headline">Your money, your goals</h1>
                 </div>
                 <div>
                     <p>
