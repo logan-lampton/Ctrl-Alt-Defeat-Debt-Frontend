@@ -157,3 +157,16 @@ padding: 8px;
   font-size: 16px;
 }
 
+.MuiBottomNavigationAction-label{
+  display: none!important;
+}
+
+.MuiBottomNavigation-root .Mui-selected{
+  background-color: #F2F5F8!important;
+}
+
+button span {
+  font-family: "TT Commons", sans-serif;
+  font-size: 16px;
+  
+}
