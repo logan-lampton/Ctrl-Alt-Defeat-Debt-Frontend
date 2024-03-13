@@ -2,7 +2,7 @@ body{
     font-family: 'TT Commons Regular'
 }
 
-h1{
+.huge-headline{
     font-size: 48px;
     padding-left:20px;
     margin-right: 100px;
