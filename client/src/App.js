@@ -11,9 +11,9 @@ function App() {
    
           <Container>
               <AppHeader/>
-              <PhoneConfirm />
+              {/* <PhoneConfirm />
               <PhoneForm />
-              <SignIn /> 
+              <SignIn />  */}
               <Onboarding/> 
           </Container>
        
