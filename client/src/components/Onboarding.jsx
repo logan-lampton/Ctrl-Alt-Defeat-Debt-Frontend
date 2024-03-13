@@ -17,12 +17,10 @@ const Onboarding = () => {
         "Save for a new home"
     ];
 
-    const handleChange = (e, newGoals) => {
+    const handleChange = (event, newGoals) => {
         setSelected(newGoals)
+        console.log(newGoals)
     };
-
-
-
 
     return (
         <Container>
@@ -52,7 +50,11 @@ const Onboarding = () => {
             </section>
             {selected.length > 0 &&
             <section className="goal-continue">
-            <Button variant="contained">Continue</Button>
+            <Button variant="contained">
+               <span>
+               Continue
+                </span> 
+                </Button>
 
             </section>
                 
