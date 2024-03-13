@@ -5,12 +5,15 @@ import Onboarding from './components/Onboarding';
 import SignIn from './components/SignIn'
 import PhoneForm from './components/PhoneForm'
 import PhoneConfirm from './components/PhoneConfirm'
-
+import PlaidLinkButton from './components/PlaidLinkButton';
+import Transactions from './components/Transactions';
 function App() {
   return (
    
           <Container>
               <AppHeader/>
+              <PlaidLinkButton/>
+              <Transactions/>
               {/* <PhoneConfirm />
               <PhoneForm />
               <SignIn />  */}
