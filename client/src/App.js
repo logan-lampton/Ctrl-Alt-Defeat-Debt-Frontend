@@ -8,13 +8,15 @@ import PhoneConfirm from './components/PhoneConfirm'
 
 function App() {
   return (
-    <Container>
-   <AppHeader/>
-   {/* <PhoneConfirm /> */}
-   {/* <PhoneForm /> */}
-   <SignIn />
-   {/* <Onboarding/> */}
-    </Container>
+   
+          <Container>
+              <AppHeader/>
+              {/* <PhoneConfirm /> */}
+              <PhoneForm />
+              {/* <SignIn />  */}
+              {/* <Onboarding/>  */}
+          </Container>
+       
   );
 }
 
