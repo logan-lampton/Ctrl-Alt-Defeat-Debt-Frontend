@@ -11,12 +11,13 @@ import {Routes, Route} from 'react-router-dom'
 
 function App() {
   return (
-   
+    <>
+
     <Container>
     <AppHeader />
-  
-    {/* <PlaidButtonsContainer /> */}
+    <PlaidButtonsContainer style={{'overflow-y' : 'auto'}} />
 
+ 
     <Routes>
           <Route path="/phone-confirm" element={<PhoneConfirm />} />
           <Route path="/phone-form" element={<PhoneForm />} />
@@ -27,6 +28,7 @@ function App() {
     </Routes>
     <BottomNav />
  </Container>
+ </>
        
   );
 }

@@ -44,11 +44,28 @@ const Transactions = ({ accessToken }) => {
         {isLoading ? 'Loading...' : 'Load Transactions'}
       </button>
       {error && <p>Error: {error}</p>}
-      <ul>
+      <div>
         {transactions.map((transaction, index) => (
-          <li key={index}>{transaction.name}: ${transaction.amount}</li>
+          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            {transaction.logo_url && (
+              <img
+                src={transaction.logo_url}
+                alt="Merchant Logo"
+                style={{ marginRight: '10px', width: '50px', height: '50px' }}
+              />
+            )}
+            <div>
+              <div><strong>{transaction.name}</strong></div>
+              <div>Date: {transaction.date}</div>
+              <div>Amount: ${transaction.amount}</div>
+              <div>Category: {transaction.category.join(', ')}</div>
+              {transaction.location && (
+                <div>Location: {transaction.location.city}, {transaction.location.region}</div>
+              )}
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
