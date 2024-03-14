@@ -1,7 +1,8 @@
+// PlaidLinkButton.js or your preferred file name
 import React, { useState, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 
-const PlaidLinkButton = () => {
+const PlaidLinkButton = ({ onAccessToken }) => {
   const [linkToken, setLinkToken] = useState('');
 
   useEffect(() => {
@@ -9,7 +10,6 @@ const PlaidLinkButton = () => {
     const getLinkToken = async () => {
       const response = await fetch('http://127.0.0.1:5000/plaid/create_link_token', { method: 'POST' });
       const data = await response.json();
-      console.log(data);
       setLinkToken(data.link_token);
     };
     getLinkToken();
@@ -26,9 +26,14 @@ const PlaidLinkButton = () => {
       body: JSON.stringify({ public_token }),
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data);
+      if(data.access_token) {
+        onAccessToken(data.access_token);
+      }
+    })
     .catch(error => console.error('Error:', error));
-  }, []);
+  }, [onAccessToken]);
 
   const config = {
     token: linkToken,

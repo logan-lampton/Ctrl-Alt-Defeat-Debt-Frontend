@@ -27,7 +27,6 @@ const Transactions = ({ accessToken }) => {
       if (data.transactions) {
         setTransactions(data.transactions);
       } else {
-        // Assuming the response structure might be different or transactions are not available
         setError('No transactions data found');
         setTransactions([]);
       }
