@@ -15,7 +15,7 @@ function App() {
     <Container>
     <AppHeader />
   
-    <PlaidButtonsContainer />
+    {/* <PlaidButtonsContainer /> */}
 
     <Routes>
           <Route path="/phone-confirm" element={<PhoneConfirm />} />
