@@ -1,6 +1,7 @@
 import React from 'react'
-import {Stack, spacing, Container, Typography, TextField, Button, Grid} from '@mui/material'
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {Typography, TextField, Button, Grid} from '@mui/material'
+import {Link} from "react-router-dom"
+import ArrowBack from "../assets/arrow_back.svg"
 
 export default function PhoneForm(props) {
 
@@ -17,13 +18,12 @@ export default function PhoneForm(props) {
 
             >   
                 <Grid item xs={10}>
-                    {/* <ArrowBackIcon />    */}
+               <Link to='/sign-in'><img style={{}}src={ArrowBack} alt="ArrowBack" /></Link>
+
                 </Grid>         
                 
                 <Grid item xs={11} >
-                    <Typography align="left">
-                        <h1 style={{marginBottom:'-10px', marginTop:"10px", fontSize: '32px',marginLeft: 'auto', marginRight:'auto',color: 'black', fontFamily: 'TT Commons Bold'}}>Let's get started</h1>
-                    </Typography>
+                        <h1 style={{textAlign:"left",marginBottom:'-20px', marginTop:"10px", fontSize: '32px',marginLeft: '20px', marginRight:'auto',color: 'black', fontFamily: 'TT Commons Bold'}}>Let's get started</h1>
                 </Grid>
                 <Grid item xs={10}>
                     <TextField fullWidth id="fullWidth" label="Mobile Phone Number" variant="outlined"/>
@@ -39,7 +39,7 @@ export default function PhoneForm(props) {
                 </Grid> */}
           
             </Grid>
-            <Button variant="contained" style={{marginTop:'45%', width:"85%", marginLeft: '30px', marginRight: 'auto'}}> Next </Button>
+            <Button component={Link} to="/phone-confirm" variant="contained" style={{marginTop:'200px', width:"85%", marginLeft: '30px', marginRight: 'auto'}}> Next </Button>
             
            
         </div>

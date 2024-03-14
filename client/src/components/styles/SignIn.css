@@ -1,40 +1,25 @@
-body{
-    font-family: 'TT Commons Regular'
-}
-
-.hugeHeadline{
-    font-size: 48px;
-    padding-left:20px;
-    margin-right: 100px;
-    margin-bottom: -2px;
-    line-height:30px;
-    font-family: 'TT Commons Bold', sans-serif;
-}
-
-
-.mainParagraph{
-    padding-left:20px;
-    font-size: 14px;
-    margin-right: 20px;
-    color: #718291;
-    line-height: 18px;
+body {
     font-family: 'TT Commons Regular';
 }
 
-.headergrid{
-    display: grid;
-    grid-template-columns: repeat(1,1fr);
-    gap: 1rem;
-    grid-template-columns: auto;
+.hugeHeadline {
+    font-size: 40px;
+    padding-left: 20px;
+    margin-right: 100px;
+    margin-bottom: -1px;
+    line-height: 35px;
+    font-family: 'TT Commons Bold', sans-serif;
 }
 
-.mainbuttons {
-    margin-top: '40px';
-    display: grid;
-    gap: 2px;
-    width: 50px;
-    grid-template-columns: repeat(1,1fr);
-
-
+p {
+    font-size: 14px;
+    color: #718291;
+    line-height: 18px;
+    margin-left: 5%; /* Remove quotes */
+    font-family: 'TT Commons Regular';
+    margin-right: 10%;
+ 
 }
+
+
 

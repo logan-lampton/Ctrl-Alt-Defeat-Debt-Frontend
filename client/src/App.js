@@ -7,23 +7,27 @@ import PhoneForm from "./components/PhoneForm";
 import PhoneConfirm from "./components/PhoneConfirm";
 import BottomNav from "./components/BottomNav";
 import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
+import {Routes, Route} from 'react-router-dom'
 
 function App() {
-
   return (
+   
     <Container>
-      <AppHeader />
-      <PlaidButtonsContainer />
-      {/* <PhoneConfirm />
-              <PhoneForm />
-              <SignIn />  */}
-      <Onboarding />
-      <BottomNav />
-      <PhoneConfirm />
-      {/* <PhoneForm /> */}
-      {/* <SignIn />  */}
-      {/* <Onboarding/>  */}
-    </Container>
+    <AppHeader />
+  
+    {/* <PlaidButtonsContainer /> */}
+
+    <Routes>
+          <Route path="/phone-confirm" element={<PhoneConfirm />} />
+          <Route path="/phone-form" element={<PhoneForm />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          
+
+    </Routes>
+    <BottomNav />
+ </Container>
+       
   );
 }
 
