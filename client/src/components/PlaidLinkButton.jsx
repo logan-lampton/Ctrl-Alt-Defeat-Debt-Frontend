@@ -1,6 +1,8 @@
 // PlaidLinkButton.js or your preferred file name
 import React, { useState, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
+import {Button} from '@mui/material'
+import {Link} from 'react-router-dom'
 
 const PlaidLinkButton = ({ onAccessToken }) => {
   const [linkToken, setLinkToken] = useState('');
@@ -21,6 +23,7 @@ const PlaidLinkButton = ({ onAccessToken }) => {
     fetch('http://127.0.0.1:5000/plaid/exchange_public_token', {
       method: 'POST',
       headers: {
+        
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ public_token }),
@@ -44,9 +47,14 @@ const PlaidLinkButton = ({ onAccessToken }) => {
   const { open, ready } = usePlaidLink(config);
 
   return (
-    <button onClick={() => open()} disabled={!ready}>
-      Connect a bank account
-    </button>
+    <Button 
+      component={Link} to="/plaid-onboarding"
+      variant="contained"
+      onClick={open} disabled={!ready}
+      style={{marginTop:'98px', width:"85%", marginLeft: '30px', marginRight: 'auto'}}>
+        Next 
+    </Button>
+  
   );
 };
 
