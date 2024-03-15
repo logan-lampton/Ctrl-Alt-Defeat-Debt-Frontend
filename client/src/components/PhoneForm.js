@@ -98,7 +98,7 @@ export default function PhoneForm(props) {
                     </Grid>
                 
             </Grid>
-            <Button type="submit" variant="contained" style={{marginTop:'100px', width:"85%", marginLeft: '30px', marginRight: 'auto'}}> Next </Button>
+            <Button type="submit" variant="contained" style={{marginTop:'25px', width:"85%", marginLeft: '30px', marginRight: 'auto'}}> Next </Button>
            
         </form>
     )
