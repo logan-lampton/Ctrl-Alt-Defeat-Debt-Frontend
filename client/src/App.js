@@ -10,27 +10,21 @@ import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
 import {Routes, Route} from 'react-router-dom'
 
 function App() {
-  return (
-    <>
-
-    <Container>
-    <AppHeader />
-
-
-    <Routes>
-          <Route path="/phone-confirm" element={<PhoneConfirm />} />
-          <Route path="/phone-form" element={<PhoneForm />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="plaid-onboarding" element={<PlaidButtonsContainer style={{'overflow-y' : 'auto'}} />} />
-          
-
-    </Routes>
-    {/* <BottomNav /> */}
- </Container>
- </>
-       
-  );
-}
+    return (
+        <>
+            <Container>
+                <AppHeader />
+                <Routes>
+                    <Route path="/phone-confirm" element={<PhoneConfirm />} />
+                    <Route path="/phone-form" element={<PhoneForm />} />
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/onboarding" element={<Onboarding />} />
+                    <Route path="plaid-onboarding" element={<PlaidButtonsContainer style={{'overflow-y' : 'auto'}} />} />
+                </Routes>
+            {/* <BottomNav /> */}
+            </Container>
+        </>  
+    );
+};
 
 export default App;
