@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import {Button} from '@mui/material'
 import {Link} from 'react-router-dom'
+import style from './styles/PlaidButton.css'
 
 const PlaidLinkButton = ({ onAccessToken }) => {
   const [linkToken, setLinkToken] = useState('');
@@ -25,6 +26,10 @@ const PlaidLinkButton = ({ onAccessToken }) => {
       headers: {
         
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+
+
+        
       },
       body: JSON.stringify({ public_token }),
     })
@@ -47,13 +52,12 @@ const PlaidLinkButton = ({ onAccessToken }) => {
   const { open, ready } = usePlaidLink(config);
 
   return (
-    <Button 
-      component={Link} to="/plaid-onboarding"
-      variant="contained"
-      onClick={open} disabled={!ready}
-      style={{marginTop:'98px', width:"85%", marginLeft: '30px', marginRight: 'auto'}}>
+    
+    <button 
+      class="plaidButton"
+      onClick={open} disabled={!ready}>
         Next 
-    </Button>
+    </button>
   
   );
 };

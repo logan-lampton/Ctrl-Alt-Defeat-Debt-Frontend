@@ -1,0 +1,26 @@
+.plaidButton{
+    text-decoration:none;
+    width: 90%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
+    border: solid 1px var(--gray-3);
+    background-color: #3398ff;
+    font-size: 16px;
+    line-height:22px;
+    color: white;
+    margin-right:24px;
+    margin-left:20px;
+    margin-top: 65%;
+    margin-right:auto;
+
+}
+
+
+
