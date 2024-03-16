@@ -3,28 +3,26 @@ import AppHeader from "./components/AppHeader";
 import { Container } from "@mui/system";
 import Onboarding from "./components/Onboarding";
 import SignIn from "./components/SignIn";
-import PhoneForm from "./components/PhoneForm";
-import PhoneConfirm from "./components/PhoneConfirm";
+import UserForm from "./components/UserForm";
+import UserConfirm from "./components/UserConfirm";
 import BottomNav from "./components/BottomNav";
-import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
 import {Routes, Route} from 'react-router-dom'
 
 function App() {
-    return (
-        <>
-            <Container>
-                <AppHeader />
-                <Routes>
-                    <Route path="/phone-confirm" element={<PhoneConfirm />} />
-                    <Route path="/phone-form" element={<PhoneForm />} />
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/onboarding" element={<Onboarding />} />
-                    <Route path="plaid-onboarding" element={<PlaidButtonsContainer style={{'overflow-y' : 'auto'}} />} />
-                </Routes>
-            {/* <BottomNav /> */}
-            </Container>
-        </>  
-    );
-};
+  return (
+  
+    <Container>
+      <AppHeader />
+          <Routes>
+                <Route path="/user-confirm" element={<UserConfirm />} />
+                <Route path="/user-form" element={<UserForm />} />
+                <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+            </Routes>
+    </Container>
+
+       
+  );
+}
 
 export default App;

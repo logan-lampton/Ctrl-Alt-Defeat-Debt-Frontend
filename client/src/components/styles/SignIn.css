@@ -3,12 +3,14 @@ body {
 }
 
 .hugeHeadline {
-    font-size: 40px;
+    font-size: 42px;
     padding-left: 20px;
     margin-right: 100px;
     margin-bottom: -1px;
-    line-height: 35px;
+    line-height: 40px;
     font-family: 'TT Commons Bold', sans-serif;
+    width: 248px;
+    margin-top: 20px;
 }
 
 p {
@@ -18,7 +20,46 @@ p {
     margin-left: 5%; /* Remove quotes */
     font-family: 'TT Commons Regular';
     margin-right: 10%;
+    margin-top:"-5px";
  
+}
+
+.getStartedButton{
+    text-decoration:none;
+    width: 190px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
+    border: solid 1px var(--gray-3);
+    background-color: #3398ff;
+    font-size: 16px;
+    line-height:22px;
+    color: white;
+    margin-right:24px;
+    margin-left:8px;
+}
+
+.loginButton{
+    width: 160px;    
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
+    background-color: #f2f5f8;
+    border: solid 1px var(--gray-3);
+    
+
 }
 
 

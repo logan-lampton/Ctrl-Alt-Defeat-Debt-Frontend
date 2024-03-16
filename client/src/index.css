@@ -44,6 +44,12 @@ code {
 }
 
 
+@font-face {
+  font-family: 'TT Commons ExtraBold';
+  src: url('../public/fonts/appFont/TT Commons ExtraBold.otf') 
+  format('opentype');
+}
+
 
 .app-container {
   max-width: 100%;
