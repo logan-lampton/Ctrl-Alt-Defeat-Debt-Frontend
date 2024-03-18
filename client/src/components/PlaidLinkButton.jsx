@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import {Button} from '@mui/material'
 import {Link} from 'react-router-dom'
-import style from './styles/PlaidButton.css'
+import './styles/PlaidButton.css'
 
 const PlaidLinkButton = ({ onAccessToken }) => {
   const [linkToken, setLinkToken] = useState('');
@@ -54,7 +54,7 @@ const PlaidLinkButton = ({ onAccessToken }) => {
   return (
     
     <button 
-      class="plaidButton"
+      className="plaidButton"
       onClick={open} disabled={!ready}>
         Next 
     </button>

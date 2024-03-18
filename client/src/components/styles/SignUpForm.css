@@ -3,16 +3,15 @@
     row-gap: 5px;
     margin:20px;
     margin-right:20px;
-    margin-top:-5px;
-    margin-bottom:280px;
-}
+    margin-bottom:250px;
+  }
 
 .outlined-input {
     position: relative;
-    margin-bottom: 20px;
+    margin-top: -5px;
   }
   
-  .outlined-input input {
+  .outlined-input-container input {
     width: 90%;
     padding: 15px;
     border: 1px solid #ccc;
@@ -40,10 +39,13 @@
     margin-right:24px;
     margin-left:8px;
     
-}
+  }
 
+  .errorMessages {
+     margin-bottom: 4px;
+     color: red;
+  }
     
-
 
   
   /* .outlined-input label {
