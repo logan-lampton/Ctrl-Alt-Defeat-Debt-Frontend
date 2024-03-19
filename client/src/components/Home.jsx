@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Typography } from "@mui/material";
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-} from "recharts";
+// import {
+//     LineChart,
+//     Line,
+//     XAxis,
+//     YAxis,
+//     CartesianGrid,
+//     Tooltip,
+//     Legend,
+//     ResponsiveContainer,
+// } from "recharts";
 // import { ResponsiveChartContainer } from '@mui/x-charts/ResponsiveChartContainer';
 
 // Use Sparkline
@@ -32,13 +32,13 @@ function Home() {
     // graph to display recent account balances
     // uses recharts working alongside Materia UI
     // npm install recharts
-    const [graphData, setGraphData] = useState([
-        { name: "Oct", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Nov", uv: 4000, pv: 2400, amt: 2400 },
-        { name: "Dec", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Jan", uv: 2000, pv: 5800, amt: 2290 },
-        { name: "Feb", uv: 2780, pv: 3908, amt: 2000 },
-    ]);
+    // const [graphData, setGraphData] = useState([
+    //     { name: "Oct", uv: 1890, pv: 4800, amt: 2181 },
+    //     { name: "Nov", uv: 4000, pv: 2400, amt: 2400 },
+    //     { name: "Dec", uv: 3000, pv: 1398, amt: 2210 },
+    //     { name: "Jan", uv: 2000, pv: 5800, amt: 2290 },
+    //     { name: "Feb", uv: 2780, pv: 3908, amt: 2000 },
+    // ]);
 
     // Fetch for goals to display
     const [goals, setGoals] = useState([]);
@@ -134,7 +134,7 @@ function Home() {
                     left to spend this month
                 </p>
             </div>
-            <div className='chart-container'>
+            {/* <div className='chart-container'>
                 <ResponsiveContainer width='100%' height={400}>
                     <LineChart data={graphData}>
                         <XAxis dataKey='name' />
@@ -146,7 +146,7 @@ function Home() {
                         <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
                     </LineChart>
                 </ResponsiveContainer>
-            </div>
+            </div> */}
             <div className='container'>
                 <div className='button-container'>
                     <Button variant='contained' color='primary'>
