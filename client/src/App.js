@@ -20,6 +20,7 @@ function App() {
                 <Route path="/log-in" element={<LogInForm/>}/>
                 <Route path="/" element={<WelcomePage />} />
                 <Route path="/onboarding" element={<Onboarding />} />
+                <Route path='/home' element={<Home />} />
           </Routes>
     </Container>
 
