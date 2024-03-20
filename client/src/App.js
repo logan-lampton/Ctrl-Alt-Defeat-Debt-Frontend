@@ -8,6 +8,10 @@ import UserConfirm from "./components/UserConfirm";
 import BottomNav from "./components/BottomNav";
 import {Routes, Route} from 'react-router-dom'
 import LogInForm from './components/LogInForm'
+import TwoFAPage from './components/TwoFAPage';
+import Setup2FA from './components/Setup2FA';
+import Verify2FA from './components/Verify2FA';
+import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
                 <Route path="/log-in" element={<LogInForm/>}/>
                 <Route path="/" element={<WelcomePage />} />
                 <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/2fa" element={<TwoFAPage />} />
+                <Route path="/setup-2fa" element={<Setup2FA />} />
+                <Route path="/verify-2fa" element={<Verify2FA />} />
+                <Route path="/plaid" element={<PlaidButtonsContainer />} />
           </Routes>
     </Container>
 
