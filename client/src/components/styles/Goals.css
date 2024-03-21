@@ -1,0 +1,65 @@
+body{
+    overflow-x: hidden; 
+    overflow-y: hidden;
+}
+
+.goals-container{
+    display: flex;
+    flex-grow: 0;
+    font-family: TT Commons Regular;
+    text-align: left;
+    color: #000;
+    margin:0px 24px 0px 24px;
+    overflow-x: hidden; 
+    overflow-y: hidden;
+}
+
+.goals-header{
+  width: 382px;
+  height: 96px;
+  flex-grow: 0;
+  font-family: TT Commons Bold;
+  font-size: 32px;
+  line-height: 1;
+  text-align: left;
+  margin:24px 24px 0px 24px;
+}
+
+ p .goals-sub-header{
+    width: 382px;
+    height: 22px;
+    flex-grow: 0;
+    font-family: TT Commons Regular;
+    font-size: 16px;
+    line-height: 1.38;
+    text-align: left;
+    color: var(--gray-5);
+}
+
+.emoji-container{
+    display: inline-block;
+    width: 27px; 
+    height: 27px; 
+    border-radius: 50%; 
+    border: solid 2px #DEE5EB;
+    margin-right: 10px; 
+    text-align: center;
+    flex-grow: 0;
+    margin: 0 8px 0 0;
+    padding: 11px 14px 13px 10px;
+    font-size: 24px;
+}
+
+.goal-arrow-container{
+    width: 24px;
+    height: 24px;
+    margin-left: auto; 
+    opacity: 0.87;
+    flex-grow: 0;
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+}
+  
+
+

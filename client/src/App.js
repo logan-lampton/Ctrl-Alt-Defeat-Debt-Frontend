@@ -6,7 +6,6 @@ import WelcomePage from "./components/WelcomePage";
 import SignUpForm from "./components/SignUpForm";
 import UserConfirm from "./components/UserConfirm";
 import BottomNav from "./components/BottomNav";
-import { Routes, Route } from "react-router-dom";
 import LogInForm from "./components/LogInForm";
 import Home from "./components/Home";
 import {Routes, Route, useLocation} from 'react-router-dom'
