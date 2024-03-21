@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import {Grid, Typography, TextField, Checkbox} from '@mui/material'
-import {Link, Navigate} from "react-router-dom"
+import {Link, Navigate, useNavigate} from "react-router-dom"
 import ArrowBack from "../assets/arrow_back.svg"
 import PlaidLinkButton from './PlaidLinkButton'
 import './styles/UserConfirm.css'
 import { useForm } from "react-hook-form"
-import LogInForm from './LogInForm'
-import SignUpForm from './SignUpForm'
 
 export default function UserConfirm() {
+    const [accessToken, setAccessToken] = useState('');
+    const navigate = useNavigate()
 
     const {
         register, 
@@ -16,11 +16,9 @@ export default function UserConfirm() {
         formState:{errors}
     } = useForm();
 
-    console.log(errors);
     
     const label = { inputProps: { 'aria-label': 'Checkbox' } };
 
-    const [accessToken, setAccessToken] = useState('');
 
     const handleAccessToken = (token) => {
         setAccessToken(token);
@@ -40,7 +38,7 @@ export default function UserConfirm() {
             columnSpacing={{xs:1}}
         > 
             <Grid item xs={11}>             
-                    <img style={{marginLeft:"3px"}} src={ArrowBack} alt="ArrowBack" onClick={()=> Navigate(-1)} />
+                    <img style={{marginLeft:"3px"}} src={ArrowBack} alt="ArrowBack" onClick={()=> navigate(-1)} />
             </Grid>
 
             <Grid item xs={12}>

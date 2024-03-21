@@ -17,8 +17,11 @@
     color: white;
     margin-right:24px;
     margin-left:20px;
-    margin-top: 65%;
     margin-right:auto;
+    position: fixed;
+    bottom: 40px; /* Adjust as needed */
+    left: 45%;
+    transform: translateX(-50%);
 
 }
 

@@ -2,10 +2,11 @@ import { React, useState } from "react";
 import { Container, ThemeProvider, createTheme } from "@mui/system";
 import pigbank from "../assets/pigbank.svg";
 import { Button, ToggleButtonGroup, ToggleButton } from "@mui/material";
+import {useNavigate} from 'react-router-dom'
 import styled from "@emotion/styled";
 
 const Onboarding = () => {
-
+    const navigate = useNavigate();
     const [selected, setSelected] = useState([]);
 
     const goals = [
@@ -21,6 +22,10 @@ const Onboarding = () => {
         setSelected(newGoals)
         console.log(newGoals)
     };
+
+    const handleClick =()=> {
+        navigate("/home")
+    }
 
     return (
         <Container>
@@ -50,7 +55,7 @@ const Onboarding = () => {
             </section>
             {selected.length > 0 &&
             <section className="goal-continue">
-            <Button variant="contained">
+            <Button variant="contained" onClick={handleClick}>
                <span>
                Continue
                 </span> 
