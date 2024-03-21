@@ -1,33 +1,52 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { UserContext } from "../context/UserContext";
 import {Link, useNavigate} from "react-router-dom"
 import ArrowBack from "../assets/arrow_back.svg"
 import './styles/LogInForm.css'
 import { useForm } from "react-hook-form"
-
+import axios from 'axios';
+// import Cookies from 'js-cookie'
 
 export default function LogInForm() {
-
+    const { user, setUser} = useContext(UserContext)
     const {
-        register, 
+        register,      
         handleSubmit, 
         formState:{errors}
     } = useForm();
     // console.log(errors);
 
+    
+
     const navigate = useNavigate();
        
     const isEmailDomainAllowed=(email)=> {
-        const allowedDomains = ['gmail.com', 'yahoo.com', "hotmail.com", "aol.com", "msn.com","live.com"];
+        const allowedDomains = ['gmail.com', 'yahoo.com',"outlook.com"];
         const [, domain] = email.split('@');
         return allowedDomains.includes(domain);
     }
+
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('/login', data); // Make POST request to "/login"
+            console.log('Login successful!', response.data);
+            setUser(response.data)
+            navigate('/user-confirm');
+            console.log(user) 
+            // Cookies.set()
+            // Navigate to user-confirm page on successful login
+        } catch (error) {
+            console.error('Error logging in:', error.message);
+            
+        }
+    };
+
+  
+   
        
     return (
 
-        <form onSubmit={handleSubmit((data)=>{
-            console.log(data)
-            navigate('/user-confirm')
-        })}>
+        <form onSubmit={handleSubmit(onSubmit)}>
          
             <div className="log-in-form-container"> 
 
@@ -63,7 +82,7 @@ export default function LogInForm() {
               
 
             </div>
-            <button type="submit" className="log-in-form-submit-button" style={{marginTop:'80%', width:"90%", marginLeft: '20px', marginRight: 'auto'}}> Next </button>
+            <button type="submit" className="log-in-form-submit-button" style={{marginTop:'80%', width:"90%", marginLeft: '20px', marginRight: 'auto' }}> Next </button>
         </form>
     )
 }
