@@ -69,7 +69,7 @@ export default function UserConfirm() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Verification response:", data);
-        if (data.response === "OTP verified successfully") {
+        if (data.message === "OTP verified successfully") {
           setIsVerified(true);
           alert("OTP verified successfully!");
         } else {
