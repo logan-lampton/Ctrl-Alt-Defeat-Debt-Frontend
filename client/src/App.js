@@ -11,8 +11,8 @@ import Home from "./components/Home";
 import {Routes, Route, useLocation} from 'react-router-dom'
 import Goals from './components/Goals'
 import { UserProvider } from "./context/UserContext";
-import TwoFAPage from './components/TwoFAPage';
 import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
+import GoalsProgressView from "./components/GoalsProgressView"
 
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
                 <Route path='/onboarding' element={<Onboarding />} />
                 <Route path='/home' element={<Home />} />
                 <Route path="/goals" element={<Goals />} />
-                <Route path="/2fa" element={<TwoFAPage />} />
                 <Route path="/plaid" element={<PlaidButtonsContainer />} />
+                <Route path="/goals-progress" element={<GoalsProgressView />} />
             </Routes>
             {showBottomNav && <BottomNav />}
 
