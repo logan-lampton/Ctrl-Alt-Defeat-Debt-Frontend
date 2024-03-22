@@ -40,7 +40,7 @@ function Home() {
     // const [aIData, setAIData] = useState({})
 
     const handleNavigateToGoalsClick = () => {
-        navigate("/goals"); // Navigates to /goals route when clicked
+        navigate("/goal-form"); // Navigates to /goal-form route when clicked
     };
 
     // -------------------------------------------
