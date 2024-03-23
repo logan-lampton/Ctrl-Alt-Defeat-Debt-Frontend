@@ -21,13 +21,13 @@ const BottomNav = () => {
             navigate('/home');
             break;
         case 'goals':
-            navigate('/goals');
+            navigate('/goals-progress');
             break;
         case 'insights':
             navigate('/insights')
             break;
-        // case 'group':
-        //     navigate('/group')
+        case 'accounts':
+            navigate('/accounts')
         default:
             break;
       }

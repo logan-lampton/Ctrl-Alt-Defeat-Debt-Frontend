@@ -7,8 +7,7 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [personalGoals, setPersonalGoals] = useState([])
   const [selectedGoal, setSelectedGoal] = useState(null)
-
-    const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +32,7 @@ const UserProvider = ({ children }) => {
                 setSelectedGoal,
                 personalGoals,
                 setPersonalGoals,
-                accessToken
+                accessToken,
             }}
         >
             {children}

@@ -15,6 +15,7 @@ import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
 import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
 import Insights from "./components/Insights"
+import Accounts from "./components/Accounts"
 
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -23,7 +24,7 @@ import GoalForm from './components/GoalForm'
 
 function App() {
     const location = useLocation();
-    const showBottomNav = ["/home","/goals","/insights","/group"].includes(location.pathname);
+    const showBottomNav = ["/home","/goals-progress","/insights","/accounts"].includes(location.pathname);
     return (
       <UserProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -42,6 +43,7 @@ function App() {
                 <Route path='/' element={<WelcomePage />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/goal-form" element={<GoalForm />} />
+                <Route path="/accounts" element={<Accounts />} />
             </Routes>
             {showBottomNav && <BottomNav />}
         </Container>
