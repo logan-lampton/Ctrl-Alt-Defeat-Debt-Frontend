@@ -28,7 +28,7 @@ export default function SignUpForm() {
        console.log(data)
         try {
             const response = await axios.post('/signup', data);
-            setUser = response.data
+            setUser(response.data)
             console.log('User sign up!', response.data);
             navigate('/user-confirm')
         }catch(error){
@@ -54,13 +54,13 @@ export default function SignUpForm() {
                     <div className="outlined-input-container">
                     <p className="errorMessages">{errors.firstName?.message}</p>
 
-                        <input {...register("firstName", {required: "First name required."})} name= "firstName" className="outlined-input" placeholder="First Name" />
+                        <input {...register("first_name", {required: "First name required."})} name= "first_name" className="outlined-input" placeholder="First Name" />
 
                     </div>
 
                     <div className="outlined-input-container">
                     <p className="errorMessages">{errors.lastName?.message}</p>
-                        <input {...register("lastName", {required: "Last name required"})} name= "lastName" className="outlined-input" placeholder="Last Name" />
+                        <input {...register("last_name", {required: "Last name required"})} name= "last_name" className="outlined-input" placeholder="Last Name" />
 
                     </div>
 
@@ -70,7 +70,7 @@ export default function SignUpForm() {
                             name= "phone" 
                             className="outlined-input" 
                             placeholder="Mobile Phone Number" 
-                            {...register('phoneNumber', {
+                            {...register('phone', {
                                 required: 'Phone number is required',
                                 pattern: {
                                 value: /^[0-9]{10}$/,
