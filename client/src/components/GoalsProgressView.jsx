@@ -5,10 +5,12 @@ import {
   Typography,
   LinearProgress,
   Paper,
+  Divider,
 } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Plus from "../assets/add_circle_outline.svg";
 import "./styles/Goals.css";
+import ArrowForward from "../assets/arrow_forward.svg";
 
 export default function SavingsGoals() {
   const [goals, setGoals] = useState([]);
@@ -65,52 +67,64 @@ export default function SavingsGoals() {
   };
 
   const handleCreateGoalClick = () => {
-    navigate('/goals'); // Navigates to /goals route when clicked
-};
+    navigate("/goals"); // Navigates to /goals route when clicked
+  };
 
   return (
     <Container
       style={{
-        width: "430px",
+        width: "380px",
         height: "932px",
         flexGrow: "0",
         padding: "0 0 8px",
+        overflow: "auto",
       }}
     >
-      <Typography variant="h5" gutterBottom>
-        View current goals or create a goal
-      </Typography>
+      <h1 style={{ padding: "8px" }}> View current goals or create a goal</h1>
       <div style={{ fontSize: "16px" }}>
-                <p style={{ display: "inline", margin: "0 5px" }}>You have</p>
-                <h2 style={{ display: "inline", margin: "0 5px" }}>
-                    ${300}
-                </h2>
-                <p style={{ display: "inline", margin: "0 5px" }}>
-                    saved towards your goals.
-                </p>
-            </div>
-      <Box sx={{ border: "2px solid grey" }}>
-        <Typography variant="subtitle1">Personal Goals </Typography>
+        <p style={{ display: "inline", margin: "0 5px" }}>You have</p>
+        <h2 style={{ display: "inline", margin: "0 5px" }}>
+          ${goals.reduce((acc, goal) => acc + goal.saved, 0)}
+        </h2>
+        <p style={{ display: "inline", margin: "0 5px" }}>
+          saved towards your goals.
+        </p>
+      </div>
+      <Box my={3}>
+        <Typography variant="h6">Personal Goals</Typography>
         {goals.map((goal) => (
-          <Paper key={goal.id} elevation={2} sx={{ mb: 2, p: 2 }}>
+          <Paper
+            key={goal.id}
+            elevation={3}
+            style={{ padding: "20px", marginBottom: "20px" }}
+          >
             <Typography
-              variant="subtitle1"
-              sx={{ display: "flex", alignItems: "center" }}
+              variant="subtitle2"
+              style={{ display: "flex", alignItems: "center" }}
             >
               <div className="emoji-container">
-                <span role="img" aria-label={goal.title}>
-                  {unicodeToEmoji(goal.emoji)}
-                </span>
+                {unicodeToEmoji(goal.emoji)}
               </div>
               {goal.title}
+              <div className="goal-arrow-container">
+                <img
+                  src={ArrowForward}
+                  style={{ marginTop: "5px" }}
+                  alt="ArrowForward"
+                />
+              </div>
             </Typography>
             <LinearProgress
               variant="determinate"
               value={calculateProgress(goal.saved, goal.total)}
-              sx={{ height: "10px", borderRadius: "5px", mt: 1 }}
+              style={{ height: "10px", borderRadius: "5px", marginTop: "10px" }}
             />
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
             >
               <Typography variant="body2">{`${Math.round(
                 calculateProgress(goal.saved, goal.total)
@@ -120,13 +134,77 @@ export default function SavingsGoals() {
           </Paper>
         ))}
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center", mt: 2 }} onClick={handleCreateGoalClick}>
-        <Box className="goal-arrow-container">
-          <img src={Plus} alt="Create new goal" />
-        </Box>
-        <Typography variant="subtitle1" sx={{ ml: 1 }}>
-          Create a savings goal
-        </Typography>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginTop: "20px",
+          cursor: "pointer",
+        }}
+        onClick={handleCreateGoalClick}
+      >
+        <img src={Plus} alt="Create new goal" style={{ marginRight: "10px" }} />
+        <Typography variant="subtitle1">Create a new savings goal</Typography>
+      </Box>
+      <Divider variant="middle"  />
+      <Box my={3}>
+        <Typography variant="h6">Group Goals</Typography>
+        {goals.map((goal) => (
+          <Paper
+            key={goal.id}
+            elevation={3}
+            style={{ padding: "20px", marginBottom: "20px" }}
+          >
+            <Typography
+              variant="subtitle2"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <div className="emoji-container">
+                {unicodeToEmoji(goal.emoji)}
+              </div>
+              {goal.title}
+              <div className="goal-arrow-container">
+              ${goal.saved}
+              </div>
+              <div className="goal-arrow-container">
+                <img
+                  src={ArrowForward}
+                  style={{ marginTop: "5px" }}
+                  alt="ArrowForward"
+                />
+              </div>
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={calculateProgress(goal.saved, goal.total)}
+              style={{ height: "10px", borderRadius: "5px", marginTop: "10px" }}
+            />
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "10px",
+              }}
+            >
+              <Typography variant="body2">{`${Math.round(
+                calculateProgress(goal.saved, goal.total)
+              )}% of Total Goal`}</Typography>
+              <Typography variant="body2">${goal.saved}</Typography>
+            </Box>
+          </Paper>
+        ))}
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginTop: "20px",
+          cursor: "pointer",
+        }}
+        onClick={handleCreateGoalClick}
+      >
+        <img src={Plus} alt="Create new goal" style={{ marginRight: "10px" }} />
+        <Typography variant="subtitle1">Create a new group goal</Typography>
       </Box>
     </Container>
   );
