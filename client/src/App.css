@@ -202,10 +202,11 @@ button span {
 }
 
 .home_graph {
-    line-height: 0.1;
+    /* line-height: 0.1;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 5px; */
     padding: 10px;
+    margin-top: 0px;
 }
 
 .green-text {

@@ -145,33 +145,6 @@ function Home() {
                     </p>
                 </div>
             </div>
-            <div className='home-container home_graph'>
-                <div>
-                    <p>Spending</p>
-                </div>
-                <Typography
-                    variant='h5'
-                    sx={{
-                        fontFamily: "TT Commons",
-                        color: "Black",
-                        fontWeight: "normal",
-                        margin: 0,
-                    }}
-                >
-                    ${spending}
-                </Typography>
-                <p className='green-text'>{onTrack} this month</p>
-                <Stack direction='row' sx={{ width: "100%" }}>
-                    <Box width='100%'>
-                        <SparkLineChart
-                            data={[3, -10, -2, 5, 7, -2, 4, 6]}
-                            height={77}
-                            width={350}
-                            area={false}
-                        />
-                    </Box>
-                </Stack>
-            </div>
             <Container
                 style={{
                     width: "382px",
@@ -181,6 +154,47 @@ function Home() {
                     border: "1px solid #ccc",
                     borderRadius: "5px",
                     marginTop: "25px",
+                    marginLeft: "0",
+                }}
+            >
+                <div className='home-container home_graph'>
+                    <div>
+                        <p>Spending</p>
+                    </div>
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontFamily: "TT Commons",
+                            color: "Black",
+                            fontWeight: "normal",
+                            margin: 0,
+                        }}
+                    >
+                        ${spending}
+                    </Typography>
+                    <p className='green-text'>{onTrack} this month</p>
+                    <Stack direction='row' sx={{ width: "100%" }}>
+                        <Box width='100%'>
+                            <SparkLineChart
+                                data={[3, -10, -2, 5, 7, -2, 4, 6]}
+                                height={77}
+                                width={350}
+                                area={false}
+                            />
+                        </Box>
+                    </Stack>
+                </div>
+            </Container>
+            <Container
+                style={{
+                    width: "382px",
+                    height: "200px",
+                    flexGrow: "0",
+                    padding: "0 0 8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "25px",
+                    marginLeft: "0",
                 }}
             >
                 <Grid container spacing={0}>
@@ -268,8 +282,8 @@ function Home() {
                         <Stack direction='row' spacing={1} alignItems='center'>
                             <Avatar
                                 sx={{
-                                    width: "24px",
-                                    height: "24px",
+                                    width: "10px",
+                                    height: "10px",
                                     flexGrow: 0,
                                     margin: "0 8px 0 0",
                                     padding: "12px",
@@ -278,18 +292,15 @@ function Home() {
                                     backgroundColor: "transparent",
                                 }}
                             >
-                                💰
+                                ➕
                             </Avatar>
                             <Typography>
                                 <p
                                     style={{
-                                        fontSize: "16px",
                                         margin: "0",
-                                        color: "black",
-                                        fontWeight: "bold",
                                     }}
                                 >
-                                    Create a goal for saving
+                                    Create a savings goal
                                 </p>
                             </Typography>
                             {/* Add more content here */}
