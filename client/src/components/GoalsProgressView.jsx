@@ -146,7 +146,7 @@ export default function SavingsGoals() {
         <img src={Plus} alt="Create new goal" style={{ marginRight: "10px" }} />
         <Typography variant="subtitle1">Create a new savings goal</Typography>
       </Box>
-      <Divider variant="middle" component="li" />
+      <Divider variant="middle"  />
       <Box my={3}>
         <Typography variant="h6">Group Goals</Typography>
         {goals.map((goal) => (
