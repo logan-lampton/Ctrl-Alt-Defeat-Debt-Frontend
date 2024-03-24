@@ -11,7 +11,7 @@ import Home from "./components/Home";
 import {Routes, Route, useLocation} from 'react-router-dom'
 import Goals from './components/Goals'
 import { UserProvider } from "./context/UserContext";
-import PlaidButtonsContainer from "./components/PlaidButtonsContainer";
+import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
 
 
