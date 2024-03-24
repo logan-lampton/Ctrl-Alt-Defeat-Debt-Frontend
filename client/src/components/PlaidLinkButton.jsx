@@ -11,7 +11,7 @@ const PlaidLinkButton = ({ onAccessToken }) => {
   useEffect(() => {
     // Fetch the link token from your server
     const getLinkToken = async () => {
-      const response = await fetch('http://127.0.0.1:5000/plaid/create_link_token', { method: 'POST' });
+      const response = await fetch('/plaid/create_link_token', { method: 'POST' });
       const data = await response.json();
       setLinkToken(data.link_token);
     };
@@ -21,7 +21,7 @@ const PlaidLinkButton = ({ onAccessToken }) => {
   const onSuccess = React.useCallback((public_token, metadata) => {
     // Send the public_token to your app server
     // The app server can exchange the public_token for an access_token
-    fetch('http://127.0.0.1:5000/plaid/exchange_public_token', {
+    fetch('/plaid/exchange_public_token', {
       method: 'POST',
       headers: {
         

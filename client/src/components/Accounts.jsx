@@ -13,7 +13,7 @@ const Accounts = ({ accessToken }) => {
       setError('');
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/plaid/get_accounts', {
+        const response = await fetch('/plaid/get_accounts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

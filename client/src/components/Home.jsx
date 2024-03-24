@@ -104,7 +104,7 @@ function Home() {
     // function to fetch goals
     const fetchGoals = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:5000/goals");
+            const response = await axios.get("/goals");
             setGoals(response.data);
         } catch (error) {
             console.error("Error fetching goals: ", error);

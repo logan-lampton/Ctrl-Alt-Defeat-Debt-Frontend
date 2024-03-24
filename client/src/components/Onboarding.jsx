@@ -1,71 +1,103 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { Container, ThemeProvider, createTheme } from "@mui/system";
 import pigbank from "../assets/pigbank.svg";
 import { Button, ToggleButtonGroup, ToggleButton } from "@mui/material";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import PlaidLinkButton from "./PlaidLinkButton";
+import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Onboarding = () => {
-    const navigate = useNavigate();
-    const [selected, setSelected] = useState([]);
+  const navigate = useNavigate();
+  const [selected, setSelected] = useState([]);
 
-    const goals = [
-        "View all of my finances in one place",
-        "Track my income and spending",
-        "Save for a large purchase",
-        "Manage my money with a partner",
-        "Create a personalized budget",
-        "Save for a new home"
-    ];
+  const [accessToken, setAccessToken] = useState("");
 
-    const handleChange = (event, newGoals) => {
-        setSelected(newGoals)
-        console.log(newGoals)
-    };
+  const { user, setUser } = useContext(UserContext);
 
-    const handleClick =()=> {
-        navigate("/home")
-    }
+  const handleAccessToken = (token) => {
+    setAccessToken(token);
+    fetch(`/users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        _access_token: token,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("User updated successfully:", data);
+      })
+      .catch((error) => console.error("Error updating user:", error));
+  };
 
-    return (
-        <Container>
-            <div className="onboarding-header-container">
-                <header className="onboard-header">
-                    <img className="headline-icon" src={pigbank} alt="piggybank-icon"></img>
-                        <div>
-                            <h1 className="headline-big">
-                            How would you like Money Magnet to help you?
-                            </h1>
-                            <h3 className="gray-subtext">
-                            Tell us about your financial goals and Money Magnet will help you achieve them.
-                            </h3>
-                        </div>
-                </header>
-            </div>
-            <section className="goal-section">
-                {goals.map((item) => {
-        return(
-                <ToggleButtonGroup value={selected} onChange={handleChange}>
-                    <ToggleButton value={item} color="primary" className="goal-buttons">
-                    <span className="button-text">{item}</span>
-                    </ToggleButton>
-                 </ToggleButtonGroup>
-        )
-    })}
-            </section>
-            {selected.length > 0 &&
-            <section className="goal-continue">
-            <Button variant="contained" onClick={handleClick}>
-               <span>
-               Continue
-                </span> 
-                </Button>
+  if (accessToken) {
+    return <Navigate to="/home" replace={true} />;
+  }
 
-            </section>
-                
-}
-        </Container>
-    )
-}
+  const goals = [
+    "View all of my finances in one place",
+    "Track my income and spending",
+    "Save for a large purchase",
+    "Manage my money with a partner",
+    "Create a personalized budget",
+    "Save for a new home",
+  ];
+
+  const handleChange = (event, newGoals) => {
+    setSelected(newGoals);
+    console.log(newGoals);
+  };
+
+  // const handleClick =()=> {
+  //     navigate("/plaid")
+  // }
+
+  return (
+    <Container>
+      <div className="onboarding-header-container">
+        <header className="onboard-header">
+          <img
+            className="headline-icon"
+            src={pigbank}
+            alt="piggybank-icon"
+          ></img>
+          <div>
+            <h1 className="headline-big">
+              How would you like Money Magnet to help you?
+            </h1>
+            <h3 className="gray-subtext">
+              Tell us about your financial goals and Money Magnet will help you
+              achieve them.
+            </h3>
+          </div>
+        </header>
+      </div>
+      <section className="goal-section">
+        {goals.map((item) => {
+          return (
+            <ToggleButtonGroup value={selected} onChange={handleChange}>
+              <ToggleButton
+                value={item}
+                color="primary"
+                className="goal-buttons"
+              >
+                <span className="button-text">{item}</span>
+              </ToggleButton>
+            </ToggleButtonGroup>
+          );
+        })}
+      </section>
+      {selected.length > 0 && (
+        <section className="goal-continue">
+          <PlaidLinkButton onAccessToken={handleAccessToken} />
+        </section>
+      )}
+    </Container>
+  );
+};
 
 export default Onboarding;
