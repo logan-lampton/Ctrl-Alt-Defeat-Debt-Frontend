@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Grid, Typography, TextField, Checkbox, Button } from "@mui/material";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import ArrowBack from "../assets/arrow_back.svg";
+import { UserContext } from "../context/UserContext";
 import PlaidLinkButton from "./PlaidLinkButton";
 import "./styles/UserConfirm.css";
 import { useForm } from "react-hook-form";
@@ -14,18 +15,16 @@ export default function UserConfirm() {
   const [agreed, setAgreed] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
 
-  //   const {
-  //     register,
-  //     handleSubmit,
-  //     formState: { errors },
-  //   } = useForm();
 
   const label = { inputProps: { "aria-label": "Checkbox" } };
 
+  const { user, setUser } = useContext(UserContext);
+
+  console.log(user._access_token);
 //   const handleAccessToken = (token) => {
 //     setAccessToken(token);
 //   };
-
+ 
   const handleOTPChange = (event) => {
     setOtp(event.target.value);
   };
@@ -71,7 +70,6 @@ export default function UserConfirm() {
         console.log("Verification response:", data);
         if (data.message === "OTP verified successfully") {
           setIsVerified(true);
-          alert("OTP verified successfully!");
         } else {
           alert("Invalid OTP or verification failed.");
         }
@@ -83,7 +81,11 @@ export default function UserConfirm() {
   };
 
   if (isVerified) {
-    return <Navigate to="/plaid" replace={true} />;
+        if(user._access_token == null) {
+    return <Navigate to="/onboarding" replace={true} />;
+        } else {
+        return <Navigate to="/home" replace={true} />;
+        }
   }
 
   return (

@@ -24,7 +24,7 @@ const Onboarding = () => {
     };
 
     const handleClick =()=> {
-        navigate("/home")
+        navigate("/plaid")
     }
 
     return (
