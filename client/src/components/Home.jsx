@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import {useNavigate} from "react-router-dom"
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
@@ -12,11 +13,14 @@ import {
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
-import arrow_forward from "../assets/account.svg";
+import arrow_forward from "../assets/arrow_forward.svg";
+import add_circle_outline from "../assets/add_circle_outline.svg"
 
 function Home() {
     const { user, setUser, personalGoals, setPersonalGoals, accessToken } =
         useContext(UserContext);
+
+    const navigate = useNavigate();
 
     // Display Morning, Afternoon, Evening depending on the time of day on the system
     const [greeting, setGreeting] = useState("");
@@ -32,6 +36,13 @@ function Home() {
 
     // state for whether spending is on track
     const [onTrack, setOnTrack] = useState("On track");
+
+    // const [aIData, setAIData] = useState({})
+
+    const handleNavigateToGoalsClick = () => {
+      navigate("/goals"); // Navigates to /goals route when clicked
+    };
+
 
     // -------------------------------------------
 
@@ -49,6 +60,7 @@ function Home() {
         fetchAccounts();
         // Fetching Plaid transaction data
         fetchTransactions();
+        // fetchAIData();
 
         // Fetching the user insights; will uncomment when route is properly set up
         // fetchInsights();
@@ -105,7 +117,17 @@ function Home() {
         }
     };
 
-    console.log(transactions);
+  //   const fetchAIData = async () => {
+  //     try {
+  //         const response = await axios.post("/openai/response", {
+  //             access_token: accessToken,
+  //         });
+  //         console.log("AI Data", response.data);
+  //         setAIData(response.data);
+  //     } catch (error) {
+  //         console.error("Error:", error);
+  //     }
+  // };
 
     // Logic for storing total earned and spent
     let totalEarned = 0;
@@ -212,12 +234,23 @@ function Home() {
                     borderRadius: "5px",
                     marginTop: "25px",
                     marginLeft: "0",
+                    position: "relative",
                 }}
             >
                 <div className='home-container home_graph'>
                     <div>
                         <p>Spending</p>
                     </div>
+                    <img
+                      src={arrow_forward}
+                      alt="Arrow forward"
+                      style={{
+                          position: "absolute",
+                          top: 23,
+                          right: 8,
+                          zIndex: 1,
+                      }}
+                    />
                     <Typography
                         variant='h5'
                         sx={{
@@ -272,6 +305,7 @@ function Home() {
                     </Grid>
                     <Grid item xs={6} textAlign='right'>
                         <Button
+                            onClick={() => handleNavigateToGoalsClick()}
                             variant='contained'
                             sx={{
                                 minWidth: "120px",
@@ -339,30 +373,11 @@ function Home() {
                             marginBottom: "0px",
                         }}
                     >
-                        <Stack direction='row' spacing={1} alignItems='center'>
-                            <Avatar
-                                sx={{
-                                    width: "5px",
-                                    height: "5px",
-                                    flexGrow: 0,
-                                    margin: "0 8px 0 0",
-                                    padding: "8px",
-                                    border: "2px solid",
-                                    borderColor: "#DEE5EB",
-                                    backgroundColor: "transparent",
-                                }}
-                            >
-                                <p
-                                    style={{
-                                        color: "#DEE5EB",
-                                        fontSize: "30px",
-                                        margin: "0",
-                                        marginTop: "-3px",
-                                    }}
-                                >
-                                    +
-                                </p>
-                            </Avatar>
+                        <Stack onClick={() => handleNavigateToGoalsClick()} direction='row' spacing={1} alignItems='center'>
+                        <img 
+                          src={add_circle_outline}
+                          alt="Add goal"
+                        />
                             <Typography>
                                 <p
                                     style={{
@@ -379,13 +394,14 @@ function Home() {
             <Container
                 style={{
                     width: "382px",
-                    height: "200px",
+                    height: "150px",
                     flexGrow: "0",
                     padding: "0 0 8px",
                     border: "1px solid #ccc",
                     borderRadius: "5px",
                     marginTop: "25px",
                     marginLeft: "0",
+                    position: "relative",
                 }}
             >
                 <Grid container spacing={0}>
@@ -402,21 +418,16 @@ function Home() {
                         </Stack>
                     </Grid>
                     <Grid item xs={6} textAlign='right'>
-                        {/* Insert arrow */}
-                    </Grid>
-                    <Grid item xs={6} sx={{ marginLeft: "15px" }}>
-                        <Stack direction='row' spacing={1}>
-                            <Typography
-                                variant='h5'
-                                sx={{
-                                    fontFamily: "TT Commons",
-                                    color: "Black",
-                                    fontWeight: "normal",
-                                }}
-                            >
-                                ${remainingMoney}
-                            </Typography>
-                        </Stack>
+                    <img
+                      src={arrow_forward}
+                      alt="Arrow forward"
+                      style={{
+                          position: "absolute",
+                          top: 23,
+                          right: 8,
+                          zIndex: 1,
+                      }}
+                    />
                     </Grid>
                     <Grid
                         item
@@ -424,13 +435,12 @@ function Home() {
                         sx={{
                             marginLeft: "15px",
                             marginTop: "0px",
-                            marginBottom: "15px",
                         }}
                     >
                         <Stack direction='row' spacing={1}>
                             <Typography>
                                 <p style={{ margin: "0" }}>
-                                    Total saved for goals
+                                    Insights will begin populating soon.
                                 </p>
                             </Typography>
                         </Stack>
