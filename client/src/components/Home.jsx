@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import {UserContext} from "../context/UserContext";
 import axios from "axios";
-import { Button, Typography } from "@mui/material";
-// import {
-//     LineChart,
-//     Line,
-//     XAxis,
-//     YAxis,
-//     CartesianGrid,
-//     Tooltip,
-//     Legend,
-//     ResponsiveContainer,
-// } from "recharts";
-// import { ResponsiveChartContainer } from '@mui/x-charts/ResponsiveChartContainer';
-
-// Use Sparkline
+import {
+    Button,
+    Typography,
+    Container,
+    Grid,
+    Divider,
+    Avatar,
+} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
+import arrow_forward from "../assets/account.svg"
 
 // Make a box and add theses inside:
 // Button to add goals
@@ -23,22 +22,27 @@ import { Button, Typography } from "@mui/material";
 // CSS
 
 function Home() {
+    const {user, setUser, personalGoals, setPersonalGoals} = useContext(UserContext)
+
+    console.log(personalGoals)
+
+
+
+
     // Display Morning, Afternoon, Evening depending on the time of day on the system
     const [greeting, setGreeting] = useState("");
 
     // Display balance for the user from the backend
     const [balance, setBalance] = useState(1386);
 
+    // state for spending amount
+    const [spending, setSpending] = useState(2564);
+
+    // state for whether spending is on track
+    const [onTrack, setOnTrack] = useState("On track");
+
     // graph to display recent account balances
-    // uses recharts working alongside Materia UI
-    // npm install recharts
-    // const [graphData, setGraphData] = useState([
-    //     { name: "Oct", uv: 1890, pv: 4800, amt: 2181 },
-    //     { name: "Nov", uv: 4000, pv: 2400, amt: 2400 },
-    //     { name: "Dec", uv: 3000, pv: 1398, amt: 2210 },
-    //     { name: "Jan", uv: 2000, pv: 5800, amt: 2290 },
-    //     { name: "Feb", uv: 2780, pv: 3908, amt: 2000 },
-    // ]);
+    const [graphData, setGraphData] = useState([]);
 
     // Fetch for goals to display
     const [goals, setGoals] = useState([]);
@@ -49,9 +53,15 @@ function Home() {
     // Insights are each in their own boxes
     // Show the first two insights
 
+    // state for savings
+    const [saved, setSaved] = useState(126);
+
     useEffect(() => {
         // Function to update the greeting based on the time of day based on the user's current time
         updateGreeting();
+
+
+
         // Fetching the user balance; will uncomment when route is properly set up
         // fetchBalance();
         // Fetching user goals
@@ -60,10 +70,11 @@ function Home() {
         // fetchInsights();
     }, []);
 
-    useEffect(() => {
-        // Run function to decide on the three largest goals, which will be displayed
-        largestGoals(goals);
-    }, [goals]);
+    // useEffect(() => {
+    //     // Run function to decide on the three largest goals, which will be displayed
+    //     largestGoals(goals);
+    // }, [goals]);
+
 
     const updateGreeting = () => {
         const currentHour = new Date().getHours();
@@ -123,56 +134,281 @@ function Home() {
     };
 
     return (
-        <div>
-            <h1>Good {greeting}!</h1>
-            <div style={{ fontSize: "16px" }}>
-                <p style={{ display: "inline", margin: "0 5px" }}>You have</p>
-                <h2 style={{ display: "inline", margin: "0 5px" }}>
-                    ${balance}
-                </h2>
-                <p style={{ display: "inline", margin: "0 5px" }}>
-                    left to spend this month
-                </p>
-            </div>
-            {/* <div className='chart-container'>
-                <ResponsiveContainer width='100%' height={400}>
-                    <LineChart data={graphData}>
-                        <XAxis dataKey='name' />
-                        <YAxis />
-                        <CartesianGrid stroke='#eee' strokeDasharray='5 5' />
-                        <Tooltip />
-                        <Legend />
-                        <Line type='monotone' dataKey='pv' stroke='#8884d8' />
-                        <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
-                    </LineChart>
-                </ResponsiveContainer>
-            </div> */}
-            <div className='container'>
-                <div className='button-container'>
-                    <Button variant='contained' color='primary'>
-                        Create a savings goal
-                    </Button>
-                </div>
-                {topGoals.map((goal) => (
-                    <div key={goal.id}>
-                        <h2 style={{ display: "inline" }}>{goal.name}:</h2>
-                        <p style={{ display: "inline" }}>
-                            Saving Target: ${goal.saving_target}
-                        </p>
-                    </div>
-                ))}
-            </div>
-            {Array.isArray(insights) && insights.length > 0 && (
+        <div className='home-margin' style={{ overflowY: "auto" }}>
+            <div className='home-container home-top'>
+                <h1>Good {greeting}!</h1>
                 <div>
-                    {insights.map((insight) => (
-                        <div key={insight.id}>
-                            <h1>{insight.content}</h1>
-                        </div>
-                    ))}
+                    <p style={{ display: "inline", margin: "0 5px 0 0" }}>
+                        You have
+                    </p>
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontFamily: "TT Commons",
+                            color: "Black",
+                            fontWeight: "normal",
+                            display: "inline",
+                            margin: "0 5px",
+                        }}
+                    >
+                        ${balance}
+                    </Typography>
+                    <p style={{ display: "inline", margin: "0 5px" }}>
+                        left to spend this month
+                    </p>
                 </div>
-            )}
+            </div>
+            <Container
+                style={{
+                    width: "382px",
+                    height: "228px",
+                    flexGrow: "0",
+                    padding: "0 0 8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "25px",
+                    marginLeft: "0",
+                }}
+            >
+                <div className='home-container home_graph'>
+                    <div>
+                        <p>Spending</p>
+                    </div>
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontFamily: "TT Commons",
+                            color: "Black",
+                            fontWeight: "normal",
+                            margin: 0,
+                        }}
+                    >
+                        ${spending}
+                    </Typography>
+                    <p className='green-text'>{onTrack} this month</p>
+                    <Stack direction='row' sx={{ width: "100%" }}>
+                        <Box width='100%'>
+                            <SparkLineChart
+                                data={[3, -10, -2, 5, 7, -2, 4, 6]}
+                                height={77}
+                                width={350}
+                                area={false}
+                            />
+                        </Box>
+                    </Stack>
+                </div>
+            </Container>
+            <Container
+                style={{
+                    width: "382px",
+                    height: "200px",
+                    flexGrow: "0",
+                    padding: "0 0 8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "25px",
+                    marginLeft: "0",
+                }}
+            >
+                <Grid container spacing={0}>
+                    <Grid item xs={6}>
+                        <Stack direction='column' spacing={1}>
+                            <Typography
+                                sx={{
+                                    padding: "10px 10px 5px 10px",
+                                    margin: 0,
+                                }}
+                            >
+                                <p>Goals</p>
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={6} textAlign='right'>
+                        <Button
+                            variant='contained'
+                            sx={{
+                                minWidth: "120px",
+                                fontFamily: "TT Commons",
+                                fontSize: "12px",
+                                fontWeight: "normal",
+                                lineHeight: "1.83",
+                                letterSpacing: "normal",
+                                textTransform: "none",
+                                marginTop: "15px",
+                                marginRight: "15px",
+                                backgroundColor: "#3398ff",
+                            }}
+                        >
+                            Create a Savings Goal
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginLeft: "15px" }}>
+                        <Stack direction='row' spacing={1}>
+                            <Typography
+                                variant='h5'
+                                sx={{
+                                    fontFamily: "TT Commons",
+                                    color: "Black",
+                                    fontWeight: "normal",
+                                }}
+                            >
+                                ${saved}
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{
+                            marginLeft: "15px",
+                            marginTop: "0px",
+                            marginBottom: "15px",
+                        }}
+                    >
+                        <Stack direction='row' spacing={1}>
+                            <Typography>
+                                <p style={{ margin: "0" }}>
+                                    Total saved for goals
+                                </p>
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                    <Divider
+                        sx={{
+                            width: "346px",
+                            height: "1px",
+                            flexGrow: 0,
+                            transform: "rotate(-360deg)",
+                            backgroundColor: "var(--gray-3)",
+                            margin: "auto",
+                        }}
+                    />
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{
+                            marginLeft: "15px",
+                            marginTop: "16px",
+                            marginBottom: "0px",
+                        }}
+                    >
+                        <Stack direction='row' spacing={1} alignItems='center'>
+                            <Avatar
+                                sx={{
+                                    width: "5px",
+                                    height: "5px",
+                                    flexGrow: 0,
+                                    margin: "0 8px 0 0",
+                                    padding: "8px",
+                                    border: "2px solid",
+                                    borderColor: "#DEE5EB",
+                                    backgroundColor: "transparent",
+                                }}
+                            >
+                                <p
+                                    style={{
+                                        color: "#DEE5EB",
+                                        fontSize: "30px",
+                                        margin: "0",
+                                        marginTop: "-3px",
+                                    }}
+                                >
+                                    +
+                                </p>
+                            </Avatar>
+                            <Typography>
+                                <p
+                                    style={{
+                                        margin: "0",
+                                    }}
+                                >
+                                    Create a savings goal
+                                </p>
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </Container>
+            <Container
+                style={{
+                    width: "382px",
+                    height: "200px",
+                    flexGrow: "0",
+                    padding: "0 0 8px",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    marginTop: "25px",
+                    marginLeft: "0",
+                }}
+            >
+                <Grid container spacing={0}>
+                    <Grid item xs={6}>
+                        <Stack direction='column' spacing={1}>
+                            <Typography
+                                sx={{
+                                    padding: "10px 10px 5px 10px",
+                                    margin: 0,
+                                }}
+                            >
+                                <p>Financial Insights</p>
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={6} textAlign='right'>
+                        {/* Insert arrow */}
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginLeft: "15px" }}>
+                        <Stack direction='row' spacing={1}>
+                            <Typography
+                                variant='h5'
+                                sx={{
+                                    fontFamily: "TT Commons",
+                                    color: "Black",
+                                    fontWeight: "normal",
+                                }}
+                            >
+                                ${saved}
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        sx={{
+                            marginLeft: "15px",
+                            marginTop: "0px",
+                            marginBottom: "15px",
+                        }}
+                    >
+                        <Stack direction='row' spacing={1}>
+                            <Typography>
+                                <p style={{ margin: "0" }}>
+                                    Total saved for goals
+                                </p>
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </Container>
         </div>
     );
 }
+// {topGoals.map((goal) => (
+//   <div key={goal.id}>
+//       <h2 style={{ display: "inline" }}>{goal.name}:</h2>
+//       <p style={{ display: "inline" }}>
+//           Saving Target: ${goal.saving_target}
+//       </p>
+//   </div>
+// ))}
 
+// {Array.isArray(insights) && insights.length > 0 && (
+//   <div className='home-container'>
+//       {insights.map((insight) => (
+//           <div key={insight.id}>
+//               <h1>{insight.content}</h1>
+//           </div>
+//       ))}
+//   </div>
+// )}
 export default Home;
