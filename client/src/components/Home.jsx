@@ -33,8 +33,7 @@ function Home() {
     // state for whether spending is on track
     const [onTrack, setOnTrack] = useState("On track");
 
-    // graph to display recent account balances
-    const [graphData, setGraphData] = useState([]);
+    // -------------------------------------------
 
     // state to show only the top three goals
     const [topGoals, setTopGoals] = useState([]);
@@ -125,7 +124,21 @@ function Home() {
     totalSpent = Math.round(totalSpent);
     remainingMoney = totalEarned - totalSpent;
 
+    // Constructing the data array for the SparkLineChart
+    const sparkLineData = [];
+    let currentAmount = 0;
+    
+    transactions.forEach((transaction) => {
+        if (transaction.category.includes('Debit')) {
+            currentAmount -= Math.abs(transaction.amount);
+        } else {
+            currentAmount += Math.abs(transaction.amount);
+        }
+        sparkLineData.push(currentAmount * 30);
+    });
 
+
+// -------------------------------------------
 
 
     // function to fetch goals
@@ -220,10 +233,13 @@ function Home() {
                     <Stack direction='row' sx={{ width: "100%" }}>
                         <Box width='100%'>
                             <SparkLineChart
-                                data={[3, -10, -2, 5, 7, -2, 4, 6]}
-                                height={77}
+                                data={sparkLineData}
+                                height={150}
                                 width={350}
                                 area={false}
+                                strokeWidth={2}
+                                minY={Math.min(...sparkLineData) * 0.8}
+                                maxY={Math.max(...sparkLineData) * 1.2}
                             />
                         </Box>
                     </Stack>
