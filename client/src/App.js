@@ -35,7 +35,6 @@ function App() {
                 <Route path='/' element={<WelcomePage />} />
                 <Route path='/onboarding' element={<Onboarding />} />
                 <Route path='/home' element={<Home />} />
-                <Route path="/goals" element={<Goals/>} />
                 <Route path="/goal-selection" element={<GoalSelection />} />
                 <Route path="/plaid" element={<PlaidButtonsContainer />} />
                 <Route path="/goals-progress" element={<GoalsProgressView />} />
