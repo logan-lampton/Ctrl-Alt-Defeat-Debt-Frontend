@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {UserContext} from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
     Button,
@@ -12,31 +12,23 @@ import {
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
-import arrow_forward from "../assets/account.svg"
-
-// Make a box and add theses inside:
-// Button to add goals
-// Add navigate to goals page
-// If there are no goals, conditionally show, "Create a savings goal"
-
-// CSS
+import arrow_forward from "../assets/account.svg";
 
 function Home() {
-    const {user, setUser, personalGoals, setPersonalGoals} = useContext(UserContext)
-
-    console.log(personalGoals)
-
-
-
+    const { user, setUser, personalGoals, setPersonalGoals, accessToken } =
+        useContext(UserContext);
 
     // Display Morning, Afternoon, Evening depending on the time of day on the system
     const [greeting, setGreeting] = useState("");
 
-    // Display balance for the user from the backend
-    const [balance, setBalance] = useState(1386);
+    // Accounts, fetched from Plaid, used to find savings account and set as remaining left to spend for the month
+    const [accounts, setAccounts] = useState([]);
+    const savingsAccounts = accounts.filter(
+        (account) => account.subtype === "savings"
+    );
 
-    // state for spending amount
-    const [spending, setSpending] = useState(2564);
+    // Transactions from Plaid, used to calculate how much was spent during the past month
+    const [transactions, setTransactions] = useState([]);
 
     // state for whether spending is on track
     const [onTrack, setOnTrack] = useState("On track");
@@ -44,8 +36,6 @@ function Home() {
     // graph to display recent account balances
     const [graphData, setGraphData] = useState([]);
 
-    // Fetch for goals to display
-    const [goals, setGoals] = useState([]);
     // state to show only the top three goals
     const [topGoals, setTopGoals] = useState([]);
 
@@ -53,28 +43,32 @@ function Home() {
     // Insights are each in their own boxes
     // Show the first two insights
 
-    // state for savings
-    const [saved, setSaved] = useState(126);
-
     useEffect(() => {
-        // Function to update the greeting based on the time of day based on the user's current time
+        // Greeting based on the time of day based on the user's current time
         updateGreeting();
+        // Fetching the Plaid account data
+        fetchAccounts();
+        // Fetching Plaid transaction data
+        fetchTransactions();
 
-
-
-        // Fetching the user balance; will uncomment when route is properly set up
-        // fetchBalance();
-        // Fetching user goals
-        fetchGoals();
         // Fetching the user insights; will uncomment when route is properly set up
         // fetchInsights();
-    }, []);
+    }, [accessToken]);
 
-    // useEffect(() => {
-    //     // Run function to decide on the three largest goals, which will be displayed
-    //     largestGoals(goals);
-    // }, [goals]);
-
+    const fetchAccounts = async () => {
+        if (!accessToken) {
+            return;
+        }
+        try {
+            const response = await axios.post("/plaid/get_accounts", {
+                access_token: accessToken,
+            });
+            console.log("Data", response.data);
+            setAccounts(response.data.accounts);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const updateGreeting = () => {
         const currentHour = new Date().getHours();
@@ -89,28 +83,61 @@ function Home() {
         setGreeting(timedGreeting);
     };
 
-    // function to fetch balance, need the correct route
-    const fetchBalance = async () => {
+    const fetchTransactions = async () => {
         try {
-            const response = await axios.get("SET THE CORRECT ROUTE");
-            // make sure to update to correct property
-            setBalance(response.data.balance);
+            const response = await fetch("/plaid/get_transactions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ access_token: accessToken }),
+            });
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            if (data.transactions) {
+                setTransactions(data.transactions);
+            } else {
+                setTransactions([]);
+            }
         } catch (error) {
-            console.error("Error fetching balance: ", error);
+            console.error("Error fetching transactions:", error);
         }
-        console.log("Balance: ", balance);
     };
 
+    console.log(transactions);
+
+    // Logic for storing total earned and spent
+    let totalEarned = 0;
+    let totalSpent = 0;
+    let remainingMoney = 0;
+
+    transactions.forEach((transaction) => {
+      if (transaction.category.includes('Debit')) {
+        totalEarned += transaction.amount;
+      }
+      else {
+        totalSpent += Math.abs(transaction.amount);
+      }
+    })
+    totalEarned = Math.round(totalEarned);
+    totalSpent = Math.round(totalSpent);
+    remainingMoney = totalEarned - totalSpent;
+
+
+
+
     // function to fetch goals
-    const fetchGoals = async () => {
-        try {
-            const response = await axios.get("/goals");
-            setGoals(response.data);
-        } catch (error) {
-            console.error("Error fetching goals: ", error);
-        }
-        console.log("Goals: ", goals);
-    };
+    // const fetchGoals = async () => {
+    //     try {
+    //         const response = await axios.get("http://127.0.0.1:5000/goals");
+    //         setGoals(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching goals: ", error);
+    //     }
+    //     console.log("Goals: ", goals);
+    // };
 
     // Function to display the three biggest goals
     const largestGoals = async (goals) => {
@@ -141,18 +168,22 @@ function Home() {
                     <p style={{ display: "inline", margin: "0 5px 0 0" }}>
                         You have
                     </p>
-                    <Typography
-                        variant='h5'
-                        sx={{
-                            fontFamily: "TT Commons",
-                            color: "Black",
-                            fontWeight: "normal",
-                            display: "inline",
-                            margin: "0 5px",
-                        }}
-                    >
-                        ${balance}
-                    </Typography>
+                    {/* {savingsAccounts.map((account) => ( */}
+                        <Typography
+                            // key={account.account_id}
+                            variant='h5'
+                            sx={{
+                                fontFamily: "TT Commons",
+                                color: "Black",
+                                fontWeight: "normal",
+                                display: "inline",
+                                margin: "0 5px",
+                            }}
+                        >
+                          ${remainingMoney}
+                            {/* ${account.balances.available} */}
+                        </Typography>
+                    {/* ))} */}
                     <p style={{ display: "inline", margin: "0 5px" }}>
                         left to spend this month
                     </p>
@@ -183,7 +214,7 @@ function Home() {
                             margin: 0,
                         }}
                     >
-                        ${spending}
+                        ${totalSpent}
                     </Typography>
                     <p className='green-text'>{onTrack} this month</p>
                     <Stack direction='row' sx={{ width: "100%" }}>
@@ -252,7 +283,7 @@ function Home() {
                                     fontWeight: "normal",
                                 }}
                             >
-                                ${saved}
+                                ${remainingMoney}
                             </Typography>
                         </Stack>
                     </Grid>
@@ -367,7 +398,7 @@ function Home() {
                                     fontWeight: "normal",
                                 }}
                             >
-                                ${saved}
+                                ${remainingMoney}
                             </Typography>
                         </Stack>
                     </Grid>
