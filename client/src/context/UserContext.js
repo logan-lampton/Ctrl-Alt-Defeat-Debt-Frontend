@@ -6,6 +6,7 @@ const UserContext = createContext({});
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [personalGoals, setPersonalGoals] = useState([])
+  const [selectedGoal, setSelectedGoal] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +24,7 @@ const UserProvider = ({ children }) => {
 
 
   return (
-    <UserContext.Provider value={{ user, setUser, personalGoals, setPersonalGoals}}>
+    <UserContext.Provider value={{ user, setUser, selectedGoal, setSelectedGoal, personalGoals, setPersonalGoals}}>
       {children}
     </UserContext.Provider>
   );
