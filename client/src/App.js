@@ -13,11 +13,13 @@ import Goals from './components/Goals'
 import { UserProvider } from "./context/UserContext";
 import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
+import Insights from "./components/Insights"
+
 
 
 function App() {
     const location = useLocation();
-    const showBottomNav = ["/onboarding","/home","/goals", "/insights","/group"].includes(location.pathname);
+    const showBottomNav = ["/home","/goals","/insights","/group"].includes(location.pathname);
     return (
       <UserProvider>
         <Container>
@@ -29,12 +31,12 @@ function App() {
                 <Route path='/' element={<WelcomePage />} />
                 <Route path='/onboarding' element={<Onboarding />} />
                 <Route path='/home' element={<Home />} />
-                <Route path="/goals" element={<Goals />} />
+                <Route path="/goals" element={<Goals/>} />
                 <Route path="/plaid" element={<PlaidButtonsContainer />} />
                 <Route path="/goals-progress" element={<GoalsProgressView />} />
+                <Route path="/insights" element={<Insights />} />
             </Routes>
             {showBottomNav && <BottomNav />}
-
         </Container>
       </UserProvider>
 
