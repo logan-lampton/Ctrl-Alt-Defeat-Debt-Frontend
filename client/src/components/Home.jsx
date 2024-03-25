@@ -154,6 +154,29 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
+    const unicodeToEmoji = (unicodeStr) => {
+        try {
+            // Remove the "U+" prefix if present, and trim any whitespace
+            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
+            const codePoint = parseInt(cleanedUnicodeStr, 16);
+
+            // Check if the conversion resulted in a valid number
+            if (isNaN(codePoint)) {
+                console.error("Invalid Unicode value:", unicodeStr);
+                return "🚫"; // Optionally return a placeholder or empty string
+            }
+
+            return String.fromCodePoint(codePoint);
+        } catch (error) {
+            console.error(
+                "Error converting Unicode to emoji:",
+                unicodeStr,
+                error
+            );
+            return "🚫"; // Optionally return a placeholder or empty string
+        }
+    };
+
     // -------------------------------------------
 
     // function to fetch insights, need the correct route
@@ -365,11 +388,7 @@ function Home() {
                                                 backgroundClip: "padding-box",
                                             }}
                                         >
-                                            {!isNaN(goal.emoji)
-                                                ? String.fromCodePoint(
-                                                      goal.emoji
-                                                  )
-                                                : ""}
+                                            {unicodeToEmoji(goal.emoji)}
                                         </Avatar>
                                         <Typography
                                             sx={{
