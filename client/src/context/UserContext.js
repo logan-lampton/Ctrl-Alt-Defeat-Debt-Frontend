@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios'
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const UserContext = createContext({});
 
@@ -8,26 +8,37 @@ const UserProvider = ({ children }) => {
   const [personalGoals, setPersonalGoals] = useState([])
   const [selectedGoal, setSelectedGoal] = useState(null)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/check_session');
-        setUser(response.data);
-        setPersonalGoals(response.data.personal_goals)
-      } catch (error) {
-        console.error('Error fetching user session:', error.message);
-      }
-    };
+    const [accessToken, setAccessToken] = useState("");
 
-    fetchData();
-  }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("/check_session");
+                setUser(response.data);
+                setPersonalGoals(response.data.personal_goals);
+                setAccessToken(response.data._access_token);
+            } catch (error) {
+                console.error("Error fetching user session:", error.message);
+            }
+        };
+        fetchData();
+    }, []);
 
-
-  return (
-    <UserContext.Provider value={{ user, setUser, selectedGoal, setSelectedGoal, personalGoals, setPersonalGoals}}>
-      {children}
-    </UserContext.Provider>
-  );
+    return (
+        <UserContext.Provider
+            value={{
+                user,
+                setUser,
+                selectedGoal,
+                setSelectedGoal,
+                personalGoals,
+                setPersonalGoals,
+                accessToken
+            }}
+        >
+            {children}
+        </UserContext.Provider>
+    );
 };
 
 export { UserContext, UserProvider };
