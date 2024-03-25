@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
@@ -27,9 +27,9 @@ function Home() {
 
     // Accounts, fetched from Plaid, used to find savings account and set as remaining left to spend for the month
     const [accounts, setAccounts] = useState([]);
-    const savingsAccounts = accounts.filter(
-        (account) => account.subtype === "savings"
-    );
+    // const savingsAccounts = accounts.filter(
+    //     (account) => account.subtype === "savings"
+    // );
 
     // Transactions from Plaid, used to calculate how much was spent during the past month
     const [transactions, setTransactions] = useState([]);
@@ -40,7 +40,7 @@ function Home() {
     // const [aIData, setAIData] = useState({})
 
     const handleNavigateToGoalsClick = () => {
-        navigate("/goals"); // Navigates to /goals route when clicked
+        navigate("/goal-selection"); // Navigates to /goals route when clicked
     };
 
     // -------------------------------------------
@@ -110,6 +110,29 @@ function Home() {
             }
         } catch (error) {
             console.error("Error fetching transactions:", error);
+        }
+    };
+
+    const unicodeToEmoji = (unicodeStr) => {
+        try {
+            // Remove the "U+" prefix if present, and trim any whitespace
+            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
+            const codePoint = parseInt(cleanedUnicodeStr, 16);
+
+            // Check if the conversion resulted in a valid number
+            if (isNaN(codePoint)) {
+                console.error("Invalid Unicode value:", unicodeStr);
+                return "🚫"; // Optionally return a placeholder or empty string
+            }
+
+            return String.fromCodePoint(codePoint);
+        } catch (error) {
+            console.error(
+                "Error converting Unicode to emoji:",
+                unicodeStr,
+                error
+            );
+            return "🚫"; // Optionally return a placeholder or empty string
         }
     };
 
@@ -353,42 +376,52 @@ function Home() {
                                         direction='row'
                                         spacing={1}
                                         alignItems='left'
+                                        justifyContent='space-between'
                                         key={goal.id}
                                     >
-                                        <Avatar
-                                            sx={{
-                                                width: "30px",
-                                                height: "30px",
-                                                border: "2px solid #ccc",
-                                                borderRadius: "50%",
-                                                backgroundColor: "transparent",
-                                                backgroundClip: "padding-box",
-                                            }}
+                                        <Stack
+                                            direction='row'
+                                            spacing={1}
+                                            alignItems='center'
                                         >
-                                            {!isNaN(goal.emoji)
-                                                ? String.fromCodePoint(
-                                                      goal.emoji
-                                                  )
-                                                : ""}
-                                        </Avatar>
-                                        <Typography
-                                            sx={{
-                                                color: "black",
-                                                alignItems: "center",
-                                                fontFamily: "TT Commons",
-                                                fontSize: "14px",
-                                                lineHeight: "30px",
-                                            }}
+                                            <Avatar
+                                                sx={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                    border: "2px solid #ccc",
+                                                    borderRadius: "50%",
+                                                    backgroundColor:
+                                                        "transparent",
+                                                    backgroundClip:
+                                                        "padding-box",
+                                                }}
+                                            >
+                                                {unicodeToEmoji(goal.emoji)}
+                                            </Avatar>
+                                            <Typography
+                                                sx={{
+                                                    color: "black",
+                                                    alignItems: "center",
+                                                    fontFamily: "TT Commons",
+                                                    fontSize: "14px",
+                                                    lineHeight: "30px",
+                                                }}
+                                            >
+                                                {goal.name}
+                                            </Typography>
+                                        </Stack>
+                                        <Link
+                                            to={`/goals-progress/personal/${goal.id}`}
                                         >
-                                            {goal.name}
-                                        </Typography>
-                                        <img
-                                            src={arrow_forward}
-                                            alt='Arrow forward'
-                                            style={{
-                                                marginLeft: "auto",
-                                            }}
-                                        />
+                                            <img
+                                                src={arrow_forward}
+                                                alt='Arrow forward'
+                                                style={{
+                                                    marginLeft: "auto",
+                                                    cursor: "pointer",
+                                                }}
+                                            />
+                                        </Link>
                                     </Stack>
                                 ))
                             ) : (
