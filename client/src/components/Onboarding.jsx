@@ -2,14 +2,12 @@ import { React, useState, useContext } from "react";
 import { Container, ThemeProvider, createTheme } from "@mui/system";
 import pigbank from "../assets/pigbank.svg";
 import { Button, ToggleButtonGroup, ToggleButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import PlaidLinkButton from "./PlaidLinkButton";
 import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const Onboarding = () => {
-  const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
 
   const [accessToken, setAccessToken] = useState("");
@@ -17,7 +15,7 @@ const Onboarding = () => {
   const { user, setUser } = useContext(UserContext);
 
   const handleAccessToken = (token) => {
-    setAccessToken(token);
+    setAccessToken(token); 
     fetch(`/users/${user.id}`, {
       method: "PATCH",
       headers: {
@@ -27,13 +25,28 @@ const Onboarding = () => {
         _access_token: token,
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("User updated successfully:", data);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to update user.');
+        }
+        return response.json(); // Parse the response from the PATCH request
+      })
+      .then((patchData) => {
+        console.log("User updated successfully:", patchData);
+        return fetch('/check_session');
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch user session.');
+        }
+        return response.json(); // Parse the response to get the updated user data
+      })
+      .then((updatedUserData) => {
+        setUser(updatedUserData); // Update the user context with the new data
       })
       .catch((error) => console.error("Error updating user:", error));
   };
-
+  
   if (accessToken) {
     return <Navigate to="/home" replace={true} />;
   }
@@ -51,10 +64,6 @@ const Onboarding = () => {
     setSelected(newGoals);
     console.log(newGoals);
   };
-
-  // const handleClick =()=> {
-  //     navigate("/plaid")
-  // }
 
   return (
     <Container>

@@ -9,18 +9,24 @@ import BottomNav from "./components/BottomNav";
 import LogInForm from "./components/LogInForm";
 import Home from "./components/Home";
 import {Routes, Route, useLocation} from 'react-router-dom'
-import Goals from './components/Goals'
+import GoalSelection from './components/GoalSelection'
 import { UserProvider } from "./context/UserContext";
 import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
 import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
+import Insights from "./components/Insights"
 
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import GoalForm from './components/GoalForm'
 
 function App() {
     const location = useLocation();
-    const showBottomNav = ["/onboarding","/home","/goals", "/insights","/group"].includes(location.pathname);
+    const showBottomNav = ["/home","/goals","/insights","/group"].includes(location.pathname);
     return (
       <UserProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container>
             <AppHeader />
             <Routes>
@@ -29,15 +35,17 @@ function App() {
                 <Route path='/log-in' element={<LogInForm />} />
                 <Route path='/onboarding' element={<Onboarding />} />
                 <Route path='/home' element={<Home />} />
-                <Route path="/goals" element={<Goals />} />
+                <Route path="/goal-selection" element={<GoalSelection />} />
                 <Route path="/plaid" element={<PlaidButtonsContainer />} />
                 <Route path="/goals-progress/personal/:id" element={<PersonalGoalsInsights />}/>
                 <Route path="/goals-progress" element={<GoalsProgressView />} />
                 <Route path='/' element={<WelcomePage />} />
+                <Route path="/insights" element={<Insights />} />
+                <Route path="/goal-form" element={<GoalForm />} />
             </Routes>
             {showBottomNav && <BottomNav />}
-
         </Container>
+        </LocalizationProvider>
       </UserProvider>
 
     );

@@ -1,172 +1,234 @@
 @font-face {
-  font-family: 'TT Commons';
-  font-weight: bold;
-  src: local('TT Commons Bold'), url('../public/fonts/appFont/TT\ Commons\ Bold.otf') format('opentype');
+    font-family: "TT Commons";
+    font-weight: bold;
+    src: local("TT Commons Bold"),
+        url("../public/fonts/appFont/TT\ Commons\ Bold.otf") format("opentype");
 }
 
 @font-face {
-  font-family: 'TT Commons';
-  src: local('TT Commons Regular'), url('../public/fonts/appFont/TT\ Commons\ Regular.otf') format('opentype');
+    font-family: "TT Commons";
+    src: local("TT Commons Regular"),
+        url("../public/fonts/appFont/TT\ Commons\ Regular.otf")
+            format("opentype");
 }
 
-.onboarding-header-container{
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-top: 24px;
-  margin-bottom: 24px;
+.onboarding-header-container {
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 
-.headline-big{
-  font-family: "TT Commons", sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  line-height: 32px;
-  font-style: normal;
-  word-wrap: break-word;
-  margin-top: 0px;
+.headline-big {
+    font-family: "TT Commons", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 32px;
+    font-style: normal;
+    word-wrap: break-word;
+    margin-top: 0px;
 }
 
-.gray-subtext{
-  font-family: "TT Commons", sans-serif;
-  color: #718291;
-  font-size: 16px;
-  font-weight: 200;
-  margin-top: 0px;
-  line-height: 22px;
-  margin-bottom: 0px;
+.gray-subtext {
+    font-family: "TT Commons", sans-serif;
+    color: #718291;
+    font-size: 16px;
+    font-weight: 200;
+    margin-top: 0px;
+    line-height: 22px;
+    margin-bottom: 0px;
 }
 
 .css-1oqqzyl-MuiContainer-root {
-  padding: 0px;
+    padding: 0px;
 }
-
 
 .app-header {
-  padding: 10px;
-  margin-top:auto;
-  margin-bottom: auto;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.08);
-  height: 60px;
-  padding-left: 24px;
-  padding-right: 24px;
+    padding: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.08);
+    height: 60px;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
-.onboard-header{
-  display: flex;
+.onboard-header {
+    display: flex;
 }
 
-.center-logo{
-  flex: 0 1 auto;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+.center-logo {
+    flex: 0 1 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .css-1oqqzyl-MuiContainer-root {
-  padding: 0px!important;
+    padding: 0px !important;
 }
 
-.icons{
-  width: 32px;
-  height: 32px;
+.icons {
+    width: 32px;
+    height: 32px;
 }
 
-.headline-icon{
-  height: 48px;
-  width: 48px;
-  margin-right: 16px;
+.headline-icon {
+    height: 48px;
+    width: 48px;
+    margin-right: 16px;
 }
 
-
-
-.MuiToggleButton-primary{
-border-radius:8px!important;
-border: 1px solid#DEE5EB!important;
-background:#F2F5F8!important;
-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
-font-family: 'TT Commons',sans-serif;
-width: 100%;
-margin-bottom: 16px!important;
-height: 50px;
+.MuiToggleButton-primary {
+    border-radius: 8px !important;
+    border: 1px solid#DEE5EB !important;
+    background: #f2f5f8 !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    font-family: "TT Commons", sans-serif;
+    width: 100%;
+    margin-bottom: 16px !important;
+    height: 50px;
 }
 
-
-
-.Mui-selected{
-  background-color: #3398FF!important;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
-  border-radius:8px;
-  border: 1px solid#DEE5EB!important;
+.Mui-selected {
+    background-color: #3398ff !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    border: 1px solid#DEE5EB !important;
 }
 
-.Mui-selected .button-text{
-  color: white!important;
-
+.Mui-selected .button-text {
+    color: white !important;
 }
 
-.button-text{
-  font-family: "TT Commons", sans-serif!important;
-  text-transform: none;
-  font-size: 16px;
-  color: black;
+.button-text {
+    font-family: "TT Commons", sans-serif !important;
+    text-transform: none;
+    font-size: 16px;
+    color: black;
 }
 
-.goal-section{
-  display: grid;
-  padding-left: 24px;
-  padding-right: 24px;
+.goal-section {
+    display: grid;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root	{
-  width: 100%;
-  background-color: #3398FF!important;
-  border-radius: 8px!important;
-border: 1px solid #DEE5EB!important;
-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08)!important;
-height: 60px;
-padding: 8px;
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+    width: 100%;
+    background-color: #3398ff !important;
+    border-radius: 8px !important;
+    border: 1px solid #dee5eb !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08) !important;
+    height: 60px;
+    padding: 8px;
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root span{
-  color: white;
-  text-transform: none!important;
+.css-sghohy-MuiButtonBase-root-MuiButton-root span {
+    color: white;
+    text-transform: none !important;
 }
 
-
-.goal-continue{
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-top: 24px;
+.goal-continue {
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-top: 24px;
 }
 
-.MuiBottomNavigation-root{
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
+.MuiBottomNavigation-root {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
 }
 
-.skip{
-  position: fixed;
-  right: 24px;
-  top: 24px;
-  font-family: "TT Commons", sans-serif;
-  font-size: 16px;
+.skip {
+    position: fixed;
+    right: 24px;
+    top: 24px;
+    font-family: "TT Commons", sans-serif;
+    font-size: 16px;
 }
 
-.MuiBottomNavigationAction-label{
-  display: none!important;
+.MuiBottomNavigationAction-label {
+    display: none !important;
 }
 
-.MuiBottomNavigation-root .Mui-selected{
-  background-color: #F2F5F8!important;
+.MuiBottomNavigation-root .Mui-selected {
+    background-color: #f2f5f8 !important;
 }
 
 button span {
-  font-family: "TT Commons", sans-serif;
-  font-size: 16px;
-  
+    font-family: "TT Commons", sans-serif;
+    font-size: 16px;
+}
+
+.home-margin {
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+.home-top {
+    line-height: 0.5;
+}
+
+.home-container {
+    margin-top: 20px;
+    margin-left: 0;
+    padding: 0;
+}
+
+.home-container > p {
+    margin: 0;
+    padding: 0;
+}
+
+.home-container h1,
+.home-container h2,
+.home-container p {
+    text-align: left;
+}
+
+.home-top .home-container {
+    display: flex;
+    align-items: column;
+}
+
+.home-container p {
+    margin-left: 0px;
+}
+
+.home_graph {
+    /* line-height: 0.1;
+    border: 1px solid #ccc;
+    border-radius: 5px; */
+    padding: 10px;
+    margin-top: 0px;
+}
+
+.green-text {
+    color: #009933;
+}
+
+.home_goals {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0;
+}
+
+.home_goals_button {
+    font-size: 12px;
+    padding: 6px 12px;
+    align-self: flex-start;
 }

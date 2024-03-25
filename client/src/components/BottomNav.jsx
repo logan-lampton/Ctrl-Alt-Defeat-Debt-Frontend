@@ -23,9 +23,9 @@ const BottomNav = () => {
         case 'goals':
             navigate('/goals');
             break;
-        // case 'insights':
-        //     navigate('/insights')
-        //     break;
+        case 'insights':
+            navigate('/insights')
+            break;
         // case 'group':
         //     navigate('/group')
         default:
