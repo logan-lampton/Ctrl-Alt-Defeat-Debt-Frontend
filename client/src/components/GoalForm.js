@@ -10,6 +10,7 @@ import ArrowDropDown from '../assets/arrow_drop_down.svg'
 import BottomNav from './BottomNav'
 import GoalCongrats from'../assets/GoalsCongrats.svg'
 import './styles/GoalForm.css'
+import AICall from './AICall';
 
 
 export default function GoalForm({ setEditing }) {
@@ -82,6 +83,7 @@ useEffect(() => {
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            <AICall />
             <Container>
                 <div className="goal-form-container">
                     <div>
@@ -177,7 +179,6 @@ useEffect(() => {
                                 </div>             
                                     
                         </Modal>
-
                 </div>  
             </Container>
             <BottomNav />
