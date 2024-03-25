@@ -114,8 +114,6 @@ function Home() {
             console.error("Error fetching transactions:", error);
         }
     };
-    console.log("Transactions", transactions);
-    console.log("Savings account", savingsAccounts);
 
     //   const fetchAIData = async () => {
     //     try {
@@ -156,10 +154,6 @@ function Home() {
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
     remainingMoney = totalEarned - totalSpent + savingsAvailableBalance;
-
-    console.log("earned", totalEarned);
-    console.log("spent", totalSpent);
-    console.log("remaining money", remainingMoney);
 
     // onTrack logic
     const checkOnTrack = () => {
@@ -283,7 +277,15 @@ function Home() {
                     >
                         ${totalSpent}
                     </Typography>
-                    <p className='green-text'>{onTrack} this month</p>
+                    <p
+                        className={
+                            onTrack === "Over budget"
+                                ? "red-text"
+                                : "green-text"
+                        }
+                    >
+                        {onTrack} this month
+                    </p>
                     <Stack direction='row' sx={{ width: "100%" }}>
                         <Box width='100%'>
                             <SparkLineChart
