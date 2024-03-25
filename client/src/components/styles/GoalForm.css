@@ -1,0 +1,120 @@
+body{
+    overflow-x: hidden; 
+    overflow-y: hidden;
+}
+
+.goal-form-container{
+    width: 430px;
+    height: 940px;
+    display: flex;
+    flex-grow: 0;
+    font-family: TT Commons Regular;
+    text-align: left;
+    color: #000;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0 0 8px;
+
+    
+}
+
+.arrow-back{
+    width: 24px;
+    height: 24px;
+    margin: 0px 28px 0px 20px;
+}
+
+
+
+.goal-form-header{
+    width: 382px;
+    height: 64px;
+    flex-grow: 0;
+    font-family: TT Commons Bold;
+    font-size: 28px;
+    line-height: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 24px 28px 8px 20px;
+    padding: 0;
+        
+}
+
+.goal-form-subtext{
+    font-family: TT Commons Regular;
+    width: 382px;
+    height: 32px;
+    flex-grow: 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    margin: 0px 28px 24px 28px;
+
+}
+
+
+.emoji-input-container {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    margin: 0px 24px 0px 20px;
+    padding: 0;
+  }
+  
+  
+  input[type=emoji] {
+    display: inline-block;
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    border: solid 2px #DEE5EB;
+    margin-right: 10px; 
+    text-align: center;
+    flex-grow: 0;
+    margin: 0 8px 0 0;
+    padding: 14.7px 18.7px 17.3px 13.3px;
+    font-size: 32px;
+   
+    }
+
+.goal-form-text-input {
+    width: 382px;
+    padding: 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    margin: 24px 20px 421px 20px;
+    padding: 8px;
+    gap: 24px;
+    
+}
+
+.goal-form-text-field{
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+
+.currency-input-container {
+    position: relative;
+}
+
+.dollar-sign {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #000;
+    pointer-events: none; /* Prevents clicking on the dollar sign */
+}

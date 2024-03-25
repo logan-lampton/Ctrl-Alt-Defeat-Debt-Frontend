@@ -4,8 +4,9 @@ import axios from "axios";
 const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [personalGoals, setPersonalGoals] = useState([]);
+  const [user, setUser] = useState(null);
+  const [personalGoals, setPersonalGoals] = useState([])
+  const [selectedGoal, setSelectedGoal] = useState(null)
 
     const [accessToken, setAccessToken] = useState("");
 
@@ -28,9 +29,11 @@ const UserProvider = ({ children }) => {
             value={{
                 user,
                 setUser,
+                selectedGoal,
+                setSelectedGoal,
                 personalGoals,
                 setPersonalGoals,
-                accessToken,
+                accessToken
             }}
         >
             {children}

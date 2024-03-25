@@ -20,11 +20,6 @@ export default function UserConfirm() {
 
   const { user, setUser } = useContext(UserContext);
 
-  console.log(user._access_token);
-//   const handleAccessToken = (token) => {
-//     setAccessToken(token);
-//   };
- 
   const handleOTPChange = (event) => {
     setOtp(event.target.value);
   };
