@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
@@ -372,43 +372,56 @@ function Home() {
                         <Stack direction='column' spacing={1} alignItems='left'>
                             {user ? (
                                 user.personal_goals.slice(0, 5).map((goal) => (
-                                    <Stack
-                                        direction='row'
-                                        spacing={1}
-                                        alignItems='left'
-                                        key={goal.id}
+                                    <Link
+                                        to={`/goals-progress/personal/${goal.id}`}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            textDecoration: "none",
+                                        }}
                                     >
-                                        <Avatar
-                                            sx={{
-                                                width: "30px",
-                                                height: "30px",
-                                                border: "2px solid #ccc",
-                                                borderRadius: "50%",
-                                                backgroundColor: "transparent",
-                                                backgroundClip: "padding-box",
-                                            }}
+                                        <Stack
+                                            direction='row'
+                                            spacing={1}
+                                            alignItems='left'
+                                            key={goal.id}
                                         >
-                                            {unicodeToEmoji(goal.emoji)}
-                                        </Avatar>
-                                        <Typography
-                                            sx={{
-                                                color: "black",
-                                                alignItems: "center",
-                                                fontFamily: "TT Commons",
-                                                fontSize: "14px",
-                                                lineHeight: "30px",
-                                            }}
-                                        >
-                                            {goal.name}
-                                        </Typography>
+                                            <Avatar
+                                                sx={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                    border: "2px solid #ccc",
+                                                    borderRadius: "50%",
+                                                    backgroundColor:
+                                                        "transparent",
+                                                    backgroundClip:
+                                                        "padding-box",
+                                                }}
+                                            >
+                                                {unicodeToEmoji(goal.emoji)}
+                                            </Avatar>
+                                            <Typography
+                                                sx={{
+                                                    color: "black",
+                                                    alignItems: "center",
+                                                    fontFamily: "TT Commons",
+                                                    fontSize: "14px",
+                                                    lineHeight: "30px",
+                                                }}
+                                            >
+                                                {goal.name}
+                                            </Typography>
+                                        </Stack>
                                         <img
                                             src={arrow_forward}
                                             alt='Arrow forward'
                                             style={{
-                                                marginLeft: "auto",
+                                                marginRight: "8px",
+                                                cursor: "pointer",
                                             }}
                                         />
-                                    </Stack>
+                                    </Link>
                                 ))
                             ) : (
                                 <Stack
