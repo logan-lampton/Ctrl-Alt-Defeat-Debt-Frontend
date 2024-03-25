@@ -6,6 +6,7 @@ const UserContext = createContext({});
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [personalGoals, setPersonalGoals] = useState([])
+  const [groupGoals, setGroupGoals] = useState([])
   const [selectedGoal, setSelectedGoal] = useState(null)
 
     const [accessToken, setAccessToken] = useState("");
@@ -17,6 +18,12 @@ const UserProvider = ({ children }) => {
                 setUser(response.data);
                 setPersonalGoals(response.data.personal_goals);
                 setAccessToken(response.data._access_token);
+            } catch (error) {
+                console.error("Error fetching user session:", error.message);
+            }
+            try {
+                const response = await axios.get("/goals");
+                setGroupGoals(response.data)
             } catch (error) {
                 console.error("Error fetching user session:", error.message);
             }
@@ -33,6 +40,8 @@ const UserProvider = ({ children }) => {
                 setSelectedGoal,
                 personalGoals,
                 setPersonalGoals,
+                groupGoals,
+                setGroupGoals,
                 accessToken
             }}
         >

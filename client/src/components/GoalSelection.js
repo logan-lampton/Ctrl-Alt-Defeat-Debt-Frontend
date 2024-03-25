@@ -7,10 +7,10 @@ import './styles/Goals.css';
 import { useNavigate } from 'react-router-dom';
 
 const goalsData = [
-    { emoji: '🛳️', name: "Save up for a cruise" },
+    { emoji: '🛳️', name: "Save up for a cruise", },
     { emoji: '✈️', name: "Save up for a vacation" },
     { emoji: '💰', name: "Have an emergency cushion" },
-    { emoji: '🎉', name: "Save for a large purchase" },
+    { emoji: '🎉', name: "Save for a large purchase"},
     { emoji: '👨🏽‍🦳', name: "Build a nest egg" },
     { emoji: '✏️', name: "Create a unique goal" },
 ];
@@ -49,7 +49,7 @@ export default function GoalSelection() {
                 </List>
                 {editing && selectedGoal && (
                     <div className="edit-form">
-                        <GoalForm selectedGoal={selectedGoal} />
+                        <GoalForm selectedGoal={selectedGoal} setEditing={setEditing} />
                     </div>
                 )}
             </div>
