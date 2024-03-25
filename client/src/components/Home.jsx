@@ -35,7 +35,7 @@ function Home() {
     const [transactions, setTransactions] = useState([]);
 
     // state for whether spending is on track
-    const [onTrack, setOnTrack] = useState("On track");
+    const [onTrack, setOnTrack] = useState("");
 
     // const [aIData, setAIData] = useState({})
 
@@ -56,11 +56,18 @@ function Home() {
         fetchAccounts();
         // Fetching Plaid transaction data
         fetchTransactions();
+        // Checking if user is over budget
+        checkOnTrack();
         // fetchAIData();
 
         // Fetching the user insights; will uncomment when route is properly set up
         // fetchInsights();
     }, [accessToken]);
+
+    // // Checking if user is over budget
+    // useEffect(() => {
+    //     checkOnTrack();
+    // }, [transactions]);
 
     const fetchAccounts = async () => {
         if (!accessToken) {
@@ -140,6 +147,19 @@ function Home() {
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
     remainingMoney = totalEarned - totalSpent;
+
+    console.log("earned", totalEarned);
+    console.log("spent", totalSpent);
+    console.log("remaining money", remainingMoney);
+
+    // onTrack logic
+    const checkOnTrack = () => {
+        if (remainingMoney < 0) {
+            setOnTrack("Over budget");
+        } else {
+            setOnTrack("On track");
+        }
+    };
 
     // Constructing the data array for the SparkLineChart
     const sparkLineData = [];
