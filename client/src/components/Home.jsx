@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
@@ -14,7 +14,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import arrow_forward from "../assets/arrow_forward.svg";
-import add_circle_outline from "../assets/add_circle_outline.svg"
+import add_circle_outline from "../assets/add_circle_outline.svg";
 
 function Home() {
     const { user, setUser, personalGoals, setPersonalGoals, accessToken } =
@@ -40,14 +40,10 @@ function Home() {
     // const [aIData, setAIData] = useState({})
 
     const handleNavigateToGoalsClick = () => {
-      navigate("/goals"); // Navigates to /goals route when clicked
+        navigate("/goals"); // Navigates to /goals route when clicked
     };
 
-
     // -------------------------------------------
-
-    // state to show only the top three goals
-    const [topGoals, setTopGoals] = useState([]);
 
     const [insights, setInsights] = useState("Insight 1 and Insight 2");
     // Insights are each in their own boxes
@@ -117,17 +113,17 @@ function Home() {
         }
     };
 
-  //   const fetchAIData = async () => {
-  //     try {
-  //         const response = await axios.post("/openai/response", {
-  //             access_token: accessToken,
-  //         });
-  //         console.log("AI Data", response.data);
-  //         setAIData(response.data);
-  //     } catch (error) {
-  //         console.error("Error:", error);
-  //     }
-  // };
+    //   const fetchAIData = async () => {
+    //     try {
+    //         const response = await axios.post("/openai/response", {
+    //             access_token: accessToken,
+    //         });
+    //         console.log("AI Data", response.data);
+    //         setAIData(response.data);
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //     }
+    // };
 
     // Logic for storing total earned and spent
     let totalEarned = 0;
@@ -135,13 +131,12 @@ function Home() {
     let remainingMoney = 0;
 
     transactions.forEach((transaction) => {
-      if (transaction.category.includes('Debit')) {
-        totalEarned += transaction.amount;
-      }
-      else {
-        totalSpent += Math.abs(transaction.amount);
-      }
-    })
+        if (transaction.category.includes("Debit")) {
+            totalEarned += transaction.amount;
+        } else {
+            totalSpent += Math.abs(transaction.amount);
+        }
+    });
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
     remainingMoney = totalEarned - totalSpent;
@@ -149,9 +144,9 @@ function Home() {
     // Constructing the data array for the SparkLineChart
     const sparkLineData = [];
     let currentAmount = 0;
-    
+
     transactions.forEach((transaction) => {
-        if (transaction.category.includes('Debit')) {
+        if (transaction.category.includes("Debit")) {
             currentAmount -= Math.abs(transaction.amount);
         } else {
             currentAmount += Math.abs(transaction.amount);
@@ -159,29 +154,7 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
-
-// -------------------------------------------
-
-
-    // function to fetch goals
-    // const fetchGoals = async () => {
-    //     try {
-    //         const response = await axios.get("http://127.0.0.1:5000/goals");
-    //         setGoals(response.data);
-    //     } catch (error) {
-    //         console.error("Error fetching goals: ", error);
-    //     }
-    //     console.log("Goals: ", goals);
-    // };
-
-    // Function to display the three biggest goals
-    const largestGoals = async (goals) => {
-        const sortedGoals = goals
-            .slice()
-            .sort((a, b) => b.saving_target - a.saving_target);
-        const threeLargestGoals = sortedGoals.slice(0, 3);
-        setTopGoals(threeLargestGoals);
-    };
+    // -------------------------------------------
 
     // function to fetch insights, need the correct route
     const fetchInsights = async () => {
@@ -204,20 +177,20 @@ function Home() {
                         You have
                     </p>
                     {/* {savingsAccounts.map((account) => ( */}
-                        <Typography
-                            // key={account.account_id}
-                            variant='h5'
-                            sx={{
-                                fontFamily: "TT Commons",
-                                color: "Black",
-                                fontWeight: "normal",
-                                display: "inline",
-                                margin: "0 5px",
-                            }}
-                        >
-                          ${remainingMoney}
-                            {/* ${account.balances.available} */}
-                        </Typography>
+                    <Typography
+                        // key={account.account_id}
+                        variant='h5'
+                        sx={{
+                            fontFamily: "TT Commons",
+                            color: "Black",
+                            fontWeight: "normal",
+                            display: "inline",
+                            margin: "0 5px",
+                        }}
+                    >
+                        ${remainingMoney}
+                        {/* ${account.balances.available} */}
+                    </Typography>
                     {/* ))} */}
                     <p style={{ display: "inline", margin: "0 5px" }}>
                         left to spend this month
@@ -227,7 +200,7 @@ function Home() {
             <Container
                 style={{
                     width: "382px",
-                    height: "228px",
+                    height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
                     border: "1px solid #ccc",
@@ -242,14 +215,14 @@ function Home() {
                         <p>Spending</p>
                     </div>
                     <img
-                      src={arrow_forward}
-                      alt="Arrow forward"
-                      style={{
-                          position: "absolute",
-                          top: 23,
-                          right: 8,
-                          zIndex: 1,
-                      }}
+                        src={arrow_forward}
+                        alt='Arrow forward'
+                        style={{
+                            position: "absolute",
+                            top: 23,
+                            right: 8,
+                            zIndex: 1,
+                        }}
                     />
                     <Typography
                         variant='h5'
@@ -281,7 +254,7 @@ function Home() {
             <Container
                 style={{
                     width: "382px",
-                    height: "200px",
+                    height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
                     border: "1px solid #ccc",
@@ -370,23 +343,81 @@ function Home() {
                         sx={{
                             marginLeft: "15px",
                             marginTop: "16px",
-                            marginBottom: "0px",
+                            marginBottom: "5px",
                         }}
                     >
-                        <Stack onClick={() => handleNavigateToGoalsClick()} direction='row' spacing={1} alignItems='center'>
-                        <img 
-                          src={add_circle_outline}
-                          alt="Add goal"
-                        />
-                            <Typography>
-                                <p
-                                    style={{
-                                        margin: "0",
-                                    }}
+                        <Stack direction='column' spacing={1} alignItems='left'>
+                            {user ? (
+                                user.personal_goals.slice(0, 5).map((goal) => (
+                                    <Stack
+                                        direction='row'
+                                        spacing={1}
+                                        alignItems='left'
+                                        key={goal.id}
+                                    >
+                                        <Avatar
+                                            sx={{
+                                                width: "30px",
+                                                height: "30px",
+                                                border: "2px solid #ccc",
+                                                borderRadius: "50%",
+                                                backgroundColor: "transparent",
+                                                backgroundClip: "padding-box",
+                                            }}
+                                        >
+                                            {!isNaN(goal.emoji)
+                                                ? String.fromCodePoint(
+                                                      goal.emoji
+                                                  )
+                                                : ""}
+                                        </Avatar>
+                                        <Typography
+                                            sx={{
+                                                color: "black",
+                                                alignItems: "center",
+                                                fontFamily: "TT Commons",
+                                                fontSize: "14px",
+                                                lineHeight: "30px",
+                                            }}
+                                        >
+                                            {goal.name}
+                                        </Typography>
+                                        <img
+                                            src={arrow_forward}
+                                            alt='Arrow forward'
+                                            style={{
+                                                marginLeft: "auto",
+                                            }}
+                                        />
+                                    </Stack>
+                                ))
+                            ) : (
+                                <Stack
+                                    onClick={() => handleNavigateToGoalsClick()}
+                                    direction='row'
+                                    spacing={1}
+                                    alignItems='center'
                                 >
-                                    Create a savings goal
-                                </p>
-                            </Typography>
+                                    <img
+                                        src={add_circle_outline}
+                                        alt='Add goal'
+                                        style={{
+                                            cursor: "pointer",
+                                            width: "24px",
+                                            height: "24px",
+                                        }}
+                                    />
+                                    <Typography>
+                                        <p
+                                            style={{
+                                                margin: "0",
+                                            }}
+                                        >
+                                            Create a savings goal
+                                        </p>
+                                    </Typography>
+                                </Stack>
+                            )}
                         </Stack>
                     </Grid>
                 </Grid>
@@ -394,7 +425,7 @@ function Home() {
             <Container
                 style={{
                     width: "382px",
-                    height: "150px",
+                    height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
                     border: "1px solid #ccc",
@@ -418,16 +449,16 @@ function Home() {
                         </Stack>
                     </Grid>
                     <Grid item xs={6} textAlign='right'>
-                    <img
-                      src={arrow_forward}
-                      alt="Arrow forward"
-                      style={{
-                          position: "absolute",
-                          top: 23,
-                          right: 8,
-                          zIndex: 1,
-                      }}
-                    />
+                        <img
+                            src={arrow_forward}
+                            alt='Arrow forward'
+                            style={{
+                                position: "absolute",
+                                top: 23,
+                                right: 8,
+                                zIndex: 1,
+                            }}
+                        />
                     </Grid>
                     <Grid
                         item
@@ -439,7 +470,7 @@ function Home() {
                     >
                         <Stack direction='row' spacing={1}>
                             <Typography>
-                                <p style={{ margin: "0" }}>
+                                <p style={{ margin: "5px" }}>
                                     Insights will begin populating soon.
                                 </p>
                             </Typography>
