@@ -13,6 +13,7 @@ import GoalSelection from './components/GoalSelection'
 import { UserProvider } from "./context/UserContext";
 import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
+import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
 import Insights from "./components/Insights"
 
 
@@ -32,12 +33,13 @@ function App() {
                 <Route path='/user-confirm' element={<UserConfirm />} />
                 <Route path='/sign-up' element={<SignUpForm />} />
                 <Route path='/log-in' element={<LogInForm />} />
-                <Route path='/' element={<WelcomePage />} />
                 <Route path='/onboarding' element={<Onboarding />} />
                 <Route path='/home' element={<Home />} />
                 <Route path="/goal-selection" element={<GoalSelection />} />
                 <Route path="/plaid" element={<PlaidButtonsContainer />} />
+                <Route path="/goals-progress/personal/:id" element={<PersonalGoalsInsights />}/>
                 <Route path="/goals-progress" element={<GoalsProgressView />} />
+                <Route path='/' element={<WelcomePage />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/goal-form" element={<GoalForm />} />
             </Routes>

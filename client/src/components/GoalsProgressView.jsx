@@ -1,211 +1,238 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Box,
-  Typography,
-  LinearProgress,
-  Paper,
-  Divider,
-} from "@mui/material";
+import React, { useState, useEffect, useContext } from "react";
+import { Container, Box, Typography, LinearProgress, Paper, Divider, Card, Button} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Plus from "../assets/add_circle_outline.svg";
 import "./styles/Goals.css";
 import ArrowForward from "../assets/arrow_forward.svg";
+import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export default function SavingsGoals() {
-  const [goals, setGoals] = useState([]);
+    const { personalGoals, setPersonalGoals, groupGoals, setGroupGoals } = useContext(UserContext)
+    
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    useEffect(() => {
+        fetch("/goals")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            }).then((data) => {
+                // Assuming the data is an array of goal objects
+                setGroupGoals(data)
+            }).catch((error) => {
+                console.error("There has been a problem with your fetch operation:", error);
+            });
 
-  useEffect(() => {
-    fetch("/goals")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        fetch("/personal_goals")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            }).then((data) => {
+                // Assuming the data is an array of goal objects
+                setPersonalGoals(data)
+            }).catch((error) => {
+                console.error("There has been a problem with your fetch operation:", error);
+            });
+    }, [setGroupGoals, setPersonalGoals]);
+
+    const calculateProgress = (saved, total) => (saved / total) * 100;
+
+    const unicodeToEmoji = (unicodeStr) => {
+        try {
+            // Remove the "U+" prefix if present, and trim any whitespace
+            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
+            const codePoint = parseInt(cleanedUnicodeStr, 16);
+
+            // Check if the conversion resulted in a valid number
+            if (isNaN(codePoint)) {
+                console.error("Invalid Unicode value:", unicodeStr);
+                return "🚫"; // Optionally return a placeholder or empty string
+            }
+
+            return String.fromCodePoint(codePoint);
+        } catch (error) {
+            console.error("Error converting Unicode to emoji:", unicodeStr, error);
+            return "🚫"; // Optionally return a placeholder or empty string
         }
-        return response.json();
-      })
-      .then((data) => {
-        // Assuming the data is an array of goal objects
-        setGoals(
-          data.map((goal) => ({
-            id: goal.id,
-            title: goal.name,
-            saved: 33, // This should be a state that tracks the saved amount
-            total: goal.saving_target,
-            emoji: goal.emoji,
-          }))
-        );
-      })
-      .catch((error) => {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      });
-  }, []);
+    };
 
-  const calculateProgress = (saved, total) => (saved / total) * 100;
+    const handleCreateGoalClick = () => {
+        navigate("/goals"); // Navigates to /goals route when clicked
+    };
 
-  const unicodeToEmoji = (unicodeStr) => {
-    try {
-      // Remove the "U+" prefix if present, and trim any whitespace
-      const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
-      const codePoint = parseInt(cleanedUnicodeStr, 16);
-
-      // Check if the conversion resulted in a valid number
-      if (isNaN(codePoint)) {
-        console.error("Invalid Unicode value:", unicodeStr);
-        return "🚫"; // Optionally return a placeholder or empty string
-      }
-
-      return String.fromCodePoint(codePoint);
-    } catch (error) {
-      console.error("Error converting Unicode to emoji:", unicodeStr, error);
-      return "🚫"; // Optionally return a placeholder or empty string
-    }
-  };
-
-  const handleCreateGoalClick = () => {
-    navigate("/goals"); // Navigates to /goals route when clicked
-  };
-
-  return (
-    <Container
-      style={{
-        width: "380px",
-        height: "932px",
-        flexGrow: "0",
-        padding: "0 0 8px",
-        overflow: "auto",
-      }}
-    >
-      <h1 style={{ padding: "8px" }}> View current goals or create a goal</h1>
-      <div style={{ fontSize: "16px" }}>
-        <p style={{ display: "inline", margin: "0 5px" }}>You have</p>
-        <h2 style={{ display: "inline", margin: "0 5px" }}>
-          ${goals.reduce((acc, goal) => acc + goal.saved, 0)}
-        </h2>
-        <p style={{ display: "inline", margin: "0 5px" }}>
-          saved towards your goals.
-        </p>
-      </div>
-      <Box my={3}>
-        <Typography variant="h6">Personal Goals</Typography>
-        {goals.map((goal) => (
-          <Paper
-            key={goal.id}
-            elevation={3}
-            style={{ padding: "20px", marginBottom: "20px" }}
-          >
-            <Typography
-              variant="subtitle2"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <div className="emoji-container">
-                {unicodeToEmoji(goal.emoji)}
-              </div>
-              {goal.title}
-              <div className="goal-arrow-container">
-                <img
-                  src={ArrowForward}
-                  style={{ marginTop: "5px" }}
-                  alt="ArrowForward"
-                />
-              </div>
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={calculateProgress(goal.saved, goal.total)}
-              style={{ height: "10px", borderRadius: "5px", marginTop: "10px" }}
-            />
-            <Box
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: "10px",
-              }}
-            >
-              <Typography variant="body2">{`${Math.round(
-                calculateProgress(goal.saved, goal.total)
-              )}% of Total Goal`}</Typography>
-              <Typography variant="body2">${goal.saved}</Typography>
+    return (
+        <Container 
+            sx={{         
+                height: "932px",
+                flexGrow: "0",
+                padding: "16px",
+                overflow: "auto",
+                paddingBottom: 2
+            }}
+        >
+            <h1 style={{ padding: "8px" }}> View current goals or create a goal</h1>
+            <div style={{ fontSize: "16px" }}>
+                <p style={{ display: "inline", margin: "0 5px" }}>You have saved</p>
+                <h2 style={{ display: "inline", margin: "0 5px" }}>
+                    $0
+                </h2>
+                <p style={{ display: "inline", margin: "0 5px" }}>
+                    towards your goals.
+                </p>
+            </div>
+            <Box my={3} sx={{ border: 1, padding: 2, borderRadius: 2, borderColor: "#DEE5EB" }}>
+                <Container sx={{ display: "flex", flexDirection: "row", marginBottom: 3 }}>
+                    <Container>
+                        <Typography variant="body" color={"#718291"} fontSize={20} >Personal Goals</Typography>
+                        <h2>$0</h2>
+                        <Typography variant="body" color={"#718291"}>Total Saved Across All Goals</Typography>
+                    </Container>
+                    <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                        <Button >
+                            <AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/>
+                        </Button>
+                    </Container>
+                </Container>
+                {personalGoals ? personalGoals.map((goal) => (
+                    <Box
+                        key={goal.id}
+                        elevation={0}
+                        className="border-2"
+                        style={{ marginBottom: "20px", outline: 2 }}
+                    >
+                        <Link to={`/goals-progress/personal/${goal.id}`} style={{ textDecoration: 'none', color: "black"}}>
+                            <Container
+                                sx={{ 
+                                    border: 1, 
+                                    borderRadius: 2, 
+                                    borderColor: "#DEE5EB", 
+                                    display: "flex", 
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "full",
+                                    paddingY: 2
+                                }}
+                            >
+                                <Container 
+                                    sx={{ 
+                                        display: "flex", 
+                                        width: "full", 
+                                        marginBottom: 2, 
+                                        alignItems: "center", 
+                                        paddingX: 0 
+                                    }} 
+                                >
+                                    <div className="emoji-container no-underline">{unicodeToEmoji(goal.emoji)}</div>
+                                    <div>{goal.name}</div>
+                                    <h2 className="goal-arrow-container">${goal.amount_saved}</h2>
+                                </Container>
+                                <Container>
+                                    <Container sx={{ display: "flex", width: "full", alignItems: "center", paddingX: 0 }} >
+                                        <Typography variant="body2" color="#388e3c">
+                                            {`${Math.round(calculateProgress(goal.amount_saved, goal.saving_target))}% of Total Goal`}
+                                        </Typography>
+                                        <div className="goal-arrow-container">
+                                            <img
+                                                src={ArrowForward}
+                                                style={{ marginTop: "5px" }}
+                                                alt="ArrowForward"
+                                            />
+                                        </div>
+                                    </Container>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={calculateProgress(goal.amount_saved, goal.saving_target)}
+                                        color={"success"}
+                                        style={{ 
+                                            height: "10px", 
+                                            borderRadius: "5px", 
+                                            marginTop: "10px", 
+                                            backgroundColor: '#D9D9D9',
+                                        }}
+                                    />
+                                </Container>
+                            </Container>
+                        </Link>
+                    </Box>
+                )) : null}
             </Box>
-          </Paper>
-        ))}
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: "20px",
-          cursor: "pointer",
-        }}
-        onClick={handleCreateGoalClick}
-      >
-        <img src={Plus} alt="Create new goal" style={{ marginRight: "10px" }} />
-        <Typography variant="subtitle1">Create a new savings goal</Typography>
-      </Box>
-      <Divider variant="middle"  />
-      <Box my={3}>
-        <Typography variant="h6">Group Goals</Typography>
-        {goals.map((goal) => (
-          <Paper
-            key={goal.id}
-            elevation={3}
-            style={{ padding: "20px", marginBottom: "20px" }}
-          >
-            <Typography
-              variant="subtitle2"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <div className="emoji-container">
-                {unicodeToEmoji(goal.emoji)}
-              </div>
-              {goal.title}
-              <div className="goal-arrow-container">
-              ${goal.saved}
-              </div>
-              <div className="goal-arrow-container">
-                <img
-                  src={ArrowForward}
-                  style={{ marginTop: "5px" }}
-                  alt="ArrowForward"
-                />
-              </div>
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={calculateProgress(goal.saved, goal.total)}
-              style={{ height: "10px", borderRadius: "5px", marginTop: "10px" }}
-            />
-            <Box
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginTop: "10px",
-              }}
-            >
-              <Typography variant="body2">{`${Math.round(
-                calculateProgress(goal.saved, goal.total)
-              )}% of Total Goal`}</Typography>
-              <Typography variant="body2">${goal.saved}</Typography>
+            <Box my={3} sx={{ border: 1, padding: 2, borderRadius: 2, borderColor: "#DEE5EB" }}>
+                <Container sx={{ display: "flex", flexDirection: "row", marginBottom: 3 }}>
+                    <Container>
+                        <Typography variant="body" color={"#718291"} fontSize={20} >Group Goals</Typography>
+                        <h2>
+                            $0
+                        </h2>
+                        <Typography variant="body" color={"#718291"}>Total Saved Across All Goals</Typography>
+                    </Container>
+                    <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                        <Typography align="right">Add new Goal</Typography>
+                        <AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/>
+                    </Container>
+                </Container>
+                {groupGoals ? groupGoals.map((goal) => (
+                    <Box
+                        key={goal.id}
+                        elevation={0}
+                        className="border-2"
+                        style={{ marginBottom: "20px", outline: 2 }}
+                    >
+                        <Link to={`/goals-progress/personal/${goal.id}`} style={{ textDecoration: 'none', color: "black"}}>
+                            <Container
+                                sx={{ 
+                                    border: 1, 
+                                    borderRadius: 2, 
+                                    borderColor: "#DEE5EB", 
+                                    display: "flex", 
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "full",
+                                    paddingY: 2
+                                }}
+                            >
+                                <Container sx={{ display: "flex", width: "full", marginBottom: 2, alignItems: "center", paddingX: 0 }} >
+                                    <div className="emoji-container no-underline">{unicodeToEmoji(goal.emoji)}</div>
+                                    <div>{goal.name}</div>
+                                    <h2 className="goal-arrow-container">${goal.amount_saved}</h2>
+                                </Container>
+                                <Container>
+                                    <Container sx={{ display: "flex", width: "full", alignItems: "center", paddingX: 0 }} >
+                                        <Typography variant="body2" color="#388e3c">
+                                            {`${Math.round(calculateProgress(goal.amount_saved, goal.saving_target))}% of Total Goal`}
+                                        </Typography>
+                                        <div className="goal-arrow-container">
+                                            <img
+                                                src={ArrowForward}
+                                                style={{ marginTop: "5px" }}
+                                                alt="ArrowForward"
+                                            />
+                                        </div>
+                                    </Container>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={calculateProgress(goal.amount_saved, goal.saving_target)}
+                                        color={"success"}
+                                        style={{ 
+                                            height: "10px", 
+                                            borderRadius: "5px", 
+                                            marginTop: "10px", 
+                                            backgroundColor: '#D9D9D9',
+                                        }}
+                                    />
+                                </Container>
+                            </Container>
+                        </Link>
+                    </Box>
+                )) : null}
             </Box>
-          </Paper>
-        ))}
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: "20px",
-          cursor: "pointer",
-        }}
-        onClick={handleCreateGoalClick}
-      >
-        <img src={Plus} alt="Create new goal" style={{ marginRight: "10px" }} />
-        <Typography variant="subtitle1">Create a new group goal</Typography>
-      </Box>
-    </Container>
-  );
+        </Container>
+    );
 }
