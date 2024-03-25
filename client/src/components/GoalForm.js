@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import {  TextField, Button, Modal } from "@mui/material";
+import {  TextField, Button } from "@mui/material";
 import { Container } from '@mui/system'
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from 'react-router-dom'
@@ -8,17 +8,20 @@ import ArrowBack from "../assets/arrow_back.svg"
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import ArrowDropDown from '../assets/arrow_drop_down.svg'
 import BottomNav from './BottomNav'
-import GoalCongrats from'../assets/GoalsCongrats.svg'
 import './styles/GoalForm.css'
 import AICall from './AICall';
 
 
-export default function GoalForm({ setEditing }) {
-    const { selectedGoal, setSelectedGoal } = useContext(UserContext);
-    const [open, setOpen] = useState(false);
+export default function GoalForm() {
+    const { selectedGoal,
+            setSelectedGoal,
+            editing, 
+            setEditing
+            
+
+    } = useContext(UserContext);
+
     const [value, setValue ] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const[firstGoal, setFirstGoal] =useState(true)
     const navigate = useNavigate();
     const { register, handleSubmit, control, formState:{errors} } = useForm({
@@ -46,18 +49,11 @@ export default function GoalForm({ setEditing }) {
 // }, [setSelectedGoal, setFirstGoal])
 
 
-const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    setValue('goalAmount', inputValue); // Update form value for 'goalAmount'
-  };
-
-
-
-console.log("Selected Goal", selectedGoal)
 
 const onSubmit = async (data)=>{
-    console.log(data)
-    navigate('/view-goal')
+
+  
+
     // try{  
     //     if(!firstGoal){
     //         const response = await axios.post('/user/personal_goals', data);
@@ -68,8 +64,9 @@ const onSubmit = async (data)=>{
     //         console.log('Goal updated:', response.data);
     //         onSelectGoal(response.data)
     //     }
-        setEditing(false);
-        setSelectedGoal(null)
+        setEditing(false)
+        navigate('/goal-invite')
+
     // } catch(error){
     //     console.error('Error saving goal:', error.message)
     // }
@@ -99,9 +96,11 @@ useEffect(() => {
                         />
                     </div>
                     <div className="goal-form-text-input">
-                        <TextField className="goal-form-text-field" {...register('editedName')} defaultValue={selectedGoal?.name}/>
+                        <TextField className="goal-form-text-field" {...register('editedName', {required: "Goal Name Required."})} defaultValue={selectedGoal?.name}/>
                         {errors.saving_target && (<p style={{marginTop:"-2px", marginBottom: "-20px"}} className={errors.saving_target ? 'errorMessages' : ''}>{errors.saving_target.message}</p>)}
                         <TextField
+                            name="saving_target"
+                            type="number"
                             placeholder="How much do you need to save?"
                             className="goal-form-text-field"
                             InputProps={{
@@ -116,69 +115,23 @@ useEffect(() => {
                             })}
                                                   
                         />
-                        <DesktopDatePicker
-                             label="Select deadline"
-                             icon={<ArrowDropDown />}
-                        />
+                           <Controller
+                                name="selectedDate" 
+                                control={control}
+                                defaultValue={null} 
+                                render={({ field }) => (
+                                    <DesktopDatePicker
+                                        label="Select Date"
+                                        inputFormat="MM/dd/yyyy"
+                                        value={field.value}
+                                        onChange={(newValue) => field.onChange(newValue)}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                )}
+                                />
                     </div>
-                        <Button onClick={handleOpen} style={{position: "fixed", bottom: "129px",fontSize:"16px", textTransform:"none",width:"89%", marginLeft: '24px', marginRight: '24px'}} className="save-goal-button" type="submit" variant="contained" >Save Goal</Button>
-                        <Modal
-                            open={open}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                                <div className="modal-container" 
-                                    style={{
-                                        borderRadius:"15px",
-                                        textAlign:"center",
-                                        backgroundColor: "white", 
-                                        width:"360px",
-                                        height:"325px",
-                                        position: "fixed",
-                                        top: "50%",
-                                        left: "50%",
-                                        transform: "translate(-50%, -50%)"
-                                    
-                                    }}>
-                                    <img className="modal-img" src={GoalCongrats} 
-                                        style={{
-                                            width: "100px" ,
-                                            display: "inline-block",
-                                            height: "78.46",
-                                            margin:"24px 0px 8px 0px"
-                                    }}/>            
-                                    <h1 className="modal-header" 
-                                        style={{
-                                            fontSize:"24px", 
-                                            fontFamily:"TT Commons Bold",
-                                            margin:"-10px 0px 0px 0px"
-                                        }}>
-                                            Congratulations!
-                                    </h1>
-                                    <p className="modal-subtext" 
-                                    style={{
-                                            margin:"0px 24px 8px 24px",
-                                            lineHeight:"2",
-                                            textAlign:"left", 
-                                            fontSize:"16px"
-                                        }}>
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna..
-                                    </p>
-                                    <Button 
-                                        style={{
-                                            width:"89%", 
-                                            height:"15%", 
-                                            marginLeft: '24px', 
-                                            marginRight: '24px', 
-                                            textTransform:"none"
-                                        }} 
-                                        onClick={handleClose}
-                                        variant="contained">
-                                            Close
-                                    </Button>
-                                </div>             
-                                    
-                        </Modal>
+                        <Button onClick={onSubmit} style={{position: "fixed", bottom: "129px",fontSize:"16px", textTransform:"none",width:"89%", marginLeft: '24px', marginRight: '24px'}} className="save-goal-button" type="submit" variant="contained" >Next</Button>
+                      
                 </div>  
             </Container>
             <BottomNav />

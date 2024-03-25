@@ -3,7 +3,7 @@ import { Container, List, ListItem, Divider } from "@mui/material";
 import ArrowForward from "../assets/arrow_forward.svg";
 import GoalForm from './GoalForm';
 import { UserContext } from "../context/UserContext";
-import './styles/Goals.css';
+import  './styles/Goals.css';
 import { useNavigate } from 'react-router-dom';
 
 const goalsData = [
@@ -16,8 +16,7 @@ const goalsData = [
 ];
 
 export default function GoalSelection() {
-    const { selectedGoal, setSelectedGoal } = useContext(UserContext);
-    const [editing, setEditing] = useState(false);
+    const { selectedGoal, setSelectedGoal, editing, setEditing } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleGoalSelection = (goal) => {
@@ -25,7 +24,11 @@ export default function GoalSelection() {
         setEditing(true);
         navigate('/goal-form');
     };
-
+    
+    const handleEdit =()=>{
+        setEditing(false)
+    }
+    
     return (
         <Container style={{ width: "430px", height: "932px", flexGrow: "0", padding: "0 0 8px" }}>
             <h1 className="goals-header">What do you want Money Magnet to help you save for?</h1>
@@ -49,7 +52,7 @@ export default function GoalSelection() {
                 </List>
                 {editing && selectedGoal && (
                     <div className="edit-form">
-                        <GoalForm selectedGoal={selectedGoal} />
+                        <GoalForm handleEdit={handleEdit}/>
                     </div>
                 )}
             </div>
