@@ -64,11 +64,6 @@ function Home() {
         // fetchInsights();
     }, [accessToken]);
 
-    // // Checking if user is over budget
-    // useEffect(() => {
-    //     checkOnTrack();
-    // }, [transactions]);
-
     const fetchAccounts = async () => {
         if (!accessToken) {
             return;
@@ -119,6 +114,8 @@ function Home() {
             console.error("Error fetching transactions:", error);
         }
     };
+    console.log("Transactions", transactions);
+    console.log("Savings account", savingsAccounts);
 
     //   const fetchAIData = async () => {
     //     try {
@@ -136,17 +133,29 @@ function Home() {
     let totalEarned = 0;
     let totalSpent = 0;
     let remainingMoney = 0;
+    let savingsAvailableBalance = 0;
 
     transactions.forEach((transaction) => {
-        if (transaction.category.includes("Debit")) {
+        if (
+            transaction.category.includes("Debit") ||
+            transaction.category.includes("Payment")
+        ) {
             totalEarned += transaction.amount;
         } else {
             totalSpent += Math.abs(transaction.amount);
         }
     });
+    // savings accounts
+    const savingsAccount = accounts.find(
+        (account) => account.subtype === "savings"
+    );
+    if (savingsAccount) {
+        savingsAvailableBalance = savingsAccount.balances.available;
+        console.log("savings account", savingsAvailableBalance);
+    }
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
-    remainingMoney = totalEarned - totalSpent;
+    remainingMoney = totalEarned - totalSpent + savingsAvailableBalance;
 
     console.log("earned", totalEarned);
     console.log("spent", totalSpent);
@@ -219,9 +228,7 @@ function Home() {
                     <p style={{ display: "inline", margin: "0 5px 0 0" }}>
                         You have
                     </p>
-                    {/* {savingsAccounts.map((account) => ( */}
                     <Typography
-                        // key={account.account_id}
                         variant='h5'
                         sx={{
                             fontFamily: "TT Commons",
@@ -232,9 +239,7 @@ function Home() {
                         }}
                     >
                         ${remainingMoney}
-                        {/* ${account.balances.available} */}
                     </Typography>
-                    {/* ))} */}
                     <p style={{ display: "inline", margin: "0 5px" }}>
                         left to spend this month
                     </p>
