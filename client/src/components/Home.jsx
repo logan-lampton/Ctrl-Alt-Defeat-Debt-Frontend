@@ -15,10 +15,10 @@ import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import arrow_forward from "../assets/arrow_forward.svg";
 import add_circle_outline from "../assets/add_circle_outline.svg";
+import arrow_drop_down from "../assets/arrow_drop_down.svg";
 
 function Home() {
-    const { user, setUser, personalGoals, setPersonalGoals, accessToken } =
-        useContext(UserContext);
+    const { user, personalGoals, accessToken } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -27,9 +27,6 @@ function Home() {
 
     // Accounts, fetched from Plaid, used to find savings account and set as remaining left to spend for the month
     const [accounts, setAccounts] = useState([]);
-    const savingsAccounts = accounts.filter(
-        (account) => account.subtype === "savings"
-    );
 
     // Transactions from Plaid, used to calculate how much was spent during the past month
     const [transactions, setTransactions] = useState([]);
@@ -37,17 +34,11 @@ function Home() {
     // state for whether spending is on track
     const [onTrack, setOnTrack] = useState("");
 
-    // const [aIData, setAIData] = useState({})
-
     const handleNavigateToGoalsClick = () => {
         navigate("/goal-selection"); // Navigates to /goal-form route when clicked
     };
 
-    // -------------------------------------------
-
-    const [insights, setInsights] = useState("Insight 1 and Insight 2");
-    // Insights are each in their own boxes
-    // Show the first two insights
+    // const [aIData, setAIData] = useState({})
 
     useEffect(() => {
         // Greeting based on the time of day based on the user's current time
@@ -58,10 +49,8 @@ function Home() {
         fetchTransactions();
         // Checking if user is over budget
         checkOnTrack();
-        // fetchAIData();
 
-        // Fetching the user insights; will uncomment when route is properly set up
-        // fetchInsights();
+        // fetchAIData();
     }, [accessToken]);
 
     const fetchAccounts = async () => {
@@ -115,18 +104,6 @@ function Home() {
         }
     };
 
-    //   const fetchAIData = async () => {
-    //     try {
-    //         const response = await axios.post("/openai/response", {
-    //             access_token: accessToken,
-    //         });
-    //         console.log("AI Data", response.data);
-    //         setAIData(response.data);
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    // };
-
     // Logic for storing total earned and spent
     let totalEarned = 0;
     let totalSpent = 0;
@@ -177,6 +154,7 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
+    // Code for rendering emojis on the page; converting Unicode in db to emojis
     const unicodeToEmoji = (unicodeStr) => {
         try {
             // Remove the "U+" prefix if present, and trim any whitespace
@@ -186,7 +164,7 @@ function Home() {
             // Check if the conversion resulted in a valid number
             if (isNaN(codePoint)) {
                 console.error("Invalid Unicode value:", unicodeStr);
-                return "🚫"; // Optionally return a placeholder or empty string
+                return "🚫";
             }
 
             return String.fromCodePoint(codePoint);
@@ -196,26 +174,17 @@ function Home() {
                 unicodeStr,
                 error
             );
-            return "🚫"; // Optionally return a placeholder or empty string
+            return "🚫";
         }
     };
 
-    // -------------------------------------------
-
-    // function to fetch insights, need the correct route
-    const fetchInsights = async () => {
-        try {
-            const response = await axios.get("SET THE CORRECT ROUTE");
-            // make sure to update to correct property
-            setInsights(response.data.insights);
-        } catch (error) {
-            console.error("Error fetching insights: ", error);
-        }
-        console.log("Insights ", insights);
-    };
+    // check if the user has goals/insights
+    const hasInsights = personalGoals.some(
+        (goal) => goal.insights && goal.insights.length > 0
+    );
 
     return (
-        <div className='home-margin' style={{ overflowY: "auto" }}>
+        <div className='home-margin'>
             <div className='home-container home-top'>
                 <h1>Good {greeting}!</h1>
                 <div>
@@ -241,7 +210,7 @@ function Home() {
             </div>
             <Container
                 style={{
-                    width: "382px",
+                    width: "365px",
                     height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
@@ -250,6 +219,7 @@ function Home() {
                     marginTop: "25px",
                     marginLeft: "0",
                     position: "relative",
+                    overflowY: "auto",
                 }}
             >
                 <div className='home-container home_graph'>
@@ -257,6 +227,7 @@ function Home() {
                         <p>Spending</p>
                     </div>
                     <img
+                        onClick={() => navigate("/insights")}
                         src={arrow_forward}
                         alt='Arrow forward'
                         style={{
@@ -303,7 +274,7 @@ function Home() {
             </Container>
             <Container
                 style={{
-                    width: "382px",
+                    width: "365px",
                     height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
@@ -311,6 +282,7 @@ function Home() {
                     borderRadius: "5px",
                     marginTop: "25px",
                     marginLeft: "0",
+                    overflowY: "auto",
                 }}
             >
                 <Grid container spacing={0}>
@@ -481,81 +453,162 @@ function Home() {
                     </Grid>
                 </Grid>
             </Container>
-            <Container
-                style={{
-                    width: "382px",
-                    height: "auto",
-                    flexGrow: "0",
-                    padding: "0 0 8px",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                    marginTop: "25px",
-                    marginLeft: "0",
-                    position: "relative",
-                }}
-            >
-                <Grid container spacing={0}>
-                    <Grid item xs={6}>
-                        <Stack direction='column' spacing={1}>
-                            <Typography
-                                sx={{
-                                    padding: "10px 10px 5px 10px",
-                                    margin: 0,
+            {!hasInsights ? (
+                <Container
+                    style={{
+                        width: "365px",
+                        height: "auto",
+                        flexGrow: "0",
+                        padding: "0 0 8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        marginTop: "25px",
+                        marginLeft: "0",
+                        position: "relative",
+                        overflowY: "auto",
+                    }}
+                >
+                    <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                            <Stack direction='column' spacing={1}>
+                                <Typography
+                                    sx={{
+                                        padding: "10px 10px 5px 10px",
+                                        margin: 0,
+                                    }}
+                                >
+                                    <Link
+                                        to='/insights'
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                        }}
+                                    >
+                                        <p>Financial Insights</p>
+                                    </Link>
+                                </Typography>
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6} textAlign='right'>
+                            <Link
+                                to='/insights'
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
                                 }}
                             >
-                                <p>Financial Insights</p>
-                            </Typography>
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={6} textAlign='right'>
-                        <img
-                            src={arrow_forward}
-                            alt='Arrow forward'
-                            style={{
-                                position: "absolute",
-                                top: 23,
-                                right: 8,
-                                zIndex: 1,
+                                <img
+                                    src={arrow_forward}
+                                    alt='Arrow forward'
+                                    style={{
+                                        position: "absolute",
+                                        top: 23,
+                                        right: 8,
+                                        zIndex: 1,
+                                    }}
+                                />
+                            </Link>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{
+                                marginLeft: "15px",
+                                marginTop: "0px",
                             }}
-                        />
+                        >
+                            <Stack direction='row' spacing={1}>
+                                <Typography>
+                                    <p style={{ margin: "5px" }}>
+                                        Insights will begin populating soon.
+                                    </p>
+                                </Typography>
+                            </Stack>
+                        </Grid>
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sx={{
-                            marginLeft: "15px",
-                            marginTop: "0px",
-                        }}
-                    >
-                        <Stack direction='row' spacing={1}>
-                            <Typography>
-                                <p style={{ margin: "5px" }}>
-                                    Insights will begin populating soon.
-                                </p>
-                            </Typography>
-                        </Stack>
+                </Container>
+            ) : (
+                <Container
+                    style={{
+                        width: "365px",
+                        height: "auto",
+                        flexGrow: "0",
+                        padding: "0 0 8px",
+                        marginLeft: "0",
+                        position: "relative",
+                        overflowY: "auto",
+                        marginTop: "5px",
+                        marginBottom: "85px",
+                    }}
+                >
+                    <Grid container spacing={2}>
+                        {personalGoals.map((goal) =>
+                            goal.insights.slice(0, 3).map((insight) => (
+                                <Grid
+                                    item
+                                    xs={6}
+                                    key={`${goal.id}-${insight.id}`}
+                                >
+                                    <Container
+                                        style={{
+                                            height: "auto",
+                                            flexGrow: "0",
+                                            padding: "0 0 8px",
+                                            border: "1px solid #ccc",
+                                            borderRadius: "5px",
+                                            marginTop: "10px",
+                                            marginLeft: "0",
+                                            position: "relative",
+                                            overflowY: "auto",
+                                            backgroundColor: "#f0f0f0",
+                                        }}
+                                    >
+                                        <Grid container spacing={0}>
+                                            <Grid item xs={6}>
+                                                <Stack
+                                                    direction='column'
+                                                    spacing={1}
+                                                >
+                                                    <Typography
+                                                        sx={{
+                                                            padding:
+                                                                "10px 10px 5px 10px",
+                                                            margin: 0,
+                                                            whiteSpace:
+                                                                "nowrap",
+                                                        }}
+                                                    >
+                                                        <p>Financial Insight</p>
+                                                    </Typography>
+                                                </Stack>
+                                            </Grid>
+                                            <Grid item xs={6} textAlign='right'>
+                                                <span
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: 23,
+                                                        right: 15,
+                                                        zIndex: 1,
+                                                        cursor: "pointer",
+                                                        fontSize: "18px",
+                                                    }}
+                                                >
+                                                    X
+                                                </span>
+                                            </Grid>
+                                            <Typography>
+                                                <p>{insight.strategy}</p>
+                                            </Typography>
+                                        </Grid>
+                                    </Container>
+                                </Grid>
+                            ))
+                        )}
                     </Grid>
-                </Grid>
-            </Container>
+                </Container>
+            )}
         </div>
     );
 }
-// {topGoals.map((goal) => (
-//   <div key={goal.id}>
-//       <h2 style={{ display: "inline" }}>{goal.name}:</h2>
-//       <p style={{ display: "inline" }}>
-//           Saving Target: ${goal.saving_target}
-//       </p>
-//   </div>
-// ))}
 
-// {Array.isArray(insights) && insights.length > 0 && (
-//   <div className='home-container'>
-//       {insights.map((insight) => (
-//           <div key={insight.id}>
-//               <h1>{insight.content}</h1>
-//           </div>
-//       ))}
-//   </div>
-// )}
 export default Home;
