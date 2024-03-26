@@ -54,15 +54,17 @@ function Home() {
     }, [accessToken]);
 
     useEffect(() => {
-      // Check if personalGoals is available
-      if (personalGoals.length > 0) {
-          // Extract insights from personalGoals
-          const initialInsights = personalGoals.map(goal => goal.insights).flat();
-          
-          // Set the initial state of displayedInsights
-          setDisplayedInsights(initialInsights);
-      }
-  }, [personalGoals]);
+        // Check if personalGoals is available
+        if (personalGoals.length > 0) {
+            // Extract insights from personalGoals
+            const initialInsights = personalGoals
+                .map((goal) => goal.insights)
+                .flat();
+
+            // Set the initial state of displayedInsights
+            setDisplayedInsights(initialInsights);
+        }
+    }, [personalGoals]);
 
     const fetchAccounts = async () => {
         if (!accessToken) {
@@ -165,44 +167,24 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
-    // // Code for rendering emojis on the page; converting Unicode in db to emojis
-    // const unicodeToEmoji = (unicodeStr) => {
-    //     try {
-    //         // Remove the "U+" prefix if present, and trim any whitespace
-    //         const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
-    //         const codePoint = parseInt(cleanedUnicodeStr, 16);
-
-    //         // Check if the conversion resulted in a valid number
-    //         if (isNaN(codePoint)) {
-    //             console.error("Invalid Unicode value:", unicodeStr);
-    //             return "🚫";
-    //         }
-
-    //         return String.fromCodePoint(codePoint);
-    //     } catch (error) {
-    //         console.error(
-    //             "Error converting Unicode to emoji:",
-    //             unicodeStr,
-    //             error
-    //         );
-    //         return "🚫";
-    //     }
-    // };
-
     // check if the user has goals/insights
     const hasInsights = personalGoals.some(
         (goal) => goal.insights && goal.insights.length > 0
     );
 
     // Function to handle a user clicking to remove an insight from their homepage
-    const removeInsight = insightToRemove => {
-      console.log("Removing insight with ID:", insightToRemove.id);
-      console.log("Displayed insights:", displayedInsights);
-      setDisplayedInsights(prevInsights =>
-          prevInsights.filter(insight => insight.id !== insightToRemove.id)
-      );
+    const removeInsight = (actionToRemove) => {
+        console.log("Removing insight with ID:", actionToRemove.id);
+        console.log("Displayed insights:", displayedInsights);
+        setDisplayedInsights((prevActions) =>
+            prevActions.filter((action) => action.id !== actionToRemove.id)
+        );
     };
-  
+
+    console.log("DISPLAYED", displayedInsights);
+
+    const secondInsight = displayedInsights[2];
+
     return (
         <div className='home-margin'>
             <div className='home-container home-top'>
@@ -244,9 +226,7 @@ function Home() {
             >
                 <div className='home-container home_graph'>
                     <div>
-                        <p>
-                            Spending
-                        </p>
+                        <p>Spending</p>
                     </div>
                     <img
                         onClick={() => navigate("/insights")}
@@ -316,9 +296,7 @@ function Home() {
                                     margin: 0,
                                 }}
                             >
-                                <p>
-                                    Goals
-                                </p>
+                                <p>Goals</p>
                             </Typography>
                         </Stack>
                     </Grid>
@@ -394,7 +372,7 @@ function Home() {
                     >
                         <Stack direction='column' spacing={1} alignItems='left'>
                             {user ? (
-                                user.personal_goals.slice(0, 5).map((goal) => (
+                                user.personal_goals.slice(0, 3).map((goal) => (
                                     <Link
                                         to={`/goals-progress/personal/${goal.id}`}
                                         style={{
@@ -509,16 +487,7 @@ function Home() {
                                             color: "inherit",
                                         }}
                                     >
-                                        <span
-                                            style={{
-                                                color: "gray",
-                                                fontSize: "14px",
-                                                fontFamily:
-                                                    "TT Commons Regular",
-                                            }}
-                                        >
-                                            Financial Insights
-                                        </span>
+                                        <p>Financial Insights</p>
                                     </Link>
                                 </Typography>
                             </Stack>
@@ -562,87 +531,88 @@ function Home() {
                     </Grid>
                 </Container>
             ) : (
-              <Container
-    style={{
-        width: "365px",
-        height: "auto",
-        flexGrow: "0",
-        padding: "0 0 8px",
-        marginLeft: "0",
-        position: "relative",
-        overflowY: "auto",
-        marginTop: "5px",
-        marginBottom: "85px",
-    }}
->
-    <Grid container spacing={2}>
-        {displayedInsights.slice(0, 4).map(insight => (
-            <Grid
-                item
-                xs={6}
-                key={insight.id}
-            >
                 <Container
                     style={{
+                        width: "365px",
                         height: "auto",
                         flexGrow: "0",
                         padding: "0 0 8px",
-                        border: "1px solid #ccc",
-                        borderRadius: "5px",
-                        marginTop: "10px",
                         marginLeft: "0",
                         position: "relative",
                         overflowY: "auto",
-                        backgroundColor: "#f0f0f0",
+                        marginTop: "5px",
+                        marginBottom: "85px",
                     }}
                 >
-                    <Grid container spacing={0}>
-                        <Grid item xs={6}>
-                            <Stack
-                                direction='column'
-                                spacing={1}
-                            >
-                                <Typography
-                                    sx={{
-                                        padding:
-                                            "10px 10px 5px 10px",
-                                        margin: 0,
-                                        whiteSpace:
-                                            "nowrap",
-                                    }}
-                                >
-                                    <p>Financial Insight</p>
-                                </Typography>
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={6} textAlign='right'>
-                            <span
-                                onClick={() => removeInsight(insight)}
-                                style={{
-                                    position: "absolute",
-                                    top: 23,
-                                    right: 15,
-                                    zIndex: 1,
-                                    cursor: "pointer",
-                                    fontSize: "14px",
-                                    color: "gray",
-                                }}
-                            >
-                                X
-                            </span>
-                        </Grid>
-                        <Typography>
-                            <p>{insight.strategy}</p>
-                        </Typography>
+                    <Grid container spacing={2}>
+                        {secondInsight &&
+                            secondInsight.actions.map((action) => (
+                                <Grid item xs={6} key={action.id}>
+                                    <Container
+                                        style={{
+                                            height: "auto",
+                                            flexGrow: "0",
+                                            padding: "0 0 8px",
+                                            border: "1px solid #ccc",
+                                            borderRadius: "5px",
+                                            marginTop: "10px",
+                                            marginLeft: "0",
+                                            position: "relative",
+                                            overflowY: "auto",
+                                            backgroundColor: "#f0f0f0",
+                                        }}
+                                    >
+                                        <Grid container spacing={0}>
+                                            <Grid item xs={6}>
+                                                <Stack
+                                                    direction='column'
+                                                    spacing={1}
+                                                >
+                                                    <Typography
+                                                        sx={{
+                                                            padding:
+                                                                "10px 10px 5px 10px",
+                                                            margin: 0,
+                                                            whiteSpace:
+                                                                "nowrap",
+                                                        }}
+                                                    >
+                                                        <p>Financial Insight</p>
+                                                    </Typography>
+                                                </Stack>
+                                            </Grid>
+                                            <Grid item xs={6} textAlign='right'>
+                                                <span
+                                                    onClick={() =>
+                                                        removeInsight(action)
+                                                    }
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: 23,
+                                                        right: 15,
+                                                        zIndex: 1,
+                                                        cursor: "pointer",
+                                                        fontSize: "14px",
+                                                        color: "gray",
+                                                    }}
+                                                >
+                                                    {/* X */}
+                                                </span>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Typography>
+                                                    <p>{action.text}</p>
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Container>
+                                </Grid>
+                            ))}
                     </Grid>
                 </Container>
-            </Grid>
-        ))}
-    </Grid>
-</Container>
-      )}
-    </div>
-  );
+            )}
+        </div>
+    );
 }
 
 export default Home;
