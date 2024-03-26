@@ -10,8 +10,7 @@ const UserProvider = ({ children }) => {
   const [selectedGoal, setSelectedGoal] = useState({ emoji: '', name: '', savingTarget:0, targetDate:'' })
   const [groupGoals, setGroupGoals] = useState([])
   const [formData, setFormData] = useState()
-
-    const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
