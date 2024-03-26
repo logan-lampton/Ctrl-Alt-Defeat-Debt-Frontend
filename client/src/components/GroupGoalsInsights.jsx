@@ -1,20 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Container, Box, Typography, LinearProgress, Paper, Divider, Button } from "@mui/material";
+import { Container, Box, Typography, LinearProgress, Button } from "@mui/material";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import "./styles/Goals.css";
-import clipboard from "../assets/clipboard.svg"
 
 // dependant files
 // => GoalSelection.jsx 
 //     => GoalForm.jsx
 
-export default function PersonalGoalsInsights() {
+export default function GroupGoalsInsights() {
     const { id } = useParams()
     const navigate = useNavigate();
-    const { personalGoals } = useContext(UserContext)
+    const { groupGoals } = useContext(UserContext)
 
     return (
         <Container 
@@ -37,7 +36,7 @@ export default function PersonalGoalsInsights() {
                 </p>
             </div>
             <Container sx={{ }}>
-                {personalGoals.filter(goal => goal.id == id).map((goal) => (
+                {groupGoals.filter(goal => goal.id == id).map((goal) => (
                     <Box
                         key={goal.id}
                         elevation={0}
@@ -101,17 +100,11 @@ export default function PersonalGoalsInsights() {
                                     </Box>
                                 </Container>
                             )): (
-                                <Container>
-                                    <h1>Financial Insights</h1>
+                                <div>
+                                    <h1>No Insights</h1>
                                     <p>Would you like to generate?</p>
-                                    <img scr={clipboard} alt="Test"/>
-                                    <Button 
-                                        variant="contained" 
-                                        fullWidth sx={{ marginBottom: 3, paddingY: 1, alignItems: "center"}}
-                                    >
-                                        Generate Insights
-                                    </Button>
-                                </Container>  
+                                    <Button variant="contained" fullWidth alignItems="center" sx={{ marginBottom: 3}}>Generate Insights</Button>
+                                </div>  
                             )}
                         </Container>
                     </Box>

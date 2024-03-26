@@ -7,10 +7,10 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false)
   const [personalGoals, setPersonalGoals] = useState([])
-  const [selectedGoal, setSelectedGoal] = useState({ emoji: '', name: '', savingTarget:0, targetDate:'' })
   const [groupGoals, setGroupGoals] = useState([])
-  const [formData, setFormData] = useState()
-  const [accessToken, setAccessToken] = useState("");
+  const [selectedGoal, setSelectedGoal] = useState(null)
+
+    const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,7 +24,7 @@ const UserProvider = ({ children }) => {
             }
             try {
                 const response = await axios.get("/goals");
-                setGroupGoals(response.data.groupGoals);
+                setGroupGoals(response.data)
             } catch (error) {
                 console.error("Error fetching user session:", error.message);
             }
@@ -40,14 +40,10 @@ const UserProvider = ({ children }) => {
                 selectedGoal,
                 setSelectedGoal,
                 personalGoals,
-                setPersonalGoals, 
-                editing, 
-                setEditing,
-                accessToken,
-                formData,
-                setFormData,
-                groupGoals, 
-                setGroupGoals
+                setPersonalGoals,
+                groupGoals,
+                setGroupGoals,
+                accessToken
             }}
         >
             {children}

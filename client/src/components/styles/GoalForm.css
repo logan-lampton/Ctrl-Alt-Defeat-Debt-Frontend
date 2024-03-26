@@ -1,4 +1,10 @@
-.goal-form-container {
+
+/* body{
+    overflow-x: hidden; 
+    overflow-y: hidden;
+} */
+
+.goal-form-container{
     width: 430px;
     height: 940px;
     display: flex;
