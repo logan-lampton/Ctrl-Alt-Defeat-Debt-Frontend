@@ -8,24 +8,7 @@ import "./styles/Goals.css";
 export default function PersonalGoalsInsights() {
     const { id } = useParams()
     const { personalGoals, setPersonalGoals } = useContext(UserContext)
-    const unicodeToEmoji = (unicodeStr) => {
-        try {
-            // Remove the "U+" prefix if present, and trim any whitespace
-            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
-            const codePoint = parseInt(cleanedUnicodeStr, 16);
 
-            // Check if the conversion resulted in a valid number
-            if (isNaN(codePoint)) {
-                console.error("Invalid Unicode value:", unicodeStr);
-                return "🚫"; // Optionally return a placeholder or empty string
-            }
-
-            return String.fromCodePoint(codePoint);
-        } catch (error) {
-            console.error("Error converting Unicode to emoji:", unicodeStr, error);
-            return "🚫"; // Optionally return a placeholder or empty string
-        }
-    };
     return (
         <Container 
             sx={{         
@@ -67,7 +50,7 @@ export default function PersonalGoalsInsights() {
                             }}
                         >
                             <Container sx={{ display: "flex", width: "full", marginBottom: 2, alignItems: "center"}} >
-                                <div className="emoji-container no-underline">{unicodeToEmoji(goal.emoji)}</div>
+                                <div className="emoji-container no-underline">{goal.emoji}</div>
                                 <div>{goal.name}</div>
                                 <div className="goal-arrow-container">${goal.amount_saved}</div>
                             </Container>
@@ -84,9 +67,9 @@ export default function PersonalGoalsInsights() {
                             </Container>
                         </Container>
                         <Container sx={{border: 1, borderRadius: 2, borderColor: "#DEE5EB", marginTop: 2,  marginBottom: 1}}>
-                            {goal.insights.map((insight) => (
+                            {goal.insights.length > 0 ? goal.insights.filter((insight) => insight.personal_goal_id === goal.id).map((insight) => (
                                 <Container key={insight.id}>
-                                    <h2>Your Personalized Strategy</h2>
+                                    <h2>Personalized Strategy</h2>
                                     <p>{insight.strategy}</p>
                                     <h2 style={{ marginBottom: 4}}>Your Insights</h2>
                                     <Box>
@@ -108,7 +91,7 @@ export default function PersonalGoalsInsights() {
                                         ))}
                                     </Box>
                                 </Container>
-                            ))}
+                            )) : null}
                         </Container>
                     </Box>
                 ))}
