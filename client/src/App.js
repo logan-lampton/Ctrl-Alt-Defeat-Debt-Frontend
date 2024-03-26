@@ -17,6 +17,7 @@ import GoalsProgressView from "./components/GoalsProgressView"
 import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
 import Insights from "./components/Insights"
 import GroupGoalsInsights from "./components/GroupGoalsInsights";
+import Accounts from "./components/Accounts";
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -45,6 +46,7 @@ function App() {
                 <Route path='/' element={<WelcomePage />} />
                 <Route path="/insights" element={<Insights />} />
                 <Route path="/goal-form" element={<GoalForm />} />
+                <Route path="/accounts" element={<Accounts />} />
             </Routes>
             {showBottomNav && <BottomNav />}
         </Container>
