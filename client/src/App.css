@@ -214,6 +214,10 @@ button span {
     color: #009933;
 }
 
+.red-text {
+    color: red;
+}
+
 .home_goals {
     border: 1px solid #ccc;
     border-radius: 5px;

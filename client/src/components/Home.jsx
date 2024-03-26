@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import {
@@ -17,8 +17,7 @@ import arrow_forward from "../assets/arrow_forward.svg";
 import add_circle_outline from "../assets/add_circle_outline.svg";
 
 function Home() {
-    const { user, setUser, personalGoals, setPersonalGoals, accessToken } =
-        useContext(UserContext);
+    const { user, personalGoals, accessToken } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -27,27 +26,19 @@ function Home() {
 
     // Accounts, fetched from Plaid, used to find savings account and set as remaining left to spend for the month
     const [accounts, setAccounts] = useState([]);
-    const savingsAccounts = accounts.filter(
-        (account) => account.subtype === "savings"
-    );
 
     // Transactions from Plaid, used to calculate how much was spent during the past month
     const [transactions, setTransactions] = useState([]);
 
     // state for whether spending is on track
-    const [onTrack, setOnTrack] = useState("On track");
-
-    // const [aIData, setAIData] = useState({})
+    const [onTrack, setOnTrack] = useState("");
 
     const handleNavigateToGoalsClick = () => {
-        navigate("/goal-form"); // Navigates to /goal-form route when clicked
+        navigate("/goal-selection"); // Navigates to /goal-form route when clicked
     };
 
-    // -------------------------------------------
-
-    const [insights, setInsights] = useState("Insight 1 and Insight 2");
-    // Insights are each in their own boxes
-    // Show the first two insights
+    // Insights that are displayed
+    const [displayedInsights, setDisplayedInsights] = useState([]);
 
     useEffect(() => {
         // Greeting based on the time of day based on the user's current time
@@ -56,11 +47,22 @@ function Home() {
         fetchAccounts();
         // Fetching Plaid transaction data
         fetchTransactions();
-        // fetchAIData();
+        // Checking if user is over budget
+        checkOnTrack();
 
-        // Fetching the user insights; will uncomment when route is properly set up
-        // fetchInsights();
+        // fetchAIData();
     }, [accessToken]);
+
+    useEffect(() => {
+      // Check if personalGoals is available
+      if (personalGoals.length > 0) {
+          // Extract insights from personalGoals
+          const initialInsights = personalGoals.map(goal => goal.insights).flat();
+          
+          // Set the initial state of displayedInsights
+          setDisplayedInsights(initialInsights);
+      }
+  }, [personalGoals]);
 
     const fetchAccounts = async () => {
         if (!accessToken) {
@@ -113,33 +115,42 @@ function Home() {
         }
     };
 
-    //   const fetchAIData = async () => {
-    //     try {
-    //         const response = await axios.post("/openai/response", {
-    //             access_token: accessToken,
-    //         });
-    //         console.log("AI Data", response.data);
-    //         setAIData(response.data);
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    // };
-
     // Logic for storing total earned and spent
     let totalEarned = 0;
     let totalSpent = 0;
     let remainingMoney = 0;
+    let savingsAvailableBalance = 0;
 
     transactions.forEach((transaction) => {
-        if (transaction.category.includes("Debit")) {
+        if (
+            transaction.category.includes("Debit") ||
+            transaction.category.includes("Payment")
+        ) {
             totalEarned += transaction.amount;
         } else {
             totalSpent += Math.abs(transaction.amount);
         }
     });
+    // savings accounts
+    const savingsAccount = accounts.find(
+        (account) => account.subtype === "savings"
+    );
+    if (savingsAccount) {
+        savingsAvailableBalance = savingsAccount.balances.available;
+        console.log("savings account", savingsAvailableBalance);
+    }
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
-    remainingMoney = totalEarned - totalSpent;
+    remainingMoney = totalEarned - totalSpent + savingsAvailableBalance;
+
+    // onTrack logic
+    const checkOnTrack = () => {
+        if (remainingMoney < 0) {
+            setOnTrack("Over budget");
+        } else {
+            setOnTrack("On track");
+        }
+    };
 
     // Constructing the data array for the SparkLineChart
     const sparkLineData = [];
@@ -154,31 +165,53 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
-    // -------------------------------------------
+    // // Code for rendering emojis on the page; converting Unicode in db to emojis
+    // const unicodeToEmoji = (unicodeStr) => {
+    //     try {
+    //         // Remove the "U+" prefix if present, and trim any whitespace
+    //         const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
+    //         const codePoint = parseInt(cleanedUnicodeStr, 16);
 
-    // function to fetch insights, need the correct route
-    const fetchInsights = async () => {
-        try {
-            const response = await axios.get("SET THE CORRECT ROUTE");
-            // make sure to update to correct property
-            setInsights(response.data.insights);
-        } catch (error) {
-            console.error("Error fetching insights: ", error);
-        }
-        console.log("Insights ", insights);
+    //         // Check if the conversion resulted in a valid number
+    //         if (isNaN(codePoint)) {
+    //             console.error("Invalid Unicode value:", unicodeStr);
+    //             return "🚫";
+    //         }
+
+    //         return String.fromCodePoint(codePoint);
+    //     } catch (error) {
+    //         console.error(
+    //             "Error converting Unicode to emoji:",
+    //             unicodeStr,
+    //             error
+    //         );
+    //         return "🚫";
+    //     }
+    // };
+
+    // check if the user has goals/insights
+    const hasInsights = personalGoals.some(
+        (goal) => goal.insights && goal.insights.length > 0
+    );
+
+    // Function to handle a user clicking to remove an insight from their homepage
+    const removeInsight = insightToRemove => {
+      console.log("Removing insight with ID:", insightToRemove.id);
+      console.log("Displayed insights:", displayedInsights);
+      setDisplayedInsights(prevInsights =>
+          prevInsights.filter(insight => insight.id !== insightToRemove.id)
+      );
     };
-
+  
     return (
-        <div className='home-margin' style={{ overflowY: "auto" }}>
+        <div className='home-margin'>
             <div className='home-container home-top'>
                 <h1>Good {greeting}!</h1>
                 <div>
                     <p style={{ display: "inline", margin: "0 5px 0 0" }}>
                         You have
                     </p>
-                    {/* {savingsAccounts.map((account) => ( */}
                     <Typography
-                        // key={account.account_id}
                         variant='h5'
                         sx={{
                             fontFamily: "TT Commons",
@@ -189,9 +222,7 @@ function Home() {
                         }}
                     >
                         ${remainingMoney}
-                        {/* ${account.balances.available} */}
                     </Typography>
-                    {/* ))} */}
                     <p style={{ display: "inline", margin: "0 5px" }}>
                         left to spend this month
                     </p>
@@ -199,7 +230,7 @@ function Home() {
             </div>
             <Container
                 style={{
-                    width: "382px",
+                    width: "365px",
                     height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
@@ -208,13 +239,17 @@ function Home() {
                     marginTop: "25px",
                     marginLeft: "0",
                     position: "relative",
+                    overflowY: "auto",
                 }}
             >
                 <div className='home-container home_graph'>
                     <div>
-                        <p>Spending</p>
+                        <p>
+                            Spending
+                        </p>
                     </div>
                     <img
+                        onClick={() => navigate("/insights")}
                         src={arrow_forward}
                         alt='Arrow forward'
                         style={{
@@ -235,7 +270,15 @@ function Home() {
                     >
                         ${totalSpent}
                     </Typography>
-                    <p className='green-text'>{onTrack} this month</p>
+                    <p
+                        className={
+                            onTrack === "Over budget"
+                                ? "red-text"
+                                : "green-text"
+                        }
+                    >
+                        {onTrack} this month
+                    </p>
                     <Stack direction='row' sx={{ width: "100%" }}>
                         <Box width='100%'>
                             <SparkLineChart
@@ -253,7 +296,7 @@ function Home() {
             </Container>
             <Container
                 style={{
-                    width: "382px",
+                    width: "365px",
                     height: "auto",
                     flexGrow: "0",
                     padding: "0 0 8px",
@@ -261,6 +304,7 @@ function Home() {
                     borderRadius: "5px",
                     marginTop: "25px",
                     marginLeft: "0",
+                    overflowY: "auto",
                 }}
             >
                 <Grid container spacing={0}>
@@ -272,7 +316,9 @@ function Home() {
                                     margin: 0,
                                 }}
                             >
-                                <p>Goals</p>
+                                <p>
+                                    Goals
+                                </p>
                             </Typography>
                         </Stack>
                     </Grid>
@@ -349,47 +395,56 @@ function Home() {
                         <Stack direction='column' spacing={1} alignItems='left'>
                             {user ? (
                                 user.personal_goals.slice(0, 5).map((goal) => (
-                                    <Stack
-                                        direction='row'
-                                        spacing={1}
-                                        alignItems='left'
-                                        key={goal.id}
+                                    <Link
+                                        to={`/goals-progress/personal/${goal.id}`}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            textDecoration: "none",
+                                        }}
                                     >
-                                        <Avatar
-                                            sx={{
-                                                width: "30px",
-                                                height: "30px",
-                                                border: "2px solid #ccc",
-                                                borderRadius: "50%",
-                                                backgroundColor: "transparent",
-                                                backgroundClip: "padding-box",
-                                            }}
+                                        <Stack
+                                            direction='row'
+                                            spacing={1}
+                                            alignItems='left'
+                                            key={goal.id}
                                         >
-                                            {!isNaN(goal.emoji)
-                                                ? String.fromCodePoint(
-                                                      goal.emoji
-                                                  )
-                                                : ""}
-                                        </Avatar>
-                                        <Typography
-                                            sx={{
-                                                color: "black",
-                                                alignItems: "center",
-                                                fontFamily: "TT Commons",
-                                                fontSize: "14px",
-                                                lineHeight: "30px",
-                                            }}
-                                        >
-                                            {goal.name}
-                                        </Typography>
+                                            <Avatar
+                                                sx={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                    border: "2px solid #ccc",
+                                                    borderRadius: "50%",
+                                                    backgroundColor:
+                                                        "transparent",
+                                                    backgroundClip:
+                                                        "padding-box",
+                                                }}
+                                            >
+                                                {goal.emoji}
+                                            </Avatar>
+                                            <Typography
+                                                sx={{
+                                                    color: "black",
+                                                    alignItems: "center",
+                                                    fontFamily: "TT Commons",
+                                                    fontSize: "14px",
+                                                    lineHeight: "30px",
+                                                }}
+                                            >
+                                                {goal.name}
+                                            </Typography>
+                                        </Stack>
                                         <img
                                             src={arrow_forward}
                                             alt='Arrow forward'
                                             style={{
-                                                marginLeft: "auto",
+                                                marginRight: "8px",
+                                                cursor: "pointer",
                                             }}
                                         />
-                                    </Stack>
+                                    </Link>
                                 ))
                             ) : (
                                 <Stack
@@ -422,81 +477,172 @@ function Home() {
                     </Grid>
                 </Grid>
             </Container>
-            <Container
-                style={{
-                    width: "382px",
-                    height: "auto",
-                    flexGrow: "0",
-                    padding: "0 0 8px",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                    marginTop: "25px",
-                    marginLeft: "0",
-                    position: "relative",
-                }}
-            >
-                <Grid container spacing={0}>
-                    <Grid item xs={6}>
-                        <Stack direction='column' spacing={1}>
-                            <Typography
-                                sx={{
-                                    padding: "10px 10px 5px 10px",
-                                    margin: 0,
+            {/* render top insights, if the user has insights, otherwise show placeholder */}
+            {!hasInsights ? (
+                <Container
+                    style={{
+                        width: "365px",
+                        height: "auto",
+                        flexGrow: "0",
+                        padding: "0 0 8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        marginTop: "25px",
+                        marginLeft: "0",
+                        position: "relative",
+                        overflowY: "auto",
+                    }}
+                >
+                    <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                            <Stack direction='column' spacing={1}>
+                                <Typography
+                                    sx={{
+                                        padding: "10px 10px 5px 10px",
+                                        margin: 0,
+                                    }}
+                                >
+                                    <Link
+                                        to='/insights'
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                        }}
+                                    >
+                                        <span
+                                            style={{
+                                                color: "gray",
+                                                fontSize: "14px",
+                                                fontFamily:
+                                                    "TT Commons Regular",
+                                            }}
+                                        >
+                                            Financial Insights
+                                        </span>
+                                    </Link>
+                                </Typography>
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6} textAlign='right'>
+                            <Link
+                                to='/insights'
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
                                 }}
                             >
-                                <p>Financial Insights</p>
-                            </Typography>
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={6} textAlign='right'>
-                        <img
-                            src={arrow_forward}
-                            alt='Arrow forward'
-                            style={{
-                                position: "absolute",
-                                top: 23,
-                                right: 8,
-                                zIndex: 1,
+                                <img
+                                    src={arrow_forward}
+                                    alt='Arrow forward'
+                                    style={{
+                                        position: "absolute",
+                                        top: 23,
+                                        right: 8,
+                                        zIndex: 1,
+                                    }}
+                                />
+                            </Link>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{
+                                marginLeft: "15px",
+                                marginTop: "0px",
                             }}
-                        />
+                        >
+                            <Stack direction='row' spacing={1}>
+                                <Typography>
+                                    <p style={{ margin: "5px" }}>
+                                        Insights will begin populating soon.
+                                    </p>
+                                </Typography>
+                            </Stack>
+                        </Grid>
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        sx={{
-                            marginLeft: "15px",
-                            marginTop: "0px",
-                        }}
-                    >
-                        <Stack direction='row' spacing={1}>
-                            <Typography>
-                                <p style={{ margin: "5px" }}>
-                                    Insights will begin populating soon.
-                                </p>
-                            </Typography>
-                        </Stack>
+                </Container>
+            ) : (
+              <Container
+    style={{
+        width: "365px",
+        height: "auto",
+        flexGrow: "0",
+        padding: "0 0 8px",
+        marginLeft: "0",
+        position: "relative",
+        overflowY: "auto",
+        marginTop: "5px",
+        marginBottom: "85px",
+    }}
+>
+    <Grid container spacing={2}>
+        {displayedInsights.slice(0, 4).map(insight => (
+            <Grid
+                item
+                xs={6}
+                key={insight.id}
+            >
+                <Container
+                    style={{
+                        height: "auto",
+                        flexGrow: "0",
+                        padding: "0 0 8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        marginTop: "10px",
+                        marginLeft: "0",
+                        position: "relative",
+                        overflowY: "auto",
+                        backgroundColor: "#f0f0f0",
+                    }}
+                >
+                    <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                            <Stack
+                                direction='column'
+                                spacing={1}
+                            >
+                                <Typography
+                                    sx={{
+                                        padding:
+                                            "10px 10px 5px 10px",
+                                        margin: 0,
+                                        whiteSpace:
+                                            "nowrap",
+                                    }}
+                                >
+                                    <p>Financial Insight</p>
+                                </Typography>
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6} textAlign='right'>
+                            <span
+                                onClick={() => removeInsight(insight)}
+                                style={{
+                                    position: "absolute",
+                                    top: 23,
+                                    right: 15,
+                                    zIndex: 1,
+                                    cursor: "pointer",
+                                    fontSize: "14px",
+                                    color: "gray",
+                                }}
+                            >
+                                X
+                            </span>
+                        </Grid>
+                        <Typography>
+                            <p>{insight.strategy}</p>
+                        </Typography>
                     </Grid>
-                </Grid>
-            </Container>
-        </div>
-    );
+                </Container>
+            </Grid>
+        ))}
+    </Grid>
+</Container>
+      )}
+    </div>
+  );
 }
-// {topGoals.map((goal) => (
-//   <div key={goal.id}>
-//       <h2 style={{ display: "inline" }}>{goal.name}:</h2>
-//       <p style={{ display: "inline" }}>
-//           Saving Target: ${goal.saving_target}
-//       </p>
-//   </div>
-// ))}
 
-// {Array.isArray(insights) && insights.length > 0 && (
-//   <div className='home-container'>
-//       {insights.map((insight) => (
-//           <div key={insight.id}>
-//               <h1>{insight.content}</h1>
-//           </div>
-//       ))}
-//   </div>
-// )}
 export default Home;
