@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
-export default function GoalForm({ setEditing }) {
+export default function GoalForm({  }) {
     const { user, selectedGoal, setSelectedGoal, setPersonalGoals, personalGoals} = useContext(UserContext);
     const navigate = useNavigate();
 
@@ -128,7 +128,7 @@ const onSubmit = async (data)=>{
                                 defaultValue={selectedGoal?.emoji}
                             />
                         </div>
-                        <FormControl fullWidth variant="filled" sx={{ marginLeft: 8 }}>
+                        {/* <FormControl fullWidth variant="filled" sx={{ marginLeft: 8 }}>
                             <InputLabel id="demo-simple-select-label">Select a Goal</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -139,7 +139,7 @@ const onSubmit = async (data)=>{
                                     <MenuItem value={"Personal"}>Personal</MenuItem>
                                     <MenuItem value={"Group"}>Group</MenuItem>
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                     </Container>
                     <div className="goal-form-text-input">
                         <FormControl fullWidth>
@@ -224,7 +224,7 @@ const onSubmit = async (data)=>{
                                 transform: "translate(-50%, -50%)"
                             }}
                         >
-                            <img 
+                            {/* <img 
                                 className="modal-img" src={GoalCongrats} 
                                 style={{
                                     width: "100px" ,
@@ -232,7 +232,7 @@ const onSubmit = async (data)=>{
                                     height: "78.46",
                                     margin:"24px 0px 8px 0px"
                                 }}
-                            />            
+                            />             */}
                             <h1 
                                 className="modal-header" 
                                 style={{

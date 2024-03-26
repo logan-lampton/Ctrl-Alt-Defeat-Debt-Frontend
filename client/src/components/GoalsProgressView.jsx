@@ -77,7 +77,7 @@ export default function SavingsGoals() {
                 flexGrow: "0",
                 padding: "16px",
                 overflow: "auto",
-                paddingBottom: 2
+                paddingBottom: 80
             }}
         >
             <h1 style={{ padding: "8px" }}> View current goals or create a goal</h1>

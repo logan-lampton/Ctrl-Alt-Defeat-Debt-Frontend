@@ -16,18 +16,15 @@ const goalsData = [
 ];
 
 export default function GoalSelection() {
-    const { selectedGoal, setSelectedGoal, editing, setEditing } = useContext(UserContext);
+    const { selectedGoal, setSelectedGoal, editing } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleGoalSelection = (goal) => {
         setSelectedGoal(goal);
-        setEditing(true);
         navigate('/goal-form');
     };
     
-    const handleEdit =()=>{
-        setEditing(false)
-    }
+
     
     return (
         <Container style={{ width: "430px", height: "932px", flexGrow: "0", padding: "0 0 8px" }}>
@@ -52,7 +49,7 @@ export default function GoalSelection() {
                 </List>
                 {editing && selectedGoal && (
                     <div className="edit-form">
-                        <GoalForm selectedGoal={selectedGoal} setEditing={setEditing} />
+                        <GoalForm selectedGoal={selectedGoal} />
                     </div>
                 )}
             </div>
