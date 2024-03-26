@@ -7,9 +7,10 @@ import ArrowForward from "../assets/arrow_forward.svg";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function SavingsGoals() {
-    const { personalGoals, setPersonalGoals, groupGoals, setGroupGoals } = useContext(UserContext)
+    const { user, personalGoals, setPersonalGoals, groupGoals, setGroupGoals } = useContext(UserContext)
     
     const navigate = useNavigate();
 
@@ -42,29 +43,6 @@ export default function SavingsGoals() {
     }, [setGroupGoals, setPersonalGoals]);
 
     const calculateProgress = (saved, total) => (saved / total) * 100;
-
-    const unicodeToEmoji = (unicodeStr) => {
-        try {
-            // Remove the "U+" prefix if present, and trim any whitespace
-            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
-            const codePoint = parseInt(cleanedUnicodeStr, 16);
-
-            // Check if the conversion resulted in a valid number
-            if (isNaN(codePoint)) {
-                console.error("Invalid Unicode value:", unicodeStr);
-                return "🚫"; // Optionally return a placeholder or empty string
-            }
-
-            return String.fromCodePoint(codePoint);
-        } catch (error) {
-            console.error("Error converting Unicode to emoji:", unicodeStr, error);
-            return "🚫"; // Optionally return a placeholder or empty string
-        }
-    };
-
-    const handleCreateGoalClick = () => {
-        navigate("/goals"); // Navigates to /goals route when clicked
-    };
 
     return (
         <Container 
@@ -99,7 +77,7 @@ export default function SavingsGoals() {
                         </Button>
                     </Container>
                 </Container>
-                {personalGoals ? personalGoals.map((goal) => (
+                {personalGoals && user ? personalGoals.filter((goal) => goal.user_id === user.id).map((goal) => (
                     <Box
                         key={goal.id}
                         elevation={0}
@@ -129,7 +107,7 @@ export default function SavingsGoals() {
                                         paddingX: 0 
                                     }} 
                                 >
-                                    <div className="emoji-container no-underline">{unicodeToEmoji(goal.emoji)}</div>
+                                    <div className="emoji-container no-underline">{goal.emoji}</div>
                                     <div>{goal.name}</div>
                                     <h2 className="goal-arrow-container">${goal.amount_saved}</h2>
                                 </Container>
@@ -177,7 +155,7 @@ export default function SavingsGoals() {
                         <AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/>
                     </Container>
                 </Container>
-                {groupGoals ? groupGoals.map((goal) => (
+                {groupGoals && user ? groupGoals.filter((goal) => goal.user_id === user.id).map((goal) => (
                     <Box
                         key={goal.id}
                         elevation={0}
@@ -199,7 +177,7 @@ export default function SavingsGoals() {
                                 }}
                             >
                                 <Container sx={{ display: "flex", width: "full", marginBottom: 2, alignItems: "center", paddingX: 0 }} >
-                                    <div className="emoji-container no-underline">{unicodeToEmoji(goal.emoji)}</div>
+                                    <div className="emoji-container no-underline">{goal.emoji}</div>
                                     <div>{goal.name}</div>
                                     <h2 className="goal-arrow-container">${goal.amount_saved}</h2>
                                 </Container>
