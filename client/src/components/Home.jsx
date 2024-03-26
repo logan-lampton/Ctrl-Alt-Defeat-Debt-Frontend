@@ -165,29 +165,29 @@ function Home() {
         sparkLineData.push(currentAmount * 30);
     });
 
-    // Code for rendering emojis on the page; converting Unicode in db to emojis
-    const unicodeToEmoji = (unicodeStr) => {
-        try {
-            // Remove the "U+" prefix if present, and trim any whitespace
-            const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
-            const codePoint = parseInt(cleanedUnicodeStr, 16);
+    // // Code for rendering emojis on the page; converting Unicode in db to emojis
+    // const unicodeToEmoji = (unicodeStr) => {
+    //     try {
+    //         // Remove the "U+" prefix if present, and trim any whitespace
+    //         const cleanedUnicodeStr = unicodeStr.replace(/^U\+/i, "").trim();
+    //         const codePoint = parseInt(cleanedUnicodeStr, 16);
 
-            // Check if the conversion resulted in a valid number
-            if (isNaN(codePoint)) {
-                console.error("Invalid Unicode value:", unicodeStr);
-                return "🚫";
-            }
+    //         // Check if the conversion resulted in a valid number
+    //         if (isNaN(codePoint)) {
+    //             console.error("Invalid Unicode value:", unicodeStr);
+    //             return "🚫";
+    //         }
 
-            return String.fromCodePoint(codePoint);
-        } catch (error) {
-            console.error(
-                "Error converting Unicode to emoji:",
-                unicodeStr,
-                error
-            );
-            return "🚫";
-        }
-    };
+    //         return String.fromCodePoint(codePoint);
+    //     } catch (error) {
+    //         console.error(
+    //             "Error converting Unicode to emoji:",
+    //             unicodeStr,
+    //             error
+    //         );
+    //         return "🚫";
+    //     }
+    // };
 
     // check if the user has goals/insights
     const hasInsights = personalGoals.some(
@@ -422,7 +422,7 @@ function Home() {
                                                         "padding-box",
                                                 }}
                                             >
-                                                {unicodeToEmoji(goal.emoji)}
+                                                {goal.emoji}
                                             </Avatar>
                                             <Typography
                                                 sx={{
