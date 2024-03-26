@@ -5,6 +5,7 @@ const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [editing, setEditing] = useState(false)
   const [personalGoals, setPersonalGoals] = useState([])
   const [groupGoals, setGroupGoals] = useState([])
   const [selectedGoal, setSelectedGoal] = useState(null)

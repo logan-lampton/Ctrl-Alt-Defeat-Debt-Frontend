@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import {Routes, Route, useLocation} from 'react-router-dom'
 import GoalSelection from './components/GoalSelection'
 import { UserProvider } from "./context/UserContext";
+import { ModalProvider } from "./context/ModalContext";
 import PlaidButtonsContainer from "./components/PlaidLinkButton";
 import GoalsProgressView from "./components/GoalsProgressView"
 import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
@@ -23,9 +24,10 @@ import GoalForm from './components/GoalForm'
 
 function App() {
     const location = useLocation();
-    const showBottomNav = ["/home","/goals","/insights","/group"].includes(location.pathname);
+    const showBottomNav = ["/home","/goals-progress","/insights","/accounts"].includes(location.pathname);
     return (
       <UserProvider>
+        <ModalProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container>
             <AppHeader />
@@ -47,6 +49,7 @@ function App() {
             {showBottomNav && <BottomNav />}
         </Container>
         </LocalizationProvider>
+        </ModalProvider>
       </UserProvider>
 
     );

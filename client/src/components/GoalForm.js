@@ -6,7 +6,6 @@ import { UserContext } from "../context/UserContext";
 import { useNavigate } from 'react-router-dom'
 import ArrowBack from "../assets/arrow_back.svg"
 import BottomNav from './BottomNav'
-import GoalCongrats from'../assets/GoalsCongrats.svg'
 import './styles/GoalForm.css'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -113,6 +112,7 @@ const onSubmit = async (data)=>{
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {/* <AICall /> */}
             <Container>
                 <div className="goal-form-container">
                     <div>
@@ -120,13 +120,27 @@ const onSubmit = async (data)=>{
                     </div>
                     <h1 className="goal-form-header">Tell us some more about your goal</h1>
                     <p className="goal-form-subtext">Let's go ahead and dive into the details!</p>
-                    <div className="emoji-input-container">
-                        <input className="emoji-input"
-                            type="emoji"
-                            {...register('emoji', { required: true })}
-                            defaultValue={selectedGoal?.emoji}
-                        />
-                    </div>
+                    <Container sx={{ display: "flex", flexDirection: "row", alignItems: "center"}}>
+                        <div className="emoji-input-container">
+                            <input className="emoji-input"
+                                type="emoji"
+                                {...register('emoji', { required: true })}
+                                defaultValue={selectedGoal?.emoji}
+                            />
+                        </div>
+                        <FormControl fullWidth variant="filled" sx={{ marginLeft: 8 }}>
+                            <InputLabel id="demo-simple-select-label">Select a Goal</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={goalType}
+                                    onChange={(event) => {setGoalType(event.target.value)}}
+                                >
+                                    <MenuItem value={"Personal"}>Personal</MenuItem>
+                                    <MenuItem value={"Group"}>Group</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Container>
                     <div className="goal-form-text-input">
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Goal</InputLabel>
@@ -143,6 +157,8 @@ const onSubmit = async (data)=>{
                         <TextField className="goal-form-text-field" {...register('editedName')} defaultValue={selectedGoal?.name}/>
                         {errors.saving_target && (<p style={{marginTop:"-2px", marginBottom: "-20px"}} className={errors.saving_target ? 'errorMessages' : ''}>{errors.saving_target.message}</p>)}
                         <TextField
+                            name="saving_target"
+                            type="number"
                             placeholder="How much do you need to save?"
                             className="goal-form-text-field"
                             InputProps={{

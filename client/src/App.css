@@ -143,6 +143,7 @@
     position: fixed;
     bottom: 20px;
     width: 100%;
+    max-height: 60px;
 }
 
 .skip {
@@ -211,6 +212,10 @@ button span {
 
 .green-text {
     color: #009933;
+}
+
+.red-text {
+    color: red;
 }
 
 .home_goals {
