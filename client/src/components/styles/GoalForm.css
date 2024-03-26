@@ -1,9 +1,4 @@
-/* body{
-    overflow-x: hidden; 
-    overflow-y: hidden;
-} */
-
-.goal-form-container{
+.goal-form-container {
     width: 430px;
     height: 940px;
     display: flex;
@@ -15,19 +10,15 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 0 0 8px;
-
-    
 }
 
-.arrow-back{
+.arrow-back {
     width: 24px;
     height: 24px;
     margin: 0px 28px 0px 20px;
 }
 
-
-
-.goal-form-header{
+.goal-form-header {
     width: 382px;
     height: 64px;
     flex-grow: 0;
@@ -41,10 +32,9 @@
     align-items: flex-start;
     margin: 24px 28px 8px 20px;
     padding: 0;
-        
 }
 
-.goal-form-subtext{
+.goal-form-subtext {
     font-family: TT Commons Regular;
     width: 382px;
     height: 32px;
@@ -57,9 +47,7 @@
     letter-spacing: normal;
     text-align: left;
     margin: 0px 28px 24px 28px;
-
 }
-
 
 .emoji-input-container {
     width: 64px;
@@ -71,10 +59,9 @@
     gap: 24px;
     margin: 0px 24px 0px 20px;
     padding: 0;
-  }
-  
-  
-  input[type=emoji] {
+}
+
+input[type="emoji"] {
     display: inline-block;
     width: 45px; 
     height: 50px; 
@@ -86,8 +73,7 @@
     margin: 0 8px 0 0;
     padding: 14.7px 18.7px 17.3px 13.3px;
     font-size: 32px;
-   
-    }
+}
 
 .goal-form-text-input {
     width: 382px;
@@ -97,14 +83,12 @@
     margin: 24px 20px 421px 20px;
     padding: 8px;
     gap: 24px;
-    
 }
 
-.goal-form-text-field{
+.goal-form-text-field {
     border-radius: 8px;
     font-size: 16px;
 }
-
 
 .currency-input-container {
     position: relative;
