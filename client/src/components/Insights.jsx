@@ -7,7 +7,7 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
 import {
   PieChart,
@@ -25,43 +25,23 @@ import {
   Tooltip as RechartsTooltip,
   LabelList,
 } from "recharts";
-import Transactions from "./Transactions"; 
+import Transactions from "./Transactions";
 import SpendingInsights from "./SpendingInsights";
 import { UserContext } from "../context/UserContext";
 import ArrowForward from "../assets/arrow_forward.svg";
-import InfoIcon from '@mui/icons-material/Info';
-import Sparkles from '../assets/sparkles.svg';
+import InfoIcon from "@mui/icons-material/Info"
+import Sparkles from "../assets/sparkles.svg";
 import "./styles/Goals.css";
-
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export default function Insights() {
-  const { accessToken } = useContext(UserContext)
+  const { accessToken } = useContext(UserContext);
   const [showTransactions, setShowTransactions] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [predictions, setPredictions] = useState({})
-
-
-  const totalEarned = transactions
-    .filter((t) => t.amount > 0)
-    .reduce((acc, t) => acc + t.amount, 0);
-  const totalSpent = transactions
-    .filter((t) => t.amount < 0)
-    .reduce((acc, t) => acc + t.amount, 0);
-  // const barChartData = [
-  //     { name: 'Earned', value: totalEarned },
-  //     { name: 'Spent', value: Math.abs(totalSpent) } // Assuming spent amounts are negative
-  // ];
-
-  const spendingCategories = [
-    { id: 1, name: 'Groceries', emoji: '🍏', amount: 300 },
-    { id: 2, name: 'Transport', emoji: '🚗', amount: 150 },
-    { id: 3, name: 'Entertainment', emoji: '🎬', amount: 200 },
-    // ...other categories
-  ];
+  const [predictions, setPredictions] = useState({});
 
   const fetchTransactions = async () => {
     setIsLoading(true);
@@ -83,16 +63,16 @@ export default function Insights() {
       setIsLoading(false);
     }
   };
- 
+
   const callAI = async () => {
     if (!accessToken) {
-      return {error: "No access token found"};
+      return { error: "No access token found" };
     }
     try {
       const response = await fetch("/openai/response", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           access_token: accessToken,
@@ -102,12 +82,11 @@ export default function Insights() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-  
+
       // Add a delay before setting the state
       setTimeout(() => {
         setPredictions(data.predictions);
-      }, 1000); 
-  
+      }, 1000);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -129,13 +108,8 @@ export default function Insights() {
   const calculateCashFlow = (transactions) => {
     let earned = 0;
     let spent = 0;
-
+  
     transactions.forEach((transaction) => {
-      // console.log(
-      //   `Processing transaction: ${transaction.name}, Amount: ${transaction.amount}, Category: ${transaction.category}`
-      // );
-
-      // Assuming 'Transfer' and 'Credit Card Payment' are specific categories that can be used to filter out non-spending transactions
       if (
         !transaction.category.includes("Transfer") &&
         !transaction.category.includes("Credit Card Payment")
@@ -149,22 +123,25 @@ export default function Insights() {
         transaction.category.includes("Credit Card Payment") &&
         transaction.amount < 0
       ) {
-        // If the transaction is a 'Credit Card Payment' and the amount is negative,
-        // it could mean a payment was made (which should not count as earning or spending)
-        // so we ignore it or handle it accordingly.
-        console.log("Ignoring credit card payment or similar transaction.");
+        // It seems like you're not doing anything in this condition. If you intend to handle credit card payments differently, you might need to add logic here.
       }
     });
-
+  
+    // Use toFixed to convert the numbers to strings with 2 decimal points, then convert back to numbers
+    earned = +earned.toFixed(2);
+    spent = +spent.toFixed(2);
+  
     return { earned, spent };
   };
-
+  
+  // Assuming you have a transactions array to pass into this function
   const { earned, spent } = calculateCashFlow(transactions);
-
+  
   const barChartData = [
     { name: "Earned", value: earned },
     { name: "Spent", value: spent },
   ];
+  
 
   useEffect(() => {
     fetchTransactions();
@@ -190,28 +167,55 @@ export default function Insights() {
     >
       {!showTransactions ? (
         <>
-          <Typography variant="h6" style={{ marginTop: "20px" }}>
-            Spending Breakdown
-          </Typography>
+                <div className='home-container home-top'>
+                <h1>Here's a snapshot of your </h1>
+                <h1>finances this month</h1>
+                <div>
+                    <p style={{ display: "inline", margin: "0 5px 0 0" }}>
+                        You have
+                    </p>
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            fontFamily: "TT Commons",
+                            color: "Black",
+                            fontWeight: "normal",
+                            display: "inline",
+                            margin: "0 5px",
+                        }}
+                    >
+                        ${199}
+                    </Typography>
+                    <p style={{ display: "inline", margin: "0 5px" }}>
+                        left to spend this month
+                    </p>
+                </div>
+            </div>
           <ResponsiveContainer
             width="100%"
             height={300}
             style={{
               border: "1px solid #ccc",
               borderRadius: "5px",
-              paddingBottom: "20px",
+              paddingBottom: "70px",
             }}
           >
             <div
-              className="goal-arrow-container"
               onClick={() => setShowTransactions(true)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
+              <p style={{ marginRight: "10px" }}>Spending</p>
               <img
                 src={ArrowForward}
                 style={{ marginTop: "5px" }}
                 alt="ArrowForward"
               />
             </div>
+
             <PieChart>
               <Pie
                 dataKey="value"
@@ -238,17 +242,20 @@ export default function Insights() {
             </PieChart>
           </ResponsiveContainer>
           <>
-            <Typography variant="h6" style={{ marginTop: "20px" }}>
-              March Cash Flow
-            </Typography>
+            <br />
             <ResponsiveContainer
               width="100%"
-              height={250}
-              style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+              height={200}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                paddingBottom: "40px",
+              }}
             >
+              <p>March Cash Flow</p>
               <BarChart
                 data={barChartData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
                 <XAxis dataKey="name" axisLine={false} tickLine={false} />
                 <YAxis hide={true} />
@@ -263,36 +270,85 @@ export default function Insights() {
               </BarChart>
             </ResponsiveContainer>
           </>
-          <Typography variant="h6" gutterBottom component="div" style={{ marginTop: "20px"}}>
-        <img src={Sparkles} alt="Sparkles" style={{ verticalAlign: 'middle', marginRight: '8px' }}/>
-        AI-Generated Spending Forecasts
-        <Tooltip title="These numbers are AI-generated forecasts and are indicative. Actual figures may vary.">
-          <InfoIcon fontSize="small" style={{ verticalAlign: 'middle', marginLeft: '8px' }} />
-        </Tooltip>
-      </Typography>
-          <SpendingInsights spendingCategories={spendingCategories} predictions={predictions}/>
-          <Typography variant="h6" style={{ marginTop: "20px" }}>
-            Recent Transactions
-          </Typography>
-          <List>
-            {recentTransactions.map((transaction, index) => (
-              <ListItem key={index} divider>
-                <ListItemAvatar>
-                  {transaction.logo_url ? (
-                    <Avatar alt="Merchant Logo" src={transaction.logo_url} />
-                  ) : (
-                    <Avatar>{transaction.name[0]}</Avatar>
-                  )}
-                </ListItemAvatar>
-                <ListItemText
-                  primary={transaction.name}
-                  secondary={`Date: ${
-                    transaction.date
-                  } - Amount: $${transaction.amount.toFixed(2)}`}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <br />
+          <div
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              paddingBottom: "70px",
+            }}
+          >
+       
+              <img
+                src={Sparkles}
+                alt="Sparkles"
+                style={{
+                  height: "15px",
+                  marginLeft: "15px",
+                  marginTop: "12px",
+                }}
+              />
+              <p style={{ display: "inline" }}>
+                AI-Generated Spending Forecasts
+              </p>
+
+
+            <SpendingInsights
+              predictions={predictions}
+            />
+            </div>
+            <br />
+            <div
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+              }}
+            >
+              <p>Recent Transactions</p>
+              <List>
+                {recentTransactions.map((transaction, index) => (
+                  <ListItem key={index} divider>
+                    <ListItemAvatar>
+                      {transaction.logo_url ? (
+                        <Avatar
+                          alt="Merchant Logo"
+                          src={transaction.logo_url}
+                        />
+                      ) : (
+                        <Avatar>{transaction.name[0]}</Avatar>
+                      )}
+                    </ListItemAvatar>
+                    <ListItemText
+                primary={transaction.name}
+                secondary={
+                  <>
+                    <Typography
+                      style={{ fontWeight: "bold" }}
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      ${transaction.amount.toFixed(2)}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      {new Date(transaction.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </Typography>
+                    <br />
+                    Category: {transaction.category[0]}
+                  </>
+                }
+              />
+                  </ListItem>
+                ))}
+              </List>
+            </div>
         </>
       ) : (
         <Transactions
