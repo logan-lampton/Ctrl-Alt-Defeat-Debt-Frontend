@@ -15,7 +15,6 @@ import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import arrow_forward from "../assets/arrow_forward.svg";
 import add_circle_outline from "../assets/add_circle_outline.svg";
-import arrow_drop_down from "../assets/arrow_drop_down.svg";
 
 function Home() {
     const { user, personalGoals, accessToken } = useContext(UserContext);
@@ -38,7 +37,8 @@ function Home() {
         navigate("/goal-selection"); // Navigates to /goal-form route when clicked
     };
 
-    // const [aIData, setAIData] = useState({})
+    // Insights that are displayed
+    const [displayedInsights, setDisplayedInsights] = useState([]);
 
     useEffect(() => {
         // Greeting based on the time of day based on the user's current time
@@ -52,6 +52,17 @@ function Home() {
 
         // fetchAIData();
     }, [accessToken]);
+
+    useEffect(() => {
+      // Check if personalGoals is available
+      if (personalGoals.length > 0) {
+          // Extract insights from personalGoals
+          const initialInsights = personalGoals.map(goal => goal.insights).flat();
+          
+          // Set the initial state of displayedInsights
+          setDisplayedInsights(initialInsights);
+      }
+  }, [personalGoals]);
 
     const fetchAccounts = async () => {
         if (!accessToken) {
@@ -183,6 +194,15 @@ function Home() {
         (goal) => goal.insights && goal.insights.length > 0
     );
 
+    // Function to handle a user clicking to remove an insight from their homepage
+    const removeInsight = insightToRemove => {
+      console.log("Removing insight with ID:", insightToRemove.id);
+      console.log("Displayed insights:", displayedInsights);
+      setDisplayedInsights(prevInsights =>
+          prevInsights.filter(insight => insight.id !== insightToRemove.id)
+      );
+    };
+  
     return (
         <div className='home-margin'>
             <div className='home-container home-top'>
@@ -224,7 +244,9 @@ function Home() {
             >
                 <div className='home-container home_graph'>
                     <div>
-                        <p>Spending</p>
+                        <p>
+                            Spending
+                        </p>
                     </div>
                     <img
                         onClick={() => navigate("/insights")}
@@ -294,7 +316,9 @@ function Home() {
                                     margin: 0,
                                 }}
                             >
-                                <p>Goals</p>
+                                <p>
+                                    Goals
+                                </p>
                             </Typography>
                         </Stack>
                     </Grid>
@@ -453,6 +477,7 @@ function Home() {
                     </Grid>
                 </Grid>
             </Container>
+            {/* render top insights, if the user has insights, otherwise show placeholder */}
             {!hasInsights ? (
                 <Container
                     style={{
@@ -484,7 +509,16 @@ function Home() {
                                             color: "inherit",
                                         }}
                                     >
-                                        <p>Financial Insights</p>
+                                        <span
+                                            style={{
+                                                color: "gray",
+                                                fontSize: "14px",
+                                                fontFamily:
+                                                    "TT Commons Regular",
+                                            }}
+                                        >
+                                            Financial Insights
+                                        </span>
                                     </Link>
                                 </Typography>
                             </Stack>
@@ -528,87 +562,87 @@ function Home() {
                     </Grid>
                 </Container>
             ) : (
+              <Container
+    style={{
+        width: "365px",
+        height: "auto",
+        flexGrow: "0",
+        padding: "0 0 8px",
+        marginLeft: "0",
+        position: "relative",
+        overflowY: "auto",
+        marginTop: "5px",
+        marginBottom: "85px",
+    }}
+>
+    <Grid container spacing={2}>
+        {displayedInsights.slice(0, 4).map(insight => (
+            <Grid
+                item
+                xs={6}
+                key={insight.id}
+            >
                 <Container
                     style={{
-                        width: "365px",
                         height: "auto",
                         flexGrow: "0",
                         padding: "0 0 8px",
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        marginTop: "10px",
                         marginLeft: "0",
                         position: "relative",
                         overflowY: "auto",
-                        marginTop: "5px",
-                        marginBottom: "85px",
+                        backgroundColor: "#f0f0f0",
                     }}
                 >
-                    <Grid container spacing={2}>
-                        {personalGoals.map((goal) =>
-                            goal.insights.slice(0, 3).map((insight) => (
-                                <Grid
-                                    item
-                                    xs={6}
-                                    key={`${goal.id}-${insight.id}`}
+                    <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                            <Stack
+                                direction='column'
+                                spacing={1}
+                            >
+                                <Typography
+                                    sx={{
+                                        padding:
+                                            "10px 10px 5px 10px",
+                                        margin: 0,
+                                        whiteSpace:
+                                            "nowrap",
+                                    }}
                                 >
-                                    <Container
-                                        style={{
-                                            height: "auto",
-                                            flexGrow: "0",
-                                            padding: "0 0 8px",
-                                            border: "1px solid #ccc",
-                                            borderRadius: "5px",
-                                            marginTop: "10px",
-                                            marginLeft: "0",
-                                            position: "relative",
-                                            overflowY: "auto",
-                                            backgroundColor: "#f0f0f0",
-                                        }}
-                                    >
-                                        <Grid container spacing={0}>
-                                            <Grid item xs={6}>
-                                                <Stack
-                                                    direction='column'
-                                                    spacing={1}
-                                                >
-                                                    <Typography
-                                                        sx={{
-                                                            padding:
-                                                                "10px 10px 5px 10px",
-                                                            margin: 0,
-                                                            whiteSpace:
-                                                                "nowrap",
-                                                        }}
-                                                    >
-                                                        <p>Financial Insight</p>
-                                                    </Typography>
-                                                </Stack>
-                                            </Grid>
-                                            <Grid item xs={6} textAlign='right'>
-                                                <span
-                                                    style={{
-                                                        position: "absolute",
-                                                        top: 23,
-                                                        right: 15,
-                                                        zIndex: 1,
-                                                        cursor: "pointer",
-                                                        fontSize: "18px",
-                                                    }}
-                                                >
-                                                    X
-                                                </span>
-                                            </Grid>
-                                            <Typography>
-                                                <p>{insight.strategy}</p>
-                                            </Typography>
-                                        </Grid>
-                                    </Container>
-                                </Grid>
-                            ))
-                        )}
+                                    <p>Financial Insight</p>
+                                </Typography>
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={6} textAlign='right'>
+                            <span
+                                onClick={() => removeInsight(insight)}
+                                style={{
+                                    position: "absolute",
+                                    top: 23,
+                                    right: 15,
+                                    zIndex: 1,
+                                    cursor: "pointer",
+                                    fontSize: "14px",
+                                    color: "gray",
+                                }}
+                            >
+                                X
+                            </span>
+                        </Grid>
+                        <Typography>
+                            <p>{insight.strategy}</p>
+                        </Typography>
                     </Grid>
                 </Container>
-            )}
-        </div>
-    );
+            </Grid>
+        ))}
+    </Grid>
+</Container>
+      )}
+    </div>
+  );
 }
 
 export default Home;
