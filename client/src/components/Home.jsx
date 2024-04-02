@@ -144,6 +144,10 @@ function Home() {
     totalEarned = Math.round(totalEarned);
     totalSpent = Math.round(totalSpent);
     remainingMoney = totalEarned - totalSpent + savingsAvailableBalance;
+    console.log("TOTAL EARNED", totalEarned);
+    console.log("TOTAL SPENT", totalSpent);
+
+    console.log("Transactions", transactions);
 
     // onTrack logic
     const checkOnTrack = () => {
@@ -229,7 +233,15 @@ function Home() {
                         <p>Spending</p>
                     </div>
                     <img
-                        onClick={() => navigate("/insights")}
+                        onClick={() =>
+                            navigate("/insights", {
+                                state: {
+                                    remainingMoney: remainingMoney,
+                                    totalEarned: totalEarned,
+                                    totalSpent: totalSpent,
+                                },
+                            })
+                        }
                         src={arrow_forward}
                         alt='Arrow forward'
                         style={{
