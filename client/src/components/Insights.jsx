@@ -33,6 +33,7 @@ import ArrowForward from "../assets/arrow_forward.svg";
 import InfoIcon from "@mui/icons-material/Info";
 import Sparkles from "../assets/sparkles.svg";
 import "./styles/Goals.css";
+import LoadingSpinner from "./LoadingSpinner";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -151,7 +152,7 @@ export default function Insights() {
         callAI();
     }, [accessToken]);
 
-    if (isLoading) return <CircularProgress />;
+    if (isLoading) return <LoadingSpinner />;
 
     // Sort transactions by date descending to get the most recent ones
     const recentTransactions = transactions

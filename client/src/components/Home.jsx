@@ -9,12 +9,14 @@ import {
     Grid,
     Divider,
     Avatar,
+    CircularProgress,
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import arrow_forward from "../assets/arrow_forward.svg";
 import add_circle_outline from "../assets/add_circle_outline.svg";
+import LoadingSpinner from "./LoadingSpinner";
 
 function Home() {
     const { user, personalGoals, accessToken } = useContext(UserContext);
@@ -40,17 +42,24 @@ function Home() {
     // Insights that are displayed
     const [displayedInsights, setDisplayedInsights] = useState([]);
 
-    useEffect(() => {
-        // Greeting based on the time of day based on the user's current time
-        updateGreeting();
-        // Fetching the Plaid account data
-        fetchAccounts();
-        // Fetching Plaid transaction data
-        fetchTransactions();
-        // Checking if user is over budget
-        checkOnTrack();
+    // loading spinner for while page loads
+    const [isLoading, setIsLoading] = useState(true);
 
-        // fetchAIData();
+    useEffect(() => {
+        const fetchData = async () => {
+            // Greeting based on the time of day based on the user's current time
+            updateGreeting();
+            // Fetching the Plaid account data
+            await fetchAccounts();
+            // Fetching Plaid transaction data
+            await fetchTransactions();
+            // Checking if user is over budget
+            checkOnTrack();
+            setIsLoading(false);
+        };
+        if (accessToken) {
+            fetchData();
+        }
     }, [accessToken]);
 
     useEffect(() => {
@@ -189,12 +198,19 @@ function Home() {
 
     const secondInsight = displayedInsights[2];
 
+    if (isLoading) return <LoadingSpinner />;
+
     return (
         <div className='home-margin'>
             <div className='home-container home-top'>
                 <h1>Good {greeting}!</h1>
                 <div>
-                    <p style={{ display: "inline", margin: "0 5px 0 0" }}>
+                    <p
+                        style={{
+                            display: "inline",
+                            margin: "0 5px 0 0",
+                        }}
+                    >
                         You have
                     </p>
                     <Typography
