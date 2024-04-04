@@ -43,8 +43,7 @@ export default function Insights() {
     const [isLoading, setIsLoading] = useState(true);
     const [predictions, setPredictions] = useState({});
 
-    const location = useLocation();
-    const { remainingMoney, totalEarned, totalSpent } = location.state;
+    const { remainingMoney, totalEarned, totalSpent } = useContext(UserContext);
 
     const fetchTransactions = async () => {
         setIsLoading(true);
