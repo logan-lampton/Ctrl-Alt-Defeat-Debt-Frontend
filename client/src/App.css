@@ -139,9 +139,10 @@
     margin-top: 24px;
 }
 
+/* changed bottom to 0px, to make sure the bottomNav always stretches to the bottom of the screen */
 .MuiBottomNavigation-root {
     position: fixed;
-    bottom: 20px;
+    bottom: 0px;
     width: 100%;
     max-height: 60px;
 }
@@ -236,4 +237,9 @@ button span {
     font-size: 12px;
     padding: 6px 12px;
     align-self: flex-start;
+}
+
+/* container for all pages to make sure that they are not covered by the bottomNav */
+.page-container {
+  margin-bottom: 30px;
 }

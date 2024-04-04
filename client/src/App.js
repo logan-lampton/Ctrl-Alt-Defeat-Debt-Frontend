@@ -27,7 +27,9 @@ import GoalForm from './components/GoalForm'
 
 function App() {
     const location = useLocation();
-    const showBottomNav = ["/home","/goals-progress","/insights","/accounts"].includes(location.pathname);
+    // tweaked code to show bottomNav on pages for specific goals by id, etc.
+    const showBottomNav = ["/home", "/goals-progress", "/insights", "/accounts"].some(path => location.pathname.includes(path));
+    
     return (
       <UserProvider>
         <ModalProvider>

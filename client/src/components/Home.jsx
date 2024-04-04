@@ -200,7 +200,7 @@ function Home() {
     if (isLoading) return <LoadingSpinner />;
 
     return (
-        <div className='home-margin'>
+        <div className='home-margin page-container'>
             <div className='home-container home-top'>
                 <h1>Good {greeting}!</h1>
                 <div>

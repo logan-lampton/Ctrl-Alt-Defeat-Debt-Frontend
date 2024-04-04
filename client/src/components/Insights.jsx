@@ -157,6 +157,7 @@ export default function Insights() {
         .slice(0, 5);
 
     return (
+      <div className="page-container">
         <Container
             sx={{
                 height: "932px",
@@ -385,5 +386,6 @@ export default function Insights() {
                 />
             )}
         </Container>
+      </div>
     );
 }
