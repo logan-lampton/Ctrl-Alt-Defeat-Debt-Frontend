@@ -4,13 +4,19 @@ import axios from "axios";
 const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [editing, setEditing] = useState(false)
-  const [personalGoals, setPersonalGoals] = useState([])
-  const [selectedGoal, setSelectedGoal] = useState({ emoji: '', name: '', savingTarget:0, targetDate:'' })
-  const [groupGoals, setGroupGoals] = useState([])
-  const [formData, setFormData] = useState()
-  const [accessToken, setAccessToken] = useState("");
+    const [user, setUser] = useState(null);
+    const [editing, setEditing] = useState(false);
+    const [personalGoals, setPersonalGoals] = useState([]);
+    const [selectedGoal, setSelectedGoal] = useState({
+        emoji: "",
+        name: "",
+        savingTarget: 0,
+        targetDate: "",
+    });
+    const [groupGoals, setGroupGoals] = useState([]);
+    const [formData, setFormData] = useState();
+    const [accessToken, setAccessToken] = useState("");
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,6 +25,7 @@ const UserProvider = ({ children }) => {
                 setUser(response.data);
                 setPersonalGoals(response.data.personal_goals);
                 setAccessToken(response.data._access_token);
+                setIsAuthenticated(true);
             } catch (error) {
                 console.error("Error fetching user session:", error.message);
             }
@@ -40,14 +47,15 @@ const UserProvider = ({ children }) => {
                 selectedGoal,
                 setSelectedGoal,
                 personalGoals,
-                setPersonalGoals, 
-                editing, 
+                setPersonalGoals,
+                editing,
                 setEditing,
                 accessToken,
                 formData,
                 setFormData,
-                groupGoals, 
-                setGroupGoals
+                groupGoals,
+                setGroupGoals,
+                isAuthenticated,
             }}
         >
             {children}
