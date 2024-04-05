@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
-    CircularProgress,
     Container,
     List,
     ListItem,
@@ -30,7 +29,6 @@ import Transactions from "./Transactions";
 import SpendingInsights from "./SpendingInsights";
 import { UserContext } from "../context/UserContext";
 import ArrowForward from "../assets/arrow_forward.svg";
-import InfoIcon from "@mui/icons-material/Info";
 import Sparkles from "../assets/sparkles.svg";
 import "./styles/Goals.css";
 import LoadingSpinner from "./LoadingSpinner";
