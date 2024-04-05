@@ -17,6 +17,9 @@ const UserProvider = ({ children }) => {
     const [formData, setFormData] = useState();
     const [accessToken, setAccessToken] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [remainingMoney, setRemainingMoney] = useState(0);
+    const [totalEarned, setTotalEarned] = useState(0);
+    const [totalSpent, setTotalSpent] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,6 +59,12 @@ const UserProvider = ({ children }) => {
                 groupGoals,
                 setGroupGoals,
                 isAuthenticated,
+                remainingMoney,
+                setRemainingMoney,
+                totalEarned,
+                setTotalEarned,
+                totalSpent,
+                setTotalSpent,
             }}
         >
             {children}

@@ -10,6 +10,7 @@ export default function PersonalGoalsInsights() {
     const { personalGoals, setPersonalGoals } = useContext(UserContext)
 
     return (
+      <div className="page-container">
         <Container 
             sx={{         
                 flexGrow: "0",
@@ -97,5 +98,6 @@ export default function PersonalGoalsInsights() {
                 ))}
             </Container>
         </Container>
+      </div>
     )
 }

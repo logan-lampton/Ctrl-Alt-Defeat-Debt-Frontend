@@ -40,7 +40,7 @@ export default function GoalActivity() {
       };
 
     return (
-        <>
+      <div className="page-container">
         <Container>
         <div className="goal-activty-container">
             <div >
@@ -133,6 +133,6 @@ export default function GoalActivity() {
                 </Modal>
 
         <BottomNav />
-        </>  
+        </div>  
     )
 }

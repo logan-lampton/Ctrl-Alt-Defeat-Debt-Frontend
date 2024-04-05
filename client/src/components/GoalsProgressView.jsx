@@ -45,6 +45,7 @@ export default function SavingsGoals() {
     const calculateProgress = (saved, total) => (saved / total) * 100;
 
     return (
+      <div className="page-container">
         <Container 
             sx={{         
                 height: "932px",
@@ -212,5 +213,6 @@ export default function SavingsGoals() {
                 )) : null}
             </Box>
         </Container>
+      </div>
     );
 }

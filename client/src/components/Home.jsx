@@ -18,7 +18,7 @@ import add_circle_outline from "../assets/add_circle_outline.svg";
 import LoadingSpinner from "./LoadingSpinner";
 
 function Home() {
-    const { user, personalGoals, accessToken } = useContext(UserContext);
+    const { user, personalGoals, accessToken, remainingMoney, setRemainingMoney, totalEarned, setTotalEarned, totalSpent, setTotalSpent, } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -126,9 +126,9 @@ function Home() {
     };
 
     // Logic for storing total earned and spent
-    let totalEarned = 0;
-    let totalSpent = 0;
-    let remainingMoney = 0;
+    let updatedTotalEarned = 0;
+    let updatedTotalSpent = 0;
+    let updatedRemainingMoney = 0;
     let savingsAvailableBalance = 0;
 
     transactions.forEach((transaction) => {
@@ -136,9 +136,9 @@ function Home() {
             transaction.category.includes("Debit") ||
             transaction.category.includes("Payment")
         ) {
-            totalEarned += transaction.amount;
+          updatedTotalEarned += transaction.amount;
         } else {
-            totalSpent += Math.abs(transaction.amount);
+          updatedTotalSpent += Math.abs(transaction.amount);
         }
     });
     // savings accounts
@@ -149,13 +149,13 @@ function Home() {
         savingsAvailableBalance = savingsAccount.balances.available;
         console.log("savings account", savingsAvailableBalance);
     }
-    totalEarned = Math.round(totalEarned);
-    totalSpent = Math.round(totalSpent);
-    remainingMoney = totalEarned - totalSpent + savingsAvailableBalance;
-    console.log("TOTAL EARNED", totalEarned);
-    console.log("TOTAL SPENT", totalSpent);
+    updatedTotalEarned = Math.round(updatedTotalEarned);
+    updatedTotalSpent = Math.round(updatedTotalSpent);
+    updatedRemainingMoney = updatedTotalEarned - updatedTotalSpent + savingsAvailableBalance;
 
-    console.log("Transactions", transactions);
+    setTotalEarned(updatedTotalEarned);
+    setTotalSpent(updatedTotalSpent);
+    setRemainingMoney(updatedRemainingMoney);
 
     // onTrack logic
     const checkOnTrack = () => {
@@ -200,7 +200,7 @@ function Home() {
     if (isLoading) return <LoadingSpinner />;
 
     return (
-        <div className='home-margin'>
+        <div className='home-margin page-container'>
             <div className='home-container home-top'>
                 <h1>Good {greeting}!</h1>
                 <div>

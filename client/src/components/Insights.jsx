@@ -43,8 +43,7 @@ export default function Insights() {
     const [isLoading, setIsLoading] = useState(true);
     const [predictions, setPredictions] = useState({});
 
-    const location = useLocation();
-    const { remainingMoney, totalEarned, totalSpent } = location.state;
+    const { remainingMoney, totalEarned, totalSpent } = useContext(UserContext);
 
     const fetchTransactions = async () => {
         setIsLoading(true);
@@ -158,6 +157,7 @@ export default function Insights() {
         .slice(0, 5);
 
     return (
+      <div className="page-container">
         <Container
             sx={{
                 height: "932px",
@@ -386,5 +386,6 @@ export default function Insights() {
                 />
             )}
         </Container>
+      </div>
     );
 }
