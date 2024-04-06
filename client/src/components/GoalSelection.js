@@ -16,7 +16,9 @@ const goalsData = [
 ];
 
 export default function GoalSelection() {
-    const { selectedGoal, setSelectedGoal, editing, setEditing } = useContext(UserContext);
+    const { selectedGoal, setSelectedGoal } = useContext(UserContext);
+    const [editing, setEditing] = useState(false);
+
     const navigate = useNavigate();
 
     const handleGoalSelection = (goal) => {
@@ -25,7 +27,7 @@ export default function GoalSelection() {
         navigate('/goal-form');
     };
     
-    const handleEdit =()=>{
+    function handleEdit(){
         setEditing(false)
     }
     
@@ -37,7 +39,7 @@ export default function GoalSelection() {
                 <List>
                     {goalsData.map((goal, index) => (
                         <React.Fragment key={goal.name}>
-                            <ListItem style={{ paddingBottom: "15px" }} onClick={() => handleGoalSelection(goal)}>
+                            <ListItem style={{ paddingBottom: "10px" }} onClick={() => handleGoalSelection(goal)}>
                                 <div className="emoji-container">
                                     <span role="img">{goal.emoji}</span>
                                 </div>
@@ -52,10 +54,12 @@ export default function GoalSelection() {
                 </List>
                 {editing && selectedGoal && (
                     <div className="edit-form">
-                        <GoalForm handleEdit={handleEdit}/>
+                        <GoalForm handleEdit={handleEdit} />
                     </div>
                 )}
             </div>
+
         </Container>
+
     );
 }

@@ -17,21 +17,16 @@ export default function GoalInvite() {
     const { handleOpen } = useContext(ModalContext);
     const handleClose=()=> setOpen(false)
 
-    useEffect(() => {
-        console.log(selectedGoal);
-        console.log('Open state:', open)
-        console.log(submitted)
-    }, [selectedGoal, open]);
+    // useEffect(() => {
+       
+    // }, [selectedGoal, open]);
 
    
     const submitInvite= () => {
-        console.log('Next button clicked')
         handleOpen()
         navigate("/goal-activity");
         setSubmitted(true)
 
-              
-        console.log('Submitted', submitted)
     };
     
 

@@ -19,32 +19,32 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
-export default function GoalForm() {
-    const { selectedGoal, setSelectedGoal, editing, setEditing, formData, setFormData, user} = useContext(UserContext);
+export default function GoalForm({handleEdit}) {
+    const { selectedGoal, setSelectedGoal, formData, setFormData, user} = useContext(UserContext);
     const [date, setDate] = useState(null)
-    const [value, setValue ] = useState(false);
-    const [firstGoal, setFirstGoal] =useState(true)
     const [goalType, setGoalType ] = useState("Personal")
 
     const navigate = useNavigate();
-    const { register, handleSubmit, control, formState:{errors} } = useForm({
-        defaultValues: {
-            editedEmoji: selectedGoal?.emoji,
-            editedName: selectedGoal?.name,
-        }
-    })
+    const {
+        register,      
+        handleSubmit, 
+        formState:{errors}
+    } = useForm();
 
+
+  
     const onSubmit = async (data) => {
         const newDate = new Date(date)
         const newDateString = newDate.toISOString().slice(0, 10)
-        const formJSON = {
+        var formJSON = {
             user_id: user.id,
-            emoji: data.editedEmoji,
-            name: data.editedName,
+            emoji: data.emoji,
+            name: data.name,
             end_timeframe: newDateString,
-            saving_target: data.saving_target,
+            saving_target: data.savingTarget,
         }
-        console.log(formJSON)
+        console.log(user.group_id)
+        setSelectedGoal(formJSON)
         if (goalType === "Personal") {
             fetch("/personal_goals", {
                 method: "POST",
@@ -56,6 +56,11 @@ export default function GoalForm() {
                 setFormData(data)
             }))
         } else {
+                formJSON = {
+                ...formJSON, 
+                group_id: user.group_id, 
+            };
+            console.log(user.group_id)
             fetch("/goals", {
                 method: "POST",
                 headers: {
@@ -67,12 +72,11 @@ export default function GoalForm() {
             }))
         }
 
-        setEditing(false)
-        navigate('/goal-invite')
+            navigate('/goal-invite')
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{overflow:"hidden"}}>
             {/* <AICall /> */}
             <Container>
                 <div className="goal-form-container">
@@ -85,8 +89,9 @@ export default function GoalForm() {
                         <div className="emoji-input-container">
                             <input className="emoji-input"
                                 type="emoji"
-                                {...register('emoji', { required: true })}
-                                defaultValue={selectedGoal?.emoji}
+                                {...register('emoji', { required: "Choose an emoji"})}
+                                defaultValue={selectedGoal.emoji}
+
                             />
                         </div>
                         <FormControl fullWidth variant="filled" sx={{ marginLeft: 8 }}>
@@ -105,10 +110,10 @@ export default function GoalForm() {
                     <div className="goal-form-text-input">
                         <TextField 
                             className="goal-form-text-field" 
-                            {...register('editedName', 
+                            {...register('name', 
                                 {required: "Goal Name Required."}
                             )} 
-                            defaultValue={selectedGoal?.name}
+                            defaultValue={selectedGoal.name}
                         />
                         {errors.saving_target && (
                             <p 
@@ -126,28 +131,16 @@ export default function GoalForm() {
                             InputProps={{
                                 startAdornment: <span>$</span>
                             }}
-                            {...register('saving_target', {
+                            {...register('savingTarget', {
                                 required: 'Goal amount is required',
                                 // pattern: {
                                 // value: /^[0-9]{10}$/,
                                 // message: 'Only digits please'
                                 // }
-                            })}                 
+                            })}
+                                         
                         />
-                        {/* <Controller
-                            name="selectedDate" 
-                            control={control}
-                            defaultValue={null} 
-                            render={({ field }) => (
-                                <DesktopDatePicker
-                                    label="Select Date"
-                                    inputFormat="MM/dd/yyyy"
-                                    value={field.value}
-                                    onChange={(newValue) => field.onChange(newValue)}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            )}
-                        /> */}
+                        
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DesktopDatePicker']}>
                                 <DesktopDatePicker
@@ -159,8 +152,8 @@ export default function GoalForm() {
                             </DemoContainer>
                         </LocalizationProvider>
                     </div>
-                    <Button 
-                        onClick={onSubmit} 
+                    <Button
+                        onClick={handleEdit} 
                         style={{
                             position: "fixed", 
                             bottom: "129px",

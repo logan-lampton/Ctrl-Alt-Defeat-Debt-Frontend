@@ -74,7 +74,7 @@ export default function SavingsGoals() {
                     </Container>
                     <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                         <Button >
-                            <AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/>
+                            <Link to="/goal-selection"><AddCircleOutlineIcon sx={{ width: 32, height: 32 }} /></Link>
                         </Button>
                     </Container>
                 </Container>
@@ -153,7 +153,7 @@ export default function SavingsGoals() {
                     </Container>
                     <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                         <Typography align="right">Add new Goal</Typography>
-                        <AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/>
+                       <Link to="/goal-selection"><AddCircleOutlineIcon sx={{ width: 32, height: 32 }}/></Link>
                     </Container>
                 </Container>
                 {groupGoals && user ? groupGoals.filter((goal) => goal.user_id === user.id).map((goal) => (
