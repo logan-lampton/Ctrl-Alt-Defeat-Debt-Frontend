@@ -15,7 +15,7 @@ const AppHeader = () => {
         }
     };
 
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
 
     return (
         <Container>

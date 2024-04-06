@@ -33,6 +33,7 @@ const BottomNav = () => {
 
     return (
         <BottomNavigation
+            style={{margin:"0px 5px 5px 0px"}}
             onChange={(event, newValue) => {
                 handleNavigation(newValue);
                 console.log(newValue);

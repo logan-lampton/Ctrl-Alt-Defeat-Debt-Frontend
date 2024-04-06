@@ -5,7 +5,6 @@ const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [editing, setEditing] = useState(false);
     const [personalGoals, setPersonalGoals] = useState([]);
     const [selectedGoal, setSelectedGoal] = useState({
         emoji: "",
@@ -40,7 +39,8 @@ const UserProvider = ({ children }) => {
             }
         };
         fetchData();
-    }, []);
+        console.log(selectedGoal)
+    }, [selectedGoal]);
 
     return (
         <UserContext.Provider
@@ -51,8 +51,6 @@ const UserProvider = ({ children }) => {
                 setSelectedGoal,
                 personalGoals,
                 setPersonalGoals,
-                editing,
-                setEditing,
                 accessToken,
                 formData,
                 setFormData,
