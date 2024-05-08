@@ -14,13 +14,18 @@ import Plus from "../assets/add_circle_outline.svg";
 import "./styles/Goals.css";
 import ArrowForward from "../assets/arrow_forward.svg";
 import { Link } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { UserContext} from "../context/UserContext";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CircularProgress from "@mui/material/CircularProgress";
+import './styles/GoalActivity.css'
+
 
 export default function SavingsGoals() {
     const { user, personalGoals, setPersonalGoals, groupGoals, setGroupGoals } =
         useContext(UserContext);
+
+
+       
 
     const navigate = useNavigate();
 
@@ -282,8 +287,7 @@ export default function SavingsGoals() {
                             </Link>
                         </Container>
                     </Container>
-                    {groupGoals
-                        ? groupGoals.map((goal) => (
+                    {groupGoals ? groupGoals.map((goal) => (
                               <Box
                                   key={goal.id}
                                   elevation={0}
@@ -294,7 +298,7 @@ export default function SavingsGoals() {
                                   }}
                               >
                                   <Link
-                                      to={`/goals-progress/personal/${goal.id}`}
+                                      to={`/goals-progress/group/${goal.id}`}
                                       style={{
                                           textDecoration: "none",
                                           color: "black",
@@ -383,6 +387,8 @@ export default function SavingsGoals() {
                         : null}
                 </Box>
             </Container>
+       
+
         </div>
     );
 }

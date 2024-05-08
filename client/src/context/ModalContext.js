@@ -9,7 +9,7 @@ export const ModalProvider = ({ children }) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <ModalContext.Provider value={{ open, handleOpen, handleClose }}>
+    <ModalContext.Provider value={{ open, handleOpen, handleClose,setOpen }}>
       {children}
     </ModalContext.Provider>
   );

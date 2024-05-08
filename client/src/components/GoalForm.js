@@ -17,13 +17,14 @@ import Select from '@mui/material/Select';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import ModalContext from "../context/ModalContext";
 
 
-export default function GoalForm({handleEdit}) {
+export default function GoalForm() {
     const { selectedGoal, setSelectedGoal, formData, setFormData, user} = useContext(UserContext);
     const [date, setDate] = useState(null)
     const [goalType, setGoalType ] = useState("Personal")
-
+    const { handleOpen } = useContext(ModalContext);
     const navigate = useNavigate();
     const {
         register,      
@@ -31,9 +32,12 @@ export default function GoalForm({handleEdit}) {
         formState:{errors}
     } = useForm();
 
+ 
 
   
     const onSubmit = async (data) => {
+        // console.log(`Personal Goal: ${user.personal_goal.id}`)
+
         const newDate = new Date(date)
         const newDateString = newDate.toISOString().slice(0, 10)
         var formJSON = {
@@ -43,7 +47,6 @@ export default function GoalForm({handleEdit}) {
             end_timeframe: newDateString,
             saving_target: data.savingTarget,
         }
-        console.log(user.group_id)
         setSelectedGoal(formJSON)
         if (goalType === "Personal") {
             fetch("/personal_goals", {
@@ -52,28 +55,60 @@ export default function GoalForm({handleEdit}) {
                     "Content-type": "application/json",
                 },
                 body: JSON.stringify(formJSON),
-            }).then(r => r.json().then(data => {
-                setFormData(data)
-            }))
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            }).then(data => {
+                console.log("API Response:", data); // Log the response data here
+                if (data && data.id) {
+                    const goalID = data.id;
+                    console.log(`New goal ID: ${goalID}`);
+                    handleOpen && navigate(`/goals-progress/personal/${goalID}`);
+                    
+
+                } else {
+                    console.error("Response data does not contain the ID field or is invalid:", data);
+                }
+                setFormData(data);
+            }).catch(error => {
+                console.error("Error processing POST request:", error);
+            });
         } else {
                 formJSON = {
                 ...formJSON, 
                 group_id: user.group_id, 
             };
-            console.log(user.group_id)
             fetch("/goals", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
                 },
                 body: JSON.stringify(formJSON),
-            }).then(r => r.json().then(data => {
-                setFormData(data)
-            }))
-        }
-
-            navigate('/goal-invite')
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            }).then(data => {
+                console.log("API Response:", data); // Log the response data here
+                if (data && data.id) {
+                    const goalID = data.id;
+                    console.log(`New goal ID: ${goalID}`);
+                    navigate(`/goals-progress/group/${goalID}`)
+                 
+                } else {
+                    console.error("Response data does not contain the ID field or is invalid:", data);
+                }
+                setFormData(data);
+            }).catch(error => {
+                console.error("Error processing POST request:", error);
+            })
+        }      
+            
     }
+    
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{overflow:"hidden"}}>
@@ -153,7 +188,7 @@ export default function GoalForm({handleEdit}) {
                         </LocalizationProvider>
                     </div>
                     <Button
-                        onClick={handleEdit} 
+                        onClick={handleOpen()} 
                         style={{
                             position: "fixed", 
                             bottom: "129px",
@@ -164,7 +199,7 @@ export default function GoalForm({handleEdit}) {
                             marginRight: '24px'
                         }} 
                         className="save-goal-button" 
-                        type="submit" variant="contained" 
+                        type="submit" variant="contained"
                     >
                         Next
                     </Button>
