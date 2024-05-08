@@ -20,7 +20,7 @@ export default function GoalInvite() {
     // useEffect(() => {
        
     // }, [selectedGoal, open]);
-
+    
    
     const submitInvite= () => {
         handleOpen()

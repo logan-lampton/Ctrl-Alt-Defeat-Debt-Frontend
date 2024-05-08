@@ -5,15 +5,17 @@ import { UserContext } from "../context/UserContext";
 import ModalContext from "../context/ModalContext";
 import GoalCongrats from'../assets/GoalsCongrats.svg'
 import ArrowForward from "../assets/arrow_forward.svg";
+
 import "./styles/Goals.css";
 
-export default function PersonalGoalsInsights() {
+export default function GroupGoalsInsights() {
     const { id } = useParams()
-    const { personalGoals, setPersonalGoals } = useContext(UserContext)
+    const { groupGoals, setGroupGoals } = useContext(UserContext)
     const [isOpen, setIsOpen] = useState(false);
 
     const { handleClose, open} = useContext(ModalContext);
 
+  
 
 
       const handleCloseModal = (selectedOption) => {
@@ -30,7 +32,7 @@ export default function PersonalGoalsInsights() {
                 paddingBottom: 2
             }}
         >
-            <h1 style={{ padding: "8px" }}>Your personal goal</h1>
+            <h1 style={{ padding: "8px" }}>Your group goal</h1>
             <div style={{ fontSize: "16px", marginBottom: 3}}>
                 <p style={{ display: "inline", margin: "0 5px" }}>You have saved</p>
                 <h2 style={{ display: "inline", margin: "0 5px" }}>
@@ -41,7 +43,7 @@ export default function PersonalGoalsInsights() {
                 </p>
             </div>
             <Container sx={{ }}>
-                {personalGoals.filter(goal => goal.id == id).map((goal) => (
+                {groupGoals && groupGoals.filter(goal => goal.id == id).map((goal) => (
                     <Box
                         key={goal.id}
                         elevation={0}
@@ -79,7 +81,7 @@ export default function PersonalGoalsInsights() {
                             </Container>
                         </Container>
                         <Container sx={{border: 1, borderRadius: 2, borderColor: "#DEE5EB", marginTop: 2,  marginBottom: 1}}>
-                            {goal.insights.length > 0 ? goal.insights.filter((insight) => insight.personal_goal_id === goal.id).map((insight) => (
+                            {goal.insights.length > 0 ? goal.insights.filter((insight) => insight.goal_id === goal.id).map((insight) => (
                                 <Container key={insight.id}>
                                     <h2>Personalized Strategy</h2>
                                     <p>{insight.strategy}</p>

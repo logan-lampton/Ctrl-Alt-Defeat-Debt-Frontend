@@ -31,7 +31,7 @@ export default function LogInForm() {
             const response = await axios.post('/login', data); // Make POST request to "/login"
             console.log('Login successful!', response.data);
             setUser(response.data)
-            navigate('/user-confirm');
+            navigate('/home');
             console.log(user) 
             // Cookies.set()
             // Navigate to user-confirm page on successful login

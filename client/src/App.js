@@ -17,7 +17,7 @@ import GoalsProgressView from "./components/GoalsProgressView"
 import PersonalGoalsInsights from "./components/PersonalGoalsInsights";
 import Insights from "./components/Insights"
 import Accounts from "./components/Accounts"
-
+import GroupGoalsInsights from "./components/GroupGoalsInsights"
 import GoalInvite from './components/GoalInvite'
 import GoalActivity from './components/GoalActivity'
 
@@ -46,6 +46,7 @@ function App() {
                   <Route path="/goal-selection" element={<GoalSelection />} />
                   <Route path="/plaid" element={<PlaidButtonsContainer />} />
                   <Route path="/goals-progress/personal/:id" element={<PersonalGoalsInsights />}/>
+                  <Route path="/goals-progress/group/:id" element={<GroupGoalsInsights/>} />
                   <Route path="/goals-progress" element={<GoalsProgressView />} />
                   <Route path="/insights" element={<Insights />} />
                   <Route path="/goal-form" element={<GoalForm />} />

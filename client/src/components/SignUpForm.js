@@ -35,7 +35,7 @@ export default function SignUpForm() {
             console.log('Error signing up user.', error.message);
             console.log(data)
         }
-        navigate('/user-confirm')
+        navigate('/onboarding')
     }
 
          

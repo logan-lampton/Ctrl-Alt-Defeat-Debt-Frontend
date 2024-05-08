@@ -7,6 +7,7 @@ const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [personalGoals, setPersonalGoals] = useState([]);
     const [selectedGoal, setSelectedGoal] = useState({
+        id:"",
         emoji: "",
         name: "",
         savingTarget: 0,
