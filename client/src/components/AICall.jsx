@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 
-export default function AICall() {
+export default function AICall({selectedGoal}) {
     // pull up that access token from context
     const { accessToken } = useContext(UserContext)
 
@@ -33,9 +33,18 @@ export default function AICall() {
 
     return(
         <>
-            <Button variant="contained" size="large" onClick={callAI}>
+            <button variant="contained" size="small" onClick={callAI} 
+            style={{
+                borderStyle:"none", 
+                marginLeft:"12px",
+                display: "inline", 
+                border: "solid 1px var(--gray-3)",
+                backgroundColor: "#3398ff",
+                borderRadius:"3px",
+                color:"white"
+            }}>
                 AI Call
-            </Button>
+            </button>
         </>
     )
 }

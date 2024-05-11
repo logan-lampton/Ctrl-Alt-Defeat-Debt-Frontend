@@ -8,6 +8,7 @@ import GoalCongrats from'../assets/GoalsCongrats.svg';
 import ArrowBack from "../assets/arrow_back.svg";
 import GoalEditForm from "./GoalEditForm";
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
+import AICall from './AICall';
 
 export default function PersonalGoalsInsights() {
     const { id } = useParams()
@@ -90,8 +91,9 @@ export default function PersonalGoalsInsights() {
                 <p style={{ display: "inline", margin: "0 5px" }}>
                     towards this goal.
                 </p>
-                <button onClick={()=>editGoal()} style={{borderStyle:"none", backgroundColor:"white",marginLeft:"27px",display: "inline"}}>Edit</button>
-                <button onClick={handleOpenModal} style={{borderStyle:"none", backgroundColor:"white", marginLeft:"-1px",marginRight:"-10px",display:"inline"}}>Delete</button>
+                <AICall />
+                <button onClick={()=>editGoal()} style={{marginLeft:"3px",borderStyle:"none", backgroundColor:"white",display: "inline"}}>Edit</button>
+                <button onClick={handleOpenModal} style={{borderStyle:"none", backgroundColor:"white",marginRight:"-1px",display:"inline"}}>Delete</button>
                 <DeleteConfirmationModal
                     open={openModal}
                     onClose={handleCloseModal}
