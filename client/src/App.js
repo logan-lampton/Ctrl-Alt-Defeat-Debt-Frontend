@@ -24,6 +24,7 @@ import GoalActivity from './components/GoalActivity'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import GoalForm from './components/GoalForm'
+import GoalEditForm from "./components/GoalEditForm";
 
 function App() {
     const location = useLocation();
@@ -53,6 +54,8 @@ function App() {
                   <Route path="/goal-invite" element={<GoalInvite/>} />
                   <Route path="/goal-activity" element={<GoalActivity/>} />
                   <Route path="/accounts" element={<Accounts />} />
+                  <Route path="/edit-goal" element={<GoalEditForm />} />
+
               </Routes>
               {showBottomNav && <BottomNav />}
           </Container>

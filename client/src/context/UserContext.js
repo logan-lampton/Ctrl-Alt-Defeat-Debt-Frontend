@@ -13,6 +13,13 @@ const UserProvider = ({ children }) => {
         savingTarget: 0,
         targetDate: "",
     });
+    const [selectedGoalForEdit, setSelectedGoalForEdit] = useState({
+        id:"",
+        emoji: "",
+        name: "",
+        savingTarget: 0,
+        targetDate: "",
+    });
     const [groupGoals, setGroupGoals] = useState([]);
     const [formData, setFormData] = useState();
     const [accessToken, setAccessToken] = useState("");
@@ -64,6 +71,8 @@ const UserProvider = ({ children }) => {
                 setTotalEarned,
                 totalSpent,
                 setTotalSpent,
+                selectedGoalForEdit, 
+                setSelectedGoalForEdit
             }}
         >
             {children}
