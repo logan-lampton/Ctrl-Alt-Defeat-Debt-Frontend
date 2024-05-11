@@ -124,7 +124,6 @@ export default function GoalForm() {
   console.log(selectedGoal)
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{overflow:"hidden"}}>
-            {/* <AICall /> */}
 
             <Container>
                 <div className="goal-form-container">

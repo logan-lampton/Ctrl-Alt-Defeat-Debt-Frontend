@@ -5,6 +5,7 @@ import { UserContext } from "../context/UserContext";
 import ModalContext from "../context/ModalContext";
 import ArrowBack from "../assets/arrow_back.svg"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
+import AICall from './AICall';
 
 import "./styles/Goals.css";
 
@@ -85,8 +86,9 @@ export default function GroupGoalsInsights() {
                 <p style={{ display: "inline", margin: "0 5px" }}>
                     towards this goal.
                 </p>
-                <button onClick={()=>editGoal()} style={{borderStyle:"none", backgroundColor:"white", marginLeft:"27px",display: "inline"}}>Edit</button>
-                <button onClick={handleOpenModal} style={{borderStyle:"none", backgroundColor:"white", marginLeft:"-1px",marginRight:"-10px",display:"inline"}}>Delete</button>
+                <AICall />
+                <button onClick={()=>editGoal()} style={{marginLeft:"3px",borderStyle:"none", backgroundColor:"white",display: "inline"}}>Edit</button>
+                <button onClick={handleOpenModal} style={{borderStyle:"none", backgroundColor:"white",marginRight:"-1px",display:"inline"}}>Delete</button>
                 <DeleteConfirmationModal
                     open={openModal}
                     onClose={handleCloseModal}
