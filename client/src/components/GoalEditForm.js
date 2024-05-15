@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import { useForm, Controller } from 'react-hook-form';
-import {  TextField, Button} from "@mui/material";
+import {  TextField, Button } from "@mui/material";
 import { Container } from '@mui/system'
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from 'react-router-dom'
@@ -17,18 +17,16 @@ import Select from '@mui/material/Select';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import GoalCongrats from'../assets/GoalsCongrats.svg';
-import CongratsModal from "./CongratsModal"
+import dayjs from 'dayjs';
+
+import ModalContext from "../context/ModalContext";
 
 
-
-export default function GoalForm() {
-    const { selectedGoal, setSelectedGoal, formData, setFormData, user, selectedGoalForEdit, setSelectedGoalForEdit} = useContext(UserContext);
-    const [date, setDate] = useState(null)
+export default function GoalEditForm() {
+    const { formData, setFormData, user, selectedGoal, setSelectedGoal} = useContext(UserContext);
     const [goalType, setGoalType ] = useState("Personal")
-    const [openModal, setOpenModal] = useState(false);
-    const handleOpenModal = () => setOpenModal(true)
-    const handleCloseModal = () => setOpenModal(false);
+    const { handleOpen } = useContext(ModalContext);
+    const [date, setDate] = useState(selectedGoal.end_timeframe); // Set default date from selectedGoal
 
     const navigate = useNavigate();
     const {
@@ -38,10 +36,18 @@ export default function GoalForm() {
         formState:{errors}
     } = useForm();
   
+    useEffect(() => {
+        console.log(selectedGoal); // Check the entire object
+        // Set form values based on selectedGoalForEdit
+     
+    },[] );
 
-
-    // Other code
-
+    const dateFormat=(date)=>{
+        const newDate = new Date(date)
+        console.log(newDate)   
+        return newDate
+    }
+ 
 
   
     const onSubmit = async (data) => {
@@ -60,7 +66,7 @@ export default function GoalForm() {
         setSelectedGoal(formJSON)
         if (goalType === "Personal") {
             fetch("/personal_goals", {
-                method: "POST",
+                method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
                 },
@@ -75,7 +81,7 @@ export default function GoalForm() {
                 if (data && data.id) {
                     const goalID = data.id;
                     console.log(`New goal ID: ${goalID}`);
-                    handleOpenModal && navigate(`/goals-progress/personal/${goalID}`);
+                    navigate(`/goals-progress/personal/${goalID}`);
                     
 
                 } else {
@@ -91,7 +97,7 @@ export default function GoalForm() {
                 group_id: user.group_id, 
             };
             fetch("/goals", {
-                method: "POST",
+                method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
                 },
@@ -106,7 +112,7 @@ export default function GoalForm() {
                 if (data && data.id) {
                     const goalID = data.id;
                     console.log(`New goal ID: ${goalID}`);
-                    handleOpenModal && navigate(`/goals-progress/group/${goalID}`)
+                    navigate(`/goals-progress/group/${goalID}`)
                  
                 } else {
                     console.error("Response data does not contain the ID field or is invalid:", data);
@@ -115,15 +121,14 @@ export default function GoalForm() {
             }).catch(error => {
                 console.error("Error processing POST request:", error);
             })
-        }  
-        
-    
+        }      
             
     }
     
-  console.log(selectedGoal)
+    
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{overflow:"hidden"}}>
+            {/* <AICall /> */}
 
             <Container>
                 <div className="goal-form-container">
@@ -146,11 +151,11 @@ export default function GoalForm() {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={goalType}
+                                    value={selectedGoal.group_id ? "Group" : "Personal"}
                                     onChange={(event) => {setGoalType(event.target.value)}}
-                                >
-                                    <MenuItem value={"Personal"}>Personal</MenuItem>
-                                    <MenuItem value={"Group"}>Group</MenuItem>
+                                >   
+                                <MenuItem value={"Personal"}>Personal</MenuItem>
+                                 <MenuItem value={"Group"}>Group</MenuItem> 
                             </Select>
                         </FormControl>
                     </Container>
@@ -185,6 +190,8 @@ export default function GoalForm() {
                                 // message: 'Only digits please'
                                 // }
                             })}
+                            defaultValue={selectedGoal.saving_target}
+
                                          
                         />
                         
@@ -192,7 +199,7 @@ export default function GoalForm() {
                             <DemoContainer components={['DesktopDatePicker']}>
                                 <DesktopDatePicker
                                     label="Select a Date"
-                                    value={date}
+                                    value={dayjs(dateFormat(date))}
                                     onChange={(newValue) => setDate(newValue)}
                                     // {...register('timeframe')}
                                 />
@@ -200,7 +207,6 @@ export default function GoalForm() {
                         </LocalizationProvider>
                     </div>
                     <Button
-                        onClick={handleOpenModal} 
                         style={{
                             position: "fixed", 
                             bottom: "129px",
@@ -215,10 +221,6 @@ export default function GoalForm() {
                     >
                         Next
                     </Button>
-                    <CongratsModal
-                        open={openModal}
-                        onClose={handleCloseModal}
-                />
                 </div>  
             </Container>
             <BottomNav />
